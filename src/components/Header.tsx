@@ -1,0 +1,39 @@
+import Image from "next/image";
+import Link from "next/link";
+
+interface HeaderProps {
+  title: string;
+  showBackButton?: boolean;
+  showHomeButton?: boolean;
+}
+
+export default function Header({ title, showBackButton = true, showHomeButton = true }: HeaderProps) {
+  return (
+    <div className="bg-beauty-purple w-full h-[60px] flex items-center px-6 relative">
+      <div className="flex items-center">
+        {showBackButton && (
+          <button className="mr-3">
+            <Image
+              src="https://ext.same-assets.com/3640353240/1156342933.svg"
+              alt="Back"
+              width={24}
+              height={24}
+            />
+          </button>
+        )}
+        <h2 className="text-white text-base font-medium">{title}</h2>
+      </div>
+
+      {showHomeButton && (
+        <Link href="/" className="absolute right-6">
+          <Image
+            src="https://ext.same-assets.com/3640353240/3475020280.svg"
+            alt="Home"
+            width={24}
+            height={24}
+          />
+        </Link>
+      )}
+    </div>
+  );
+}

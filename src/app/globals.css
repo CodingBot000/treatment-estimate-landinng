@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://ext.same-assets.com/3640353240/2000686414.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('https://ext.same-assets.com/2526065935/2128563381.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --background: 273 76% 97%;
+    --foreground: 273 76% 20%;
+
+    --card: 273 76% 97%;
+    --card-foreground: 273 76% 20%;
+
+    --popover: 273 76% 97%;
+    --popover-foreground: 273 76% 20%;
+
+    --primary: 273 76% 44%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 273 76% 97%;
+    --secondary-foreground: 273 76% 20%;
+
+    --muted: 273 33% 90%;
+    --muted-foreground: 273 23% 60%;
+
+    --accent: 273 76% 90%;
+    --accent-foreground: 273 76% 20%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 273 33% 90%;
+    --input: 273 33% 90%;
+    --ring: 273 76% 44%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 273 76% 3%;
+    --foreground: 0 0% 98%;
+
+    --card: 273 76% 3%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 273 76% 3%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 273 76% 44%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 273 35% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 273 33% 15%;
+    --muted-foreground: 273 5% 65%;
+
+    --accent: 273 33% 15%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 273 33% 15%;
+    --input: 273 33% 15%;
+    --ring: 273 76% 44%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Pretendard", system-ui, sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "SUIT", "Pretendard", system-ui, sans-serif;
+  }
+}
+
+.beauty-purple {
+  background-color: #eab7e0;
+  color: white;
+}
+
+.beauty-bg {
+  background-color: #d0bbdc;
+}
+
+.pc-left-section {
+  background-color: #d0bbdc;
+  min-width: 575px;
+  height: 100vh;
+}
