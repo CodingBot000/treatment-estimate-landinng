@@ -14,7 +14,7 @@ export default function MoreInfo() {
   const { formState, progress, addPhoto, removePhoto, setConcerns } = useForm();
   const [concernsText, setConcernsText] = useState<string>(formState.concerns);
   const [photos, setPhotos] = useState<File[]>(formState.photos);
-  const [handleDiscuss, setHandleDiscuss] = useState(false);
+  const [handleDiscuss, setHandleDiscuss] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
