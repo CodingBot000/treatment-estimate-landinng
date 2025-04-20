@@ -26,57 +26,57 @@ export const bodyPartOptions: BodyPartOption[] = [
   {
     id: 'wrinkle',
     label: 'Wrinkles/Fine Lines',
-    icon: 'https://ext.same-assets.com/3640353240/504566077.svg'
+    icon: '/estimate/wrinkle.svg'
   },
   {
     id: 'hair',
     label: 'Scalp/Hair Loss',
-    icon: 'https://ext.same-assets.com/3640353240/2424744703.svg'
+    icon: '/estimate/hair.svg'
   },
   {
     id: 'skin',
     label: 'Skin',
-    icon: 'https://ext.same-assets.com/3640353240/2483961000.svg'
+    icon: '/estimate/skin.svg'
   },
   {
     id: 'stem',
     label: 'Stem Cell/IV Therapy',
-    icon: 'https://ext.same-assets.com/3640353240/2872318445.svg'
+    icon: '/estimate/stemcell.svg'
   },
   {
     id: 'eye',
     label: 'Eyes',
-    icon: 'https://ext.same-assets.com/3640353240/2039369174.svg'
+    icon: '/estimate/eye.svg'
   },
   {
     id: 'nose',
     label: 'Nose',
-    icon: 'https://ext.same-assets.com/3640353240/1802200774.svg'
+    icon: '/estimate/nose.svg'
   },
   {
     id: 'mouth',
     label: 'Mouth',
-    icon: 'https://ext.same-assets.com/3640353240/2038735308.svg'
+    icon: '/estimate/mouth.svg'
   },
   {
     id: 'face',
     label: 'Face Shape',
-    icon: 'https://ext.same-assets.com/3640353240/2090465278.svg'
+    icon: '/estimate/face.svg'
   },
   {
     id: 'gynecology',
     label: 'Gynecology/Urology',
-    icon: 'https://ext.same-assets.com/3640353240/3557689754.svg'
+    icon: '/estimate/gynecology.svg'
   },
   {
     id: 'joint',
     label: 'Joints',
-    icon: 'https://ext.same-assets.com/3640353240/1733878724.svg'
+    icon: '/estimate/joint.svg'
   },
   {
     id: 'body',
     label: 'Body/Contour',
-    icon: 'https://ext.same-assets.com/3640353240/2963437202.svg'
+    icon: '/estimate/body.svg'
   }
 ];
 

@@ -17,7 +17,7 @@ export default function Header({ title, showBackButton = true, showHomeButton = 
           <button className="mr-3"
           onClick={() => { router.back()  }}>
             <Image
-              src="https://ext.same-assets.com/3640353240/1156342933.svg"
+              src="/estimate/back_arrow_white.svg"
               alt="Back"
               width={24}
               height={24}
@@ -30,7 +30,7 @@ export default function Header({ title, showBackButton = true, showHomeButton = 
       {showHomeButton && (
         <Link href="/" className="absolute right-6">
           <Image
-            src="https://ext.same-assets.com/3640353240/3475020280.svg"
+            src="/estimate/home.svg"
             alt="Home"
             width={24}
             height={24}

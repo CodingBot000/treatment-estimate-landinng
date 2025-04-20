@@ -2,22 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://ext.same-assets.com/3640353240/2000686414.woff2') format('woff2');
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'SUIT';
-  src: url('https://ext.same-assets.com/2526065935/2128563381.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 @layer base {
   :root {
     --background: 273 76% 97%;
@@ -86,15 +70,16 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
-    font-family: "Pretendard", system-ui, sans-serif;
+    font-family: 'Noto Sans KR', 'Inter', system-ui, sans-serif;
   }
+
   h1, h2, h3, h4, h5, h6 {
-    font-family: "SUIT", "Pretendard", system-ui, sans-serif;
+    font-family: 'DM Serif Display', 'Noto Sans KR', 'Inter', system-ui, serif;
   }
 }
-
 .beauty-purple {
   background-color: #eab7e0;
   color: white;

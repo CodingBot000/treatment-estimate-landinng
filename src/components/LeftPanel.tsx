@@ -6,7 +6,7 @@ export default function LeftPanel() {
       <div className="max-w-[400px] flex flex-col items-center">
         <div className="w-full flex justify-center mb-6">
           <Image
-            src="https://ext.same-assets.com/3640353240/849522504.png"
+            src="/estimate/googleplay.png"
             alt="BeautyLink Logo"
             width={320}
             height={65}

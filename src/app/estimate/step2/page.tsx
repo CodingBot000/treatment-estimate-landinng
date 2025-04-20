@@ -10,9 +10,11 @@ import SelectionGroup from "@/components/SelectionGroup";
 import CommonButton from "@/components/CommonButton";
 import { useForm } from "@/contexts/FormContext";
 import { budgetOptions, frequencyOptions } from "@/data/formData";
+import MoreInfo from "./more-info";
 
 export default function Step2() {
   const router = useRouter();
+  const [nextStep, setNextStep] = useState(false);
   const { formState, progress, setBudget, setVisitFrequency } = useForm();
   const [selectedBudget, setSelectedBudget] = useState<string | null>(
     formState.budget ? `budget-${formState.budget}` : null
@@ -59,7 +61,8 @@ export default function Step2() {
   };
 
   const handleNext = () => {
-    router.push("/estimate/step3");
+    setNextStep(true);
+    // router.push("/estimate/step3");
   };
 
   return (
@@ -142,14 +145,20 @@ export default function Step2() {
         </div>
       </div>
 
-      <div className="p-4">
-        <CommonButton
-          onClick={handleNext}
-          disabled={!selectedBudget || !selectedFrequency}
-        >
-          Next Step
-        </CommonButton>
-      </div>
+      {!nextStep ? (
+        <div className="p-4">
+          <CommonButton
+            onClick={handleNext}
+            disabled={!selectedBudget || !selectedFrequency}
+          >
+            Next Step
+          </CommonButton>
+        </div>
+      ): (
+        <div>
+          <MoreInfo />
+        </div>
+      )}
     </div>
   );
 }

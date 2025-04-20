@@ -9,11 +9,12 @@ import CommonButton from "@/components/CommonButton";
 import { useForm } from "@/contexts/FormContext";
 import { Input } from "@/components/ui/input";
 
-export default function Step3() {
+export default function MoreInfo() {
   const router = useRouter();
   const { formState, progress, addPhoto, removePhoto, setConcerns } = useForm();
   const [concernsText, setConcernsText] = useState<string>(formState.concerns);
   const [photos, setPhotos] = useState<File[]>(formState.photos);
+  const [handleDiscuss, setHandleDiscuss] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +42,14 @@ export default function Step3() {
     router.push("/");
   };
 
+  const handleDiscussInfo = ( directInputDiscuss: number ) => {
+    if (directInputDiscuss === 0) {
+      setHandleDiscuss(true)
+    } else {
+      setHandleDiscuss(false)
+    }
+  }
+
   const getBodyPartSummary = () => {
     if (!formState.bodyPart) return "Not selected";
     return formState.bodyPart;
@@ -58,7 +67,7 @@ export default function Step3() {
 
   return (
     <div className="flex flex-col h-full">
-      <Header title="Get a Quote by Budget" />
+      {/* <Header title="Get a Quote by Budget" /> */}
 
       <div className="flex-1 overflow-auto">
         <div className="p-4">
@@ -137,17 +146,67 @@ export default function Step3() {
             Let us know your concern so we can suggest tailored solutions from clinics. If you have a treatment in mind, please share it as well.
           </p>
 
-          <div className="px-4 mb-8">
+          {/* <div className="px-4 mb-8">
             <textarea
               value={concernsText}
               onChange={handleConcernsChange}
               placeholder="What are your concerns? The more details you provide, the more accurate your quote will be."
               className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-beauty-purple"
             />
-          </div>
+          </div> */}
         </div>
       </div>
-          
+      <div>
+      <div className="flex flex-wrap gap-2 px-4 py-2">
+      
+        <button
+          onClick={() => {
+              handleDiscussInfo(0)
+            }
+          }
+          className={`
+            rounded-full px-5 py-3 font-medium text-sm transition-all
+            ${handleDiscuss
+              ? 'bg-beauty-purple text-white'
+              : 'bg-white border border-gray-200 text-beauty-darkPurple'
+            }
+          `}
+        >
+        I'll discuss it with the clinic
+        </button>
+        <button
+          onClick={() => {
+              handleDiscussInfo(1)
+            }
+          }
+          className={`
+            rounded-full px-5 py-3 font-medium text-sm transition-all
+            ${!handleDiscuss
+              ? 'bg-beauty-purple text-white'
+              : 'bg-white border border-gray-200 text-beauty-darkPurple'
+            }
+          `}
+        >
+        I'll fill it out now
+        </button>
+    </div>
+
+      </div>
+     {!handleDiscuss ? (
+      <div className="px-4 mb-8">
+              <textarea
+                value={concernsText}
+                onChange={handleConcernsChange}
+                placeholder="What are your concerns? The more details you provide, the more accurate your quote will be."
+                className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-beauty-purple"
+              />
+            </div>
+        ): (
+        <div className="px-4 mb-8">
+ 
+      </div>
+      )}
+      
       <div className="p-4">
         <CommonButton
           onClick={handleSubmit}
