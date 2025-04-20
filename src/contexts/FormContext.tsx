@@ -6,7 +6,7 @@ import { type ReactNode, createContext, useContext, useState } from "react";
 type BodyPart = string;
 type BodyCondition = string[];
 type Budget = number | null;
-type VisitFrequency = "1회" | "3회" | "5회" | "Undecided" | null;
+type VisitFrequency = "1 time" | "3 times" | "5 times" | "Undecided" | null;
 type Concerns = string;
 
 interface FormState {

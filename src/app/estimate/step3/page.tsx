@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Header from "@/components/Header";
 import SectionTitle from "@/components/SectionTitle";
-import GlowButton from "@/components/GlowButton";
+import CommonButton from "@/components/CommonButton";
 import { useForm } from "@/contexts/FormContext";
 import { Input } from "@/components/ui/input";
 
@@ -63,7 +63,7 @@ export default function Step3() {
       <div className="flex-1 overflow-auto">
         <div className="p-4">
           <p className="text-lg font-medium mb-4">
-            Glowback will help you create your <span className="text-beauty-purple">quote</span>.
+            BueatyLink will help you create your <span className="text-beauty-purple">quote</span>.
           </p>
 
           {/* Form summary */}
@@ -149,12 +149,12 @@ export default function Step3() {
       </div>
 
       <div className="p-4">
-        <GlowButton
+        <CommonButton
           onClick={handleSubmit}
           disabled={!concernsText.trim()}
         >
           Request Personalized Quote 📩
-        </GlowButton>
+        </CommonButton>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import type { ReactNode } from "react";
 
-interface GlowButtonProps {
+interface CommonButtonProps {
   children: ReactNode;
   onClick?: () => void;
   disabled?: boolean;
@@ -9,13 +9,13 @@ interface GlowButtonProps {
   type?: "button" | "submit" | "reset";
 }
 
-export default function GlowButton({
+export default function CommonButton({
   children,
   onClick,
   disabled = false,
   className = "",
   type = "button"
-}: GlowButtonProps) {
+}: CommonButtonProps) {
   return (
     <Button
       type={type}

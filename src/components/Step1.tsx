@@ -7,7 +7,7 @@ import ProgressBar from "./ProgressBar";
 import SectionTitle from "./SectionTitle";
 import IconGrid from "./IconGrid";
 import SelectionGroup from "./SelectionGroup";
-import GlowButton from "./GlowButton";
+import CommonButton from "./CommonButton";
 import { bodyPartOptions, conditionOptions } from "@/data/formData";
 import { useForm } from "@/contexts/FormContext";
 
@@ -102,12 +102,12 @@ export default function Step1() {
       </div>
 
       <div className="p-4">
-        <GlowButton
+        <CommonButton
           onClick={handleNext}
           disabled={!selectedBodyPart || selectedConditions.length === 0}
         >
           Next
-        </GlowButton>
+        </CommonButton>
       </div>
     </div>
   );

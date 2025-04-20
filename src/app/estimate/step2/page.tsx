@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import ProgressBar from "@/components/ProgressBar";
 import SectionTitle from "@/components/SectionTitle";
 import SelectionGroup from "@/components/SelectionGroup";
-import GlowButton from "@/components/GlowButton";
+import CommonButton from "@/components/CommonButton";
 import { useForm } from "@/contexts/FormContext";
 import { budgetOptions, frequencyOptions } from "@/data/formData";
 
@@ -18,7 +18,11 @@ export default function Step2() {
     formState.budget ? `budget-${formState.budget}` : null
   );
   const [selectedFrequency, setSelectedFrequency] = useState<string | null>(
-    formState.visitFrequency ? `freq-${formState.visitFrequency === "Undecided" ? "undecided" : formState.visitFrequency.replace("회", "")}` : null
+    formState.visitFrequency
+  ? `freq-${formState.visitFrequency === "Undecided"
+      ? "undecided"
+      : formState.visitFrequency.replace(/times?/g, "")}`
+  : null
   );
   const [summary, setSummary] = useState<string>("");
 
@@ -139,12 +143,12 @@ export default function Step2() {
       </div>
 
       <div className="p-4">
-        <GlowButton
+        <CommonButton
           onClick={handleNext}
           disabled={!selectedBudget || !selectedFrequency}
         >
           Next Step
-        </GlowButton>
+        </CommonButton>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
   title: string;
@@ -8,11 +9,13 @@ interface HeaderProps {
 }
 
 export default function Header({ title, showBackButton = true, showHomeButton = true }: HeaderProps) {
+  const router = useRouter();
   return (
     <div className="bg-beauty-purple w-full h-[60px] flex items-center px-6 relative">
       <div className="flex items-center">
         {showBackButton && (
-          <button className="mr-3">
+          <button className="mr-3"
+          onClick={() => { router.back()  }}>
             <Image
               src="https://ext.same-assets.com/3640353240/1156342933.svg"
               alt="Back"
