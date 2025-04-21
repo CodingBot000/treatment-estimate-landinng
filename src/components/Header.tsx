@@ -6,16 +6,20 @@ interface HeaderProps {
   title: string;
   showBackButton?: boolean;
   showHomeButton?: boolean;
+  clickBackButton: () => void;
 }
 
-export default function Header({ title, showBackButton = true, showHomeButton = true }: HeaderProps) {
+export default function Header({ title, showBackButton = true, showHomeButton = true, clickBackButton }: HeaderProps) {
   const router = useRouter();
   return (
     <div className="bg-beauty-purple w-full h-[60px] flex items-center px-6 relative">
       <div className="flex items-center">
         {showBackButton && (
           <button className="mr-3"
-          onClick={() => { router.back()  }}>
+          onClick={() => {
+            //  router.back() 
+            clickBackButton();
+           }}>
             <Image
               src="/estimate/back_arrow_white.svg"
               alt="Back"

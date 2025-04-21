@@ -32,6 +32,10 @@ interface FormContextType {
   resetForm: () => void;
 }
 
+interface CurStep {
+  curStep: ""
+}
+
 // Initial state
 const initialState: FormState = {
   bodyPart: null,

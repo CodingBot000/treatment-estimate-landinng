@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 export default function QuoteExploreSection() {
   const router = useRouter();
   const handleQuoteClick = () => {
-    router.push("/estimate/step1");
-    // console.log("견적받기 section clicked");
+    // router.push("/estimate/step1");
+    router.push("/estimate");
   };
 
   const handleExploreClick = () => {
