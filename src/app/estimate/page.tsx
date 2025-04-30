@@ -19,60 +19,47 @@ import Header from "@/components/Header";
 import ProgressBar from "@/components/ProgressBar";
 import Step1Page from "./step1-page";
 import Step2Page from "./step2-page";
+import SkinForm from "./skin-form";
+import SkinSurveyForm from "./SkinSurveyForm";
+import QuoteExploreSection from "../hookingpage/QuoteExploreSection";
+import EstimateStepPage from "./EstimateStepPage";
 
 
 
-export default function EstimateStepPage() {
-  const router = useRouter();
-  const { formState, progress, setBodyPart, addBodyCondition, removeBodyCondition } = useForm();
-  const [selectedBodyPart, setSelectedBodyPart] = useState<string | null>(formState.bodyPart);
-  const [selectedConditions, setSelectedConditions] = useState<string[]>(formState.bodyConditions);
+export default function EstimatePage() {
+  const [activeComponent, setActiveComponent] = useState<"skin" | "survey" | "quote">("skin");
+  
+  const buttonStyle = (key: string) =>
+    `px-4 py-2 rounded border transition-all
+     ${
+       activeComponent === key
+         ? "bg-blue-600 text-white border-blue-600"
+         : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200"
+     }`;
 
-  const handleBodyPartSelect = (id: string) => {
-    setSelectedBodyPart(id);
-    setBodyPart(id);
-    // Clear conditions when changing body part
-    setSelectedConditions([]);
-  };
-
-  const handleConditionSelect = (id: string) => {
-    if (selectedConditions.includes(id)) {
-      // Remove the condition if already selected
-      const updatedConditions = selectedConditions.filter(c => c !== id);
-      setSelectedConditions(updatedConditions);
-      removeBodyCondition(id);
-    } else {
-      // Add the condition if not selected
-      setSelectedConditions([...selectedConditions, id]);
-      addBodyCondition(id);
-    }
-  };
-
-//   const handleNext = () => {
-//     console.log("next click step1");
-//     router.push("/estimate/step2");
-//   };
-
-
-  const [currentStepState, setCurrentStepState] = useState<string>('Step1');
-  const handleNext = (nextStep: string) => {
-    setCurrentStepState(nextStep);
-  }
-    
   return (
-    <div>
-        {currentStepState === 'Step1' && (
-            <Step1Page onNext={() => handleNext('Step2') }
-                        onBack={() => handleNext('')}
-             />
-        )}
-        {currentStepState === 'Step2' && (
-            <Step2Page onNext={() => handleNext('Step2-MoreInfo') }
-            onBack={() => handleNext('Step1')}
-            />
-        )}
+    <div className="p-4">
+      {/* 버튼 영역 */}
+      <div className="flex gap-2 mb-4">
+        <button onClick={() => setActiveComponent("skin")} className={buttonStyle("skin")}>
+          SkinForm
+        </button>
+        <button onClick={() => setActiveComponent("survey")} className={buttonStyle("survey")}>
+          SkinSurveyForm
+        </button>
+        <button onClick={() => setActiveComponent("quote")} className={buttonStyle("quote")}>
+          QuoteExploreSection
+        </button>
+      </div>
 
+      {/* 선택된 컴포넌트 렌더링 */}
+      <div>
+        {activeComponent === "skin" && <SkinForm />}
+        {activeComponent === "survey" && <SkinSurveyForm />}
+        {activeComponent === "quote" && <EstimateStepPage />}
+      </div>
     </div>
-  );
+  
+    );
 }
 

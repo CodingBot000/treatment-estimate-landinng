@@ -1,5 +1,6 @@
 'use client'
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function QuoteExploreSection() {
@@ -11,6 +12,7 @@ export default function QuoteExploreSection() {
 
   const handleExploreClick = () => {
     console.log("탐색하기 section clicked");
+    window.location.href = "https://miracle3day.vercel.app/home/";
   };
 
   return (
@@ -28,7 +30,6 @@ export default function QuoteExploreSection() {
             className="bg-white rounded-lg shadow-lg w-[300px]  mx-auto p-6 cursor-pointer hover:shadow-xl transition-all transform hover:-translate-y-1"
             onClick={handleQuoteClick}
           >
-
             <h2 className="text-purple-700 text-2xl font-bold text-center mb-6">Get a Quote</h2>
             <div className="w-full h-0.5 bg-purple-700 mb-6"></div>
             <div className="text-gray-700 text-center leading-tight">
