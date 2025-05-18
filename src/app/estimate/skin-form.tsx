@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react";
-import { formDefinition, FormDefinitionProps } from "./form-definition";
+import { formDefinition, FormDefinitionProps } from "@/app/data/form-definition";
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -140,7 +140,7 @@ const schema = z.object({
             <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }} className="space-y-6">
               {formDefinition.map((q) => (
                 <div key={q.id} className="space-y-2">
-                  <Label>{q.label}</Label>
+                  <Label>{q.title}</Label>
                   {renderField(q)}
                 </div>
               ))}
