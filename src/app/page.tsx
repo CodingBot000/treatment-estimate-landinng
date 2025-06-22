@@ -4,9 +4,9 @@
 // import { FormProvider } from "@/contexts/FormContext";
 // import { redirect } from "next/navigation";
 
-import SkinForm from "./estimate/skin-form";
-import SkinSurveyForm from "./estimate/SkinSurveyForm";
-import QuoteExploreSection from "./hookingpage/QuoteExploreSection";
+import SkinForm from "./estimate/skinForm/skin-form";
+import SkinSurveyForm from "./estimate/SkinSurveyForm/SkinSurveyForm";
+import HomeQuestionnaireDiagnosis from "./hookingpage/HomeQuestionnaireDiagnosis";
 
 // export default function Home() {
 //   redirect("/estimate/step1");
@@ -17,7 +17,7 @@ export default function Home() {
 
   return  (
   <div>
-    <QuoteExploreSection />
+    <HomeQuestionnaireDiagnosis />
   </div>
   );
 }

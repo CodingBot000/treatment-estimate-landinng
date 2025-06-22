@@ -1,29 +1,11 @@
 "use client";
 
-// import Step1Component from "@/components/Step1";
-
-// export default function Step1Page() {
-//   return <Step1Component />;
-// }
-
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { bodyPartOptions, conditionOptions } from "@/data/formData";
-import { useForm } from "@/contexts/FormContext";
-import SectionTitle from "@/components/SectionTitle";
-import IconGrid from "@/components/IconGrid";
-import SelectionGroup from "@/components/SelectionGroup";
-import CommonButton from "@/components/CommonButton";
-import Header from "@/components/Header";
-import ProgressBar from "@/components/ProgressBar";
-import Step1Page from "./step1-page";
-import Step2Page from "./step2-page";
-import SkinForm from "./skin-form";
-import SkinSurveyForm from "./SkinSurveyForm";
-import QuoteExploreSection from "../hookingpage/QuoteExploreSection";
-import EstimateStepPage from "./EstimateStepPage";
-import SkinSurveyFlow from "./SkinSurveyFlow";
+import SkinForm from "./skinForm/skin-form";
+import SkinSurveyForm from "./SkinSurveyForm/SkinSurveyForm";
+import EstimateStepPage from "./estimateStepPage/EstimateStepPage";
+import SkinSurveyFlow from "./SkinSurveryFlow/SkinSurveyFlow";
 
 
 
@@ -50,7 +32,7 @@ export default function EstimatePage() {
           SkinSurveyForm
         </button>
         <button onClick={() => setActiveComponent("quote")} className={buttonStyle("quote")}>
-          QuoteExploreSection
+          EstimateStepPage
         </button>
         <button onClick={() => setActiveComponent("animateSurveyForm")} className={buttonStyle("animateSurveyForm")}>
           animateSurveyForm

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function QuoteExploreSection() {
+export default function HomeQuestionnaireDiagnosis() {
   const router = useRouter();
   const handleQuoteClick = () => {
     // router.push("/estimate/step1");
@@ -22,8 +22,8 @@ export default function QuoteExploreSection() {
         <h2 className="text-3xl font-bold text-center text-purple-800 mb-12">Our Services</h2> */}
         <h1 className="text-5xl text-white font-bold mb-4">Beauty Link</h1>
         <p className="text-xl text-white mb-2">Before the treatment, start with a strategy.</p>
-        <p className="text-xl text-white mb-8">Premium Anti-Aging Treatment & Cosmetic Surgery Quotation Service</p>
-
+        {/* <p className="text-xl text-white mb-8">Premium Anti-Aging Treatment & Cosmetic Surgery Quotation Service</p> */}
+        <p className="text-xl text-white mb-8">Get Started with Our Smart Treatment Finder</p>
         <div className="flex flex-col lg:flex-row gap-8 justify-center">
 
         <div
@@ -40,7 +40,7 @@ export default function QuoteExploreSection() {
           </div>
 
      
-                    <div
+          <div
             className="bg-white rounded-lg shadow-lg w-[300px]  mx-auto p-6 cursor-pointer hover:shadow-xl transition-all transform hover:-translate-y-1"
             onClick={handleExploreClick}
           >
