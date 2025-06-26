@@ -8,8 +8,9 @@ import {
   useSensor,
   useSensors,
   PointerSensor,
+  TouchSensor,
   DragEndEvent,
-  DragStartEvent,
+  MouseSensor,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -75,26 +76,36 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
   const [isPriorityConfirmed, setIsPriorityConfirmed] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8, // 8px 이상 움직여야 드래그 시작
-        tolerance: 5, // 드래그 시작 시 허용되는 움직임 오차
-        delay: 150, // 150ms 동안 누르고 있어야 드래그 시작
-      },
-    })
-  );
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 10, // 10px 이상 움직여야 드래그 시작
+    },
+  });
+
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: {
+      delay: 250, // 250ms 터치 후 드래그 시작
+      tolerance: 5, // 5px 이내 움직임 허용
+    },
+  });
+
+  const sensors = useSensors(mouseSensor, touchSensor);
 
   useEffect(() => {
-    // 드래그 중일 때 body 스크롤 방지
     if (isDragging) {
+      // 드래그 중일 때 body 스크롤 방지
       document.body.style.overflow = 'hidden';
+      // 터치 이벤트 방지
+      document.body.style.touchAction = 'none';
     } else {
+      // 드래그가 끝나면 원래대로 복구
       document.body.style.overflow = '';
+      document.body.style.touchAction = '';
     }
 
     return () => {
       document.body.style.overflow = '';
+      document.body.style.touchAction = '';
     };
   }, [isDragging]);
 
@@ -141,7 +152,7 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
     });
   };
 
-  const handleDragStart = (event: DragStartEvent) => {
+  const handleDragStart = () => {
     setIsDragging(true);
   };
 
