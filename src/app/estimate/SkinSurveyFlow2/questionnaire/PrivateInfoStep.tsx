@@ -51,11 +51,13 @@ const PrivateInfo: React.FC<PrivateInfoStepProps> = ({ data, onDataChange }) => 
               <SelectValue placeholder="Select your age range" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="18-25">18-25</SelectItem>
-              <SelectItem value="26-35">26-35</SelectItem>
-              <SelectItem value="36-45">36-45</SelectItem>
-              <SelectItem value="46-55">46-55</SelectItem>
-              <SelectItem value="56+">56+</SelectItem>
+              <SelectItem value="teen">Teen (14–19)</SelectItem>
+              <SelectItem value="20s">20s</SelectItem>
+              <SelectItem value="30s">30s</SelectItem>
+              <SelectItem value="40s">40s</SelectItem>
+              <SelectItem value="50s">50s</SelectItem>
+              <SelectItem value="60s">60s</SelectItem>
+              <SelectItem value="70s+">70+</SelectItem>
             </SelectContent>
           </Select>
         </div>

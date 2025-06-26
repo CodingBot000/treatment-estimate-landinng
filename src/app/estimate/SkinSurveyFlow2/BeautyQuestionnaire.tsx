@@ -8,22 +8,25 @@ import PreviewReport from './questionnaire/PreviewReport';
 import { steps } from './questionnaire/questionScript/Script';
 
 interface StepData {
-  concerns?: string[];
-  budget?: string;
-  treatmentAreas?: string[];
-  priority?: string[];
-  priorityOrder?: string[];
-  goals?: string[];
-  skinType?: string;
-  visitPath?: string;
-  name?: string;
-  phoneNumber?: string;
-  email?: string;
+  concerns: string[];
+  budget: string;
+  treatmentAreas: string[];
+  priority: string[];
+  priorityOrder: string[];
+  goals: string[];
+  skinType: string;
+  visitPath: string;
+  firstName: string;
+  lastName: string;
+  ageRange: string;
+  gender: string;
+  email: string;
   [key: string]: string | string[] | undefined; // 더 구체적인 인덱스 시그니처
 }
 
 // 각 스텝별 필수 선택 항목 검증 함수
 const validateStepData = (stepId: string, data: StepData): boolean => {
+  console.log('validateStepData validateStepData stepId:', stepId);
   switch (stepId) {
     case 'skin-concerns':
       // 피부 타입과 피부 고민 모두 필수 선택
@@ -57,10 +60,20 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
       return !!data.visitPath; // 방문 경로 선택 필수
     
     case 'basic-info':
+      console.log('validateStepData basic-info data', data);
+      console.log('validateStepData basic-info data.firstName', data.firstName);
+      console.log('validateStepData basic-info data.lastName', data.lastName);
+      console.log('validateStepData basic-info data.age', data.ageRange);
+      console.log('validateStepData basic-info data.gender', data.gender);
+      console.log('validateStepData basic-info data.email', data.email);
+      const testCondition = data.firstName && data.lastName && data.ageRange && data.gender && data.email;
+      console.log('validateStepData basic-info testCondition::', !!testCondition);
       return !!(
-        data.name && // 이름 필수
-        data.phoneNumber && // 전화번호 필수
-        data.email // 이메일 필수
+        data.firstName && 
+        data.lastName &&
+        data.ageRange &&
+        data.gender &&
+        data.email
       );
     
     default:
@@ -82,7 +95,7 @@ const getValidationMessage = (stepId: string): string => {
     case 'visitPaths':
       return 'Please select how you found us.';
     case 'basic-info':
-      return 'Please fill in your name, phone number, and email address.';
+      return 'Please fill in your name, age, gender and email address.';
     default:
       return 'Please complete all required fields.';
   }
@@ -97,12 +110,14 @@ const BeautyQuestionnaire = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<Record<string, StepData>>({});
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isValideSendForm, setIsValideSendForm] = useState(false);
   const { toast } = useToast();
 
   const handleNext = () => {
     const currentStepData = formData[steps[currentStep].id] || {};
     
     if (!validateStepData(steps[currentStep].id, currentStepData)) {
+      setIsValideSendForm(false);
       toast({
         variant: "destructive",
         title: "Please make a required selection",
@@ -136,17 +151,24 @@ const BeautyQuestionnaire = () => {
 
   const handleSubmit = () => {
     const currentStepData = formData[steps[currentStep].id] || {};
-    
+    console.log('currentStepData', currentStepData);
     if (!validateStepData(steps[currentStep].id, currentStepData)) {
+      setIsValideSendForm(false);
+      console.log('validateStepData currentStepData::', currentStepData);
+      console.log('validateStepData currentStep::', currentStep);
+      console.log('validateStepData steps[currentStep].id::', steps[currentStep].id);
+      console.log('validateStepData launch toast message: ', getValidationMessage(steps[currentStep].id));
       toast({
         variant: "destructive",
         title: "Please make a required selection",
         description: getValidationMessage(steps[currentStep].id),
-        duration: 1500,
+        duration: 2000,
       });
       return;
     }
 
+    setIsPreviewOpen(true);
+    setIsValideSendForm(true);
     // TODO: API 호출 구현
     console.log('Questionnaire completed:', formData);
   };
@@ -246,6 +268,7 @@ const BeautyQuestionnaire = () => {
       {/* Preview Dialog */}
       <PreviewReport
         open={isPreviewOpen}
+        showSendFormButton={isValideSendForm}
         onOpenChange={setIsPreviewOpen}
         formData={formData}
       />

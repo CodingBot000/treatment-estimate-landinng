@@ -3,14 +3,18 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
 import { steps } from './questionScript/Script';
+import { Button } from '@/components/ui/button';
 
 interface PreviewReportProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  showSendFormButton: boolean;
   formData: Record<string, any>;
 }
 
-const PreviewReport: React.FC<PreviewReportProps> = ({ open, onOpenChange, formData }) => {
+const PreviewReport: React.FC<PreviewReportProps> = 
+({ open, onOpenChange, formData, showSendFormButton }) => 
+  {
   const getStepSummary = (stepId: string, data: any) => {
     if (!data) return 'Not yet entered';
 
@@ -61,8 +65,10 @@ const PreviewReport: React.FC<PreviewReportProps> = ({ open, onOpenChange, formD
       case 'basic-info':
         return (
           <div className="space-y-2">
-            <p><strong>Name:</strong> {data.name}</p>
-            <p><strong>Phone Number:</strong> {data.phoneNumber}</p>
+            <p><strong>First Name:</strong> {data.firstName}</p>
+            <p><strong>Last Name:</strong> {data.lastName}</p>
+            <p><strong>ageRange:</strong> {data.ageRange}</p>
+            <p><strong>gender:</strong> {data.gender}</p>
             <p><strong>Email:</strong> {data.email}</p>
           </div>
         );
@@ -94,6 +100,9 @@ const PreviewReport: React.FC<PreviewReportProps> = ({ open, onOpenChange, formD
             ))}
           </div>
         </ScrollArea>
+        
+        <Button disabled={!showSendFormButton}>Send Form</Button>
+        
       </DialogContent>
     </Dialog>
   );

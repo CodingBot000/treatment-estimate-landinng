@@ -152,7 +152,7 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
     if (active.id !== over?.id) {
       setPriorityItems((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
+        const newIndex = items.findIndex((item) => item.id === over?.id);
         
         const newItems = arrayMove(items, oldIndex, newIndex);
         
