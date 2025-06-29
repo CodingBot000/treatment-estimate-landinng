@@ -158,6 +158,11 @@ export const questions = {
       label: "Normal", // 정상
       description: "Well-balanced, rarely problematic", // 균형 잡힌 피부, 문제 적음
     },
+    {
+      id: "not_sure",
+      label: "Not Sure", 
+      description: "Not Sure", 
+    },
   ],
 
   treatmentGoals: [
@@ -199,55 +204,101 @@ export const questions = {
     },
   ],
 
-  timeframes: [
-    {
-      id: "asap",
-      label: "As soon as possible", // 가능한 빨리
-      description: "Ready to start immediately", // 즉시 시작 가능
-    },
-    {
-      id: "1-week",
-      label: "Within 1 week", // 1주 이내
-      description: "Planning ahead", // 미리 계획 중
-    },
-    {
-      id: "2-week",
-      label: "Within 2 week", // 2주 이내
-      description: "Planning ahead", // 미리 계획 중
-    },
-    {
-      id: "1-month",
-      label: "Within 1 month", // 1개월 이내
-      description: "Planning ahead", // 미리 계획 중
-    },
-    {
-      id: "2-months",
-      label: "Within 2 months", // 2개월 이내
-      description: "Planning ahead", // 미리 계획 중
-    },
-    {
-      id: "3-months",
-      label: "Within 3 months", // 3개월 이내
-      description: "Preparing for an event", // 이벤트를 위한 준비
-    },
-    {
-      id: "not_sure_yet",
-      label: "Not Sure Yet", // 아직 확실치 않음
-      description: "Not Sure Yet", // 아직 확실치 않음
-    },
-  ],
+  // timeframes: [
+  //   {
+  //     id: "asap",
+  //     label: "As soon as possible", // 가능한 빨리
+  //     description: "Ready to start immediately", // 즉시 시작 가능
+  //   },
+  //   {
+  //     id: "1-week",
+  //     label: "Within 1 week", // 1주 이내
+  //     description: "Planning ahead", // 미리 계획 중
+  //   },
+  //   {
+  //     id: "2-week",
+  //     label: "Within 2 week", // 2주 이내
+  //     description: "Planning ahead", // 미리 계획 중
+  //   },
+  //   {
+  //     id: "1-month",
+  //     label: "Within 1 month", // 1개월 이내
+  //     description: "Planning ahead", // 미리 계획 중
+  //   },
+  //   {
+  //     id: "2-months",
+  //     label: "Within 2 months", // 2개월 이내
+  //     description: "Planning ahead", // 미리 계획 중
+  //   },
+  //   {
+  //     id: "3-months",
+  //     label: "Within 3 months", // 3개월 이내
+  //     description: "Preparing for an event", // 이벤트를 위한 준비
+  //   },
+  //   {
+  //     id: "not_sure_yet",
+  //     label: "Not Sure Yet", // 아직 확실치 않음
+  //     description: "Not Sure Yet", // 아직 확실치 않음
+  //   },
+  // ],
 
+
+// botox within 4 months  4달이내에 받은적이 있는가 
+// filler within 2 weeks 2이내에 받은적이 있는가 
+// laser within 2 weeks 2이내에 받은적이 있는가 
+// skin booster within 2이내에 받은적이 있는가 
+// steam cell  선택지 3개   1달미만, 1-6개월  ,  6개월이상 
+// lifting    선택지 3개   1달미만, 1-6개월  ,  6개월이상 
+// chemical peel 1달이내에 받은적이 있는가 
+// microneedling 2이내에 받은적이 있는가 
+// professional facials 
+
+// 요거 아래에  선택받았던 시술들에 대해서 부작용을 겪은적이 있는지 직접 기술 하도록 함  input박스 추가 
   pastTreatments: [
-    { id: "botox", label: "Botox/Dysport" }, // 보톡스/디스포트
-    { id: "fillers", label: "Dermal Fillers" }, // 필러
-    { id: "laser", label: "Laser Treatments(IPL, Fraxel etc" }, // 레이저 시술
-    { id: "skin_booster", label: "Skin Booster" }, // 스킨부스터
-    { id: "lifting", label: "Lifting (Ultherapy, Shrinking etc)" }, // 리프팅 (울쎄라 등)
-    { id: "chemical-peel", label: "Chemical Peels" }, // 화학 박피
-    { id: "microneedling", label: "Microneedling" }, // 마이크로니들링
-    { id: "facials", label: "Professional Facials" }, // 전문가 케어
-    { id: "other", label: "Ohter" }, // 기타
+  
+      {
+        id: "botox_4m",
+        label: "Botox",
+        description: "Select if you have had a treatment within the past 4 months",
+      },
+      {
+        id: "filler_2w",
+        label: "Filler",
+        description: "Select if you have had a treatment within the past 2 weeks",
+      },
+      {
+        id: "laser_2w",
+        label: "Laser",
+        description: "Select if you have had a treatment within the past 2 weeks",
+      },
+      {
+        id: "skinbooster_2w",
+        label: "Skin Booster",
+        description: "Select if you have had a treatment within the past 2 weeks",
+      },
+      {
+        id: "stemcell_1m",
+        label: "Stem Cell (1 month)",
+        description: "Select if you have had a treatment within the past 1 month",
+      },
+      {
+        id: "stemcell_1_6m",
+        label: "Stem Cell (1–6 months)",
+        description: "Select if you have had a treatment within the past 1–6 months",
+      },
+      {
+        id: "stemcell_6m_plus",
+        label: "Stem Cell (6+ months)",
+        description: "Select if you have had a treatment more than 6 months ago",
+      },
+      {
+        id: "none",
+        label: "No Previous Treatments",
+        description: "Select if you have not had any previous treatments",
+      },
+ 
   ],
+  
 
   medicalConditions: [
     {
@@ -299,41 +350,44 @@ export const questions = {
       subOptions: [
         { id: "inflammatory-acne", label: "Inflammatory Acne" }, // 염증성 여드름
         { id: "whiteheads-small-bumps", label: "Whiteheads / Small Bumps" }, // 화이트헤드 / 좁쌀여드름
-        { id: "acne-scars-pigmentation", label: "Acne Scars / Pigmentation" }, // 여드름 흉터 / 색소침착
-        ] 
-      },  // 여드름
-    { id: "pores", label: "Enlarged Pores", 
-      subOptions: [
-        { id: "around-nose", label: "Around Nose" }, // 코 주변
-        { id: "cheeks-jawline", label: "Cheeks / Jawline" }, // 볼, 턱선
-      ]
-    }, // 모공
-    { id: "redness", label: "Redness & Sensitive Skin", 
-      subOptions: [
-        // { id: "sensitive-skin", label: "Sensitive Skin" }, // 민감성 피부
-        // { id: "visible-blood-vessels", label: "Visible Blood Vessels" }, // 실핏줄
-      ]
-    }, //  홍조 및 민감성 피부
-    { id: "uneven_tone", label: "Uneven Skin Tone", subOptions: [] }, // 피부 톤 불균형
-    { id: "fine_wrinkles", label: "Fine Wrinkles", subOptions: [] }, // 잔주름
-    { id: "sagging", label: "Sagging Skin(Skin Firmness)", 
-      subOptions: [
-        { id: "double-chin", label: "Double Chin" }, // 이중 턱
-        { id: "other-sagging-areas", label: "Other Sagging Areas (e.g., Jawline, Cheeks)" }, // 그외부분
       ] 
-    }, // 피부 처짐 = 탄력고민
-    { id: "dryness", label: "Dryness", subOptions: [] }, // 건조함
-    { id: "pigmentation", label: "Pigmentation & Dark Spots" ,
+    },  // 여드름
+    { id: "pores", label: "Enlarged Pores or Texture", 
+      subOptions: []}, // 모공
+    { id: "redness", label: "Redness & Sensitive Skin", subOptions: []}, //  홍조 및 민감성 피부
+    { id: "uneven_tone", label: "Uneven Skin Tone", subOptions: [] }, // 피부 톤 불균형
+    { id: "sagging", label: "Sagging", subOptions: [] }, // 피부 처짐 = 탄력고민
+    { id: "elasticity", label: "Elasticity", subOptions: [] },
+    { id: "doublie_chin", label: "Double Chin", subOptions: [] },
+    { id: "volumizing", label: "Volumizing", subOptions: [] },
+    { id: "wrinkles", label: "Wrinkles", subOptions: [] }, // 잔주름
+    { id: "dryness_glow", label: "Dryness & Glow", subOptions: [] }, // 건조함
+    { id: "pigmentation", label: "Pigmentation" ,
       subOptions: [
-        { id: "melasma", label: "Melasma" }, // 기미
         { id: "freckles", label: "Freckles" }, // 주근깨
-        { id: "sun-spots", label: "Sun Spots" }, // 햇빛 반점
-        { id: "age-spots", label: "Age Spots" }, // 나이 반점
-        { id: "mole-nevus", label: "Mole / Nevus" }, // 점
-        { id: "seborrheic-keratosis", label: "Seborrheic Keratosis" }, // 흑자
+        { id: "sun-damage", label: "Sun Damage" }, // 햇빛 반점
+        { id: "moles", label: "Moles" }, // 점
+        { id: "melasma", label: "Melasma" }, // 기미
+        { id: "lentigo", label: "Lentigo" }, 
+        { id: "not_sure", label: "Not Sure" }, 
       ]
     }, // 색소침착 및 기미
-    { id: "scars", label: "Scars", subOptions: [] }, // 흉터
+    { id: "scars", label: "Scars", 
+      subOptions: [
+        { id: "red", label: "Red" }, 
+        { id: "brown", label: "Brown" }, 
+        { id: "rough", label: "Rough" }, 
+      ] 
+    }, // 흉터
+    { id: "filler", label: "Filler", 
+      subOptions: [
+        { id: "forehead", label: "Forehead" },
+        { id: "jawline", label: "Jawline" },
+        { id: "cheeks", label: "Cheeks" },
+        { id: "under_eyes", label: "Under eyes" },
+        { id: "body", label: "Body" }, 
+      ] 
+    }, 
     { id: "other", label: "Other (Free Input)", subOptions: [] }, // 기타 (자유입력)
   ],
 

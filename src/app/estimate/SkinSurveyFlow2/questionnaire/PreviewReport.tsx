@@ -42,6 +42,12 @@ const PreviewReport: React.FC<PreviewReportProps> =
             <p><strong>Treatment Goals:</strong> {data.goals?.join(', ')}</p>
             <p><strong>Preferred Start Time:</strong> {data.timeframe}</p>
             <p><strong>Previous Treatments:</strong> {data.pastTreatments?.join(', ')}</p>
+            {data.sideEffects && (
+              <div className="mt-2 p-3 bg-rose-50 rounded-md">
+                <p><strong>Treatment Side Effects:</strong></p>
+                <p className="text-gray-700 whitespace-pre-wrap">{data.sideEffects}</p>
+              </div>
+            )}
             {data.additionalNotes && (
               <p><strong>Additional Notes:</strong> {data.additionalNotes}</p>
             )}
@@ -67,8 +73,8 @@ const PreviewReport: React.FC<PreviewReportProps> =
           <div className="space-y-2">
             <p><strong>First Name:</strong> {data.firstName}</p>
             <p><strong>Last Name:</strong> {data.lastName}</p>
-            <p><strong>ageRange:</strong> {data.ageRange}</p>
-            <p><strong>gender:</strong> {data.gender}</p>
+            <p><strong>Age Range:</strong> {data.ageRange}</p>
+            <p><strong>Gender:</strong> {data.gender}</p>
             <p><strong>Email:</strong> {data.email}</p>
           </div>
         );
@@ -101,7 +107,14 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         </ScrollArea>
         
-        <Button disabled={!showSendFormButton}>Send Form</Button>
+        <div className="flex justify-end mt-4">
+          <Button 
+            disabled={!showSendFormButton}
+            className="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white"
+          >
+            Send Form
+          </Button>
+        </div>
         
       </DialogContent>
     </Dialog>
