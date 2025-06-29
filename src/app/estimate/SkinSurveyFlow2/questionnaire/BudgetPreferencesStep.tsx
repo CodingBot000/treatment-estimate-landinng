@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { questions } from './questionScript/Script';
 import {
   DndContext,
   closestCenter,
+  KeyboardSensor,
+  PointerSensor,
   useSensor,
   useSensors,
-  PointerSensor,
-  TouchSensor,
-  DragEndEvent,
-  MouseSensor,
-} from "@dnd-kit/core";
+  DragEndEvent
+} from '@dnd-kit/core';
 import {
   arrayMove,
   SortableContext,
-  useSortable,
+  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { Checkbox } from "@/components/ui/checkbox";
+} from '@dnd-kit/sortable';
+import { SortableItem } from './SortableItem';
 
 interface BudgetPreferencesStepProps {
   data: any;
@@ -73,23 +74,27 @@ const SortablePriorityItem: React.FC<SortablePriorityItemProps> = ({ priority, i
 
 const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onDataChange }) => {
   const [priorityItems, setPriorityItems] = useState(questions.priorities);
-  const [isPriorityConfirmed, setIsPriorityConfirmed] = useState(false);
+  const [isPriorityConfirmed, setIsPriorityConfirmed] = useState(data.isPriorityConfirmed || false);
   const [isDragging, setIsDragging] = useState(false);
+  const [hasOtherArea, setHasOtherArea] = useState(
+    Array.isArray(data.treatmentAreas) && data.treatmentAreas.includes('other')
+  );
+  const [tempOtherAreas, setTempOtherAreas] = useState(data.otherAreas || '');
 
-  const mouseSensor = useSensor(MouseSensor, {
-    activationConstraint: {
-      distance: 10, // 10px 이상 움직여야 드래그 시작
-    },
-  });
+  useEffect(() => {
+    setHasOtherArea(Array.isArray(data.treatmentAreas) && data.treatmentAreas.includes('other'));
+  }, [data.treatmentAreas]);
 
-  const touchSensor = useSensor(TouchSensor, {
-    activationConstraint: {
-      delay: 250, // 250ms 터치 후 드래그 시작
-      tolerance: 5, // 5px 이내 움직임 허용
-    },
-  });
-
-  const sensors = useSensors(mouseSensor, touchSensor);
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   useEffect(() => {
     if (isDragging) {
@@ -121,10 +126,10 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
     setIsPriorityConfirmed(!!data.isPriorityConfirmed);
   }, []);
 
-  const handleBudgetChange = (budget: string) => {
+  const handleBudgetChange = (budgetId: string) => {
     onDataChange({
       ...data,
-      budget
+      budget: budgetId
     });
   };
 
@@ -134,10 +139,29 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
       ? currentAreas.filter((id: string) => id !== areaId)
       : [...currentAreas, areaId];
     
+    // other가 해제되면 otherAreas는 임시저장소에 보관하고 데이터에서만 제거
+    const shouldRemoveOtherAreas = areaId === 'other' && 
+      currentAreas.includes('other') && 
+      !updatedAreas.includes('other');
+
     onDataChange({
       ...data,
-      treatmentAreas: updatedAreas
+      treatmentAreas: updatedAreas,
+      ...(shouldRemoveOtherAreas && { otherAreas: undefined })
     });
+  };
+
+  const handleOtherAreasChange = (text: string) => {
+    // 임시 상태 업데이트
+    setTempOtherAreas(text);
+    
+    // other가 선택되어 있을 때만 실제 데이터에 반영
+    if (hasOtherArea) {
+      onDataChange({
+        ...data,
+        otherAreas: text
+      });
+    }
   };
 
   const handlePriorityChange = (priority: string) => {
@@ -219,63 +243,84 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
         <Label className="text-lg font-medium text-gray-800 mb-4 block">
           Which areas would you like to focus on? (Select all that apply)
         </Label>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {questions.treatmentAreas.map((area) => (
             <Card
               key={area.id}
-              className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md text-center ${
+              className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
                 (data.treatmentAreas || []).includes(area.id)
                   ? 'border-rose-400 bg-rose-50 shadow-md'
                   : 'border-gray-200 hover:border-rose-300'
               }`}
               onClick={() => handleAreaToggle(area.id)}
             >
-              {/* <div className="text-2xl mb-2">{area.emoji}</div> */}
-              <span className="font-medium text-gray-900 text-sm">{area.label}</span>
+              <div className="text-center">
+                <span className="font-medium text-gray-900">{area.label}</span>
+              </div>
             </Card>
           ))}
         </div>
       </div>
 
+      {/* Treatment Areas Others */}
+      {hasOtherArea && (
+        <div className="animate-fadeIn">
+          <Label className="text-lg font-medium text-gray-800 mb-4 block">
+            If you have other areas not listed above, please specify them below.
+          </Label>
+          <Textarea
+            value={tempOtherAreas}
+            onChange={(e) => handleOtherAreasChange(e.target.value)}
+            placeholder="Please describe other treatment areas you're interested in..."
+            className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20 min-h-[120px]"
+          />
+        </div>
+      )}
+
       {/* Priorities */}
       <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
-          What matters most to you? (Drag to reorder by priority)
-        </Label>
-        <div className="space-y-4">
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext items={priorityItems.map(item => item.id)} strategy={verticalListSortingStrategy}>
-              {priorityItems.map((priority, index) => (
-                <SortablePriorityItem
-                  key={priority.id}
-                  priority={priority}
-                  isSelected={false}
-                  onToggle={() => {}}
-                  index={index}
-                />
-              ))}
-            </SortableContext>
-          </DndContext>
-          
-          <div className="flex items-center space-x-2 pt-4">
-            <Checkbox
-              id="priority-confirm"
+        <div className="flex items-center justify-between mb-4">
+          <Label className="text-lg font-medium text-gray-800">
+            Arrange these factors in order of importance to you
+          </Label>
+          <div className="flex items-center gap-2">
+            <Switch
               checked={isPriorityConfirmed}
               onCheckedChange={handlePriorityConfirm}
+              disabled={isDragging}
             />
-            <label
-              htmlFor="priority-confirm"
-              className="text-sm text-red-600 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Please check this box when you have finalized the priority order
-            </label>
+            <span className="text-sm text-gray-600">
+              {isPriorityConfirmed ? "Confirmed" : "Confirm order"}
+            </span>
           </div>
         </div>
+        
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext
+            items={priorityItems}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="space-y-2">
+              {priorityItems.map((item) => (
+                <SortableItem key={item.id} id={item.id}>
+                  <Card className="p-4 bg-white">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-medium text-gray-900">{item.label}</h3>
+                        <p className="text-sm text-gray-600">{item.description}</p>
+                      </div>
+                    </div>
+                  </Card>
+                </SortableItem>
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
       </div>
     </div>
   );

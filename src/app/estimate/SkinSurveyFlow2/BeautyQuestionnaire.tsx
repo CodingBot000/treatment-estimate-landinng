@@ -49,7 +49,7 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
       return !!(
         data.goals && 
         data.goals.length > 0 && // 치료 목표 1개 이상 선택 필수
-        data.timeframe && // 치료 시작 시기 선택 필수
+        // data.timeframe && // 치료 시작 시기 선택 필수
         data.pastTreatments // 이전 치료 경험 선택 필수 (없는 경우도 빈 배열로 저장)
       );
     

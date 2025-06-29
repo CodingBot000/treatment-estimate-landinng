@@ -342,6 +342,12 @@ export const questions = {
       label: 'None', // 없음
       description: 'None of the above apply', // 해당 없음
       emoji: '✅'
+    },
+    {
+      id: 'other',
+      label: 'Other', // 기타
+      description: 'Other (Free Input)', // 기타
+      emoji: '🤖'
     }
   ],
 

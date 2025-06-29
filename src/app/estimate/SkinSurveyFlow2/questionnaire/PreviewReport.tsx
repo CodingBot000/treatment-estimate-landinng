@@ -24,6 +24,12 @@ const PreviewReport: React.FC<PreviewReportProps> =
           <div className="space-y-2">
             <p><strong>Skin Type:</strong> {data.skinType}</p>
             <p><strong>Skin Concerns:</strong> {data.concerns?.join(', ')}</p>
+            {data.moreConcerns && (
+              <div className="mt-2 p-3 bg-rose-50 rounded-md">
+                <p><strong>Other Concerns:</strong></p>
+                <p className="text-gray-700 whitespace-pre-wrap">{data.moreConcerns}</p>
+              </div>
+            )}
           </div>
         );
 
@@ -32,6 +38,12 @@ const PreviewReport: React.FC<PreviewReportProps> =
           <div className="space-y-2">
             <p><strong>Budget Range:</strong> {data.budget}</p>
             <p><strong>Treatment Areas:</strong> {data.treatmentAreas?.join(', ')}</p>
+            {data.otherAreas && (
+              <div className="mt-2 p-3 bg-rose-50 rounded-md">
+                <p><strong>Other Treatment Areas:</strong></p>
+                <p className="text-gray-700 whitespace-pre-wrap">{data.otherAreas}</p>
+              </div>
+            )}
             <p><strong>Priority Order:</strong> {data.priorityOrder?.join(' > ')}</p>
           </div>
         );
@@ -40,7 +52,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
         return (
           <div className="space-y-2">
             <p><strong>Treatment Goals:</strong> {data.goals?.join(', ')}</p>
-            <p><strong>Preferred Start Time:</strong> {data.timeframe}</p>
+            {/* <p><strong>Preferred Start Time:</strong> {data.timeframe}</p> */}
             <p><strong>Previous Treatments:</strong> {data.pastTreatments?.join(', ')}</p>
             {data.sideEffects && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">
@@ -58,13 +70,27 @@ const PreviewReport: React.FC<PreviewReportProps> =
         return (
           <div className="space-y-2">
             <p><strong>Health Conditions:</strong> {data.healthConditions?.join(', ')}</p>
+            {data.otherConditions && !data.healthConditions?.includes('none') && (
+              <div className="mt-2 p-3 bg-rose-50 rounded-md">
+                <p><strong>Other Health Conditions:</strong></p>
+                <p className="text-gray-700 whitespace-pre-wrap">{data.otherConditions}</p>
+              </div>
+            )}
           </div>
         );
 
       case 'visitPaths':
+        // console.log('PreviewReport - visitPaths data:', data);
+        // console.log('PreviewReport - full formData:', formData);
         return (
           <div className="space-y-2">
             <p><strong>Referral Source:</strong> {data.visitPath}</p>
+            {data.otherPath && data.visitPath === 'other' && (
+              <div className="mt-2 p-3 bg-rose-50 rounded-md">
+                <p><strong>Other Referral Source:</strong></p>
+                <p className="text-gray-700 whitespace-pre-wrap">{data.otherPath}</p>
+              </div>
+            )}
           </div>
         );
 

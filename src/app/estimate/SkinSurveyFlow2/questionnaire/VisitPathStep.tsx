@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
 import { questions } from './questionScript/Script';
 import { FaInstagram, FaReddit, FaTiktok, FaYoutube, FaGoogle, FaComments } from 'react-icons/fa';
 // import { SiLemon8 } from 'react-icons/si';
@@ -11,11 +12,48 @@ interface VisitPathStepProps {
 }
 
 const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => {
+  const [hasOtherPath, setHasOtherPath] = useState(data.visitPath === 'other');
+  const [tempOtherPath, setTempOtherPath] = useState(data.otherPath || '');
+
+  useEffect(() => {
+    setHasOtherPath(data.visitPath === 'other');
+  }, [data.visitPath]);
+
   const handleVisitPathChange = (visitPath: string) => {
-    onDataChange({
-      ...data,
-      visitPath
-    });
+    const shouldRemoveOtherPath = data.visitPath === 'other' && visitPath !== 'other';
+    
+    console.log('VisitPathStep - handleVisitPathChange - before update:', { visitPath, data, tempOtherPath });
+    
+    // other를 선택할 때 이전에 저장된 tempOtherPath를 복원
+    if (visitPath === 'other') {
+      onDataChange({
+        ...data,
+        visitPath,
+        otherPath: tempOtherPath
+      });
+    } else {
+      onDataChange({
+        ...data,
+        visitPath,
+        ...(shouldRemoveOtherPath && { otherPath: undefined })
+      });
+    }
+  };
+
+  const handleOtherPathChange = (text: string) => {
+    // 임시 상태 업데이트
+    setTempOtherPath(text);
+    
+    console.log('VisitPathStep - handleOtherPathChange - before update:', { text, hasOtherPath, data });
+    
+    // other가 선택되어 있을 때 실제 데이터에 바로 반영
+    if (hasOtherPath) {
+      onDataChange({
+        ...data,
+        visitPath: 'other',
+        otherPath: text
+      });
+    }
   };
 
   // 아이콘 매핑
@@ -70,6 +108,20 @@ const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => 
           })}
         </div>
 
+        {/* Other Visit Path */}
+        {hasOtherPath && (
+          <div className="mt-6 animate-fadeIn">
+            <Label className="text-lg font-medium text-gray-800 mb-4 block">
+              Please tell us how you found us:
+            </Label>
+            <Textarea
+              value={tempOtherPath}
+              onChange={(e) => handleOtherPathChange(e.target.value)}
+              placeholder="Please describe how you heard about us..."
+              className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20 min-h-[120px]"
+            />
+          </div>
+        )}
       </div>
 
     </div>
