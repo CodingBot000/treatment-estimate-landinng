@@ -4,6 +4,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
 import { steps } from './questionScript/Script';
 import { Button } from '@/components/ui/button';
+import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 
 interface PreviewReportProps {
   open: boolean;
@@ -19,7 +20,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
     if (!data) return 'Not yet entered';
 
     switch (stepId) {
-      case 'skin-concerns':
+      case SKIN_CONCERNS:
         return (
           <div className="space-y-2">
             <p><strong>Skin Type:</strong> {data.skinType}</p>
@@ -33,7 +34,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
 
-      case 'budget-preferences':
+      case BUDGET_PREFERENCES:
         return (
           <div className="space-y-2">
             <p><strong>Budget Range:</strong> {data.budget}</p>
@@ -48,7 +49,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
 
-      case 'treatment-goals':
+      case TREATMENT_GOALS:
         return (
           <div className="space-y-2">
             <p><strong>Treatment Goals:</strong> {data.goals?.join(', ')}</p>
@@ -66,7 +67,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
 
-      case 'health-condition':
+      case HEALTH_CONDITIONS:
         return (
           <div className="space-y-2">
             <p><strong>Health Conditions:</strong> {data.healthConditions?.join(', ')}</p>
@@ -79,7 +80,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
 
-      case 'visitPaths':
+      case VISIT_PATHS:
         // console.log('PreviewReport - visitPaths data:', data);
         // console.log('PreviewReport - full formData:', formData);
         return (
@@ -94,7 +95,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
 
-      case 'basic-info':
+      case BASIC_INFO:
         return (
           <div className="space-y-2">
             <p><strong>First Name:</strong> {data.firstName}</p>
@@ -104,7 +105,13 @@ const PreviewReport: React.FC<PreviewReportProps> =
             <p><strong>Email:</strong> {data.email}</p>
           </div>
         );
-
+      case UPLOAD_PHOTO:
+        // 아래 파일로 수정해줘 
+        return (
+          <div className="space-y-2">
+            <p><strong>First Name:</strong> {data.firstName}</p>
+          </div>
+        );
       default:
         return 'No data available';
     }

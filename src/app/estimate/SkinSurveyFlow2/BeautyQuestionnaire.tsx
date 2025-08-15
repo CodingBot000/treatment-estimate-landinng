@@ -7,6 +7,16 @@ import ProgressIndicator from './ProgressIndicator';
 import PreviewReport from './questionnaire/PreviewReport';
 import { steps } from './questionnaire/questionScript/Script';
 
+import { 
+  BASIC_INFO,
+   BUDGET_PREFERENCES,
+    HEALTH_CONDITIONS,
+     SKIN_CONCERNS,
+      TREATMENT_GOALS,
+       UPLOAD_PHOTO,
+        VISIT_PATHS 
+      } from '@/constants/steps';
+
 interface StepData {
   concerns: string[];
   budget: string;
@@ -21,14 +31,15 @@ interface StepData {
   ageRange: string;
   gender: string;
   email: string;
-  [key: string]: string | string[] | undefined; // 더 구체적인 인덱스 시그니처
+
+  [key: string]: string | string[] | undefined; // 인덱스 시그니처
 }
 
 // 각 스텝별 필수 선택 항목 검증 함수
 const validateStepData = (stepId: string, data: StepData): boolean => {
   console.log('validateStepData validateStepData stepId:', stepId);
   switch (stepId) {
-    case 'skin-concerns':
+    case SKIN_CONCERNS:
       // 피부 타입과 피부 고민 모두 필수 선택
       return !!(
         data.skinType && // 피부 타입 선택 필수
@@ -36,7 +47,7 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
         data.concerns.length > 0 // 피부 고민 1개 이상 선택 필수
       );
     
-    case 'budget-preferences':
+    case BUDGET_PREFERENCES:
       return !!(
         data.budget && // 예산 범위 선택 필수
         data.treatmentAreas && 
@@ -44,7 +55,7 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
         data.isPriorityConfirmed // 우선순위 확정 필수
       );
     
-    case 'treatment-goals':
+    case TREATMENT_GOALS:
       console.log(`treatment-goals  data.goals:${data.goals}  data.goals.length:${data.goals?.length} data.timeframe:${data.timeframe} data.pastTreatments:${data.pastTreatments}`);
       return !!(
         data.goals && 
@@ -53,13 +64,13 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
         data.pastTreatments // 이전 치료 경험 선택 필수 (없는 경우도 빈 배열로 저장)
       );
     
-    case 'health-condition':
+    case HEALTH_CONDITIONS:
       return !!(data.healthConditions && data.healthConditions.length > 0); // 건강 상태 선택 필수
     
-    case 'visitPaths':
+    case VISIT_PATHS:
       return !!data.visitPath; // 방문 경로 선택 필수
     
-    case 'basic-info':
+    case BASIC_INFO:
       console.log('validateStepData basic-info data', data);
       console.log('validateStepData basic-info data.firstName', data.firstName);
       console.log('validateStepData basic-info data.lastName', data.lastName);
@@ -75,7 +86,11 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
         data.gender &&
         data.email
       );
-    
+    case UPLOAD_PHOTO:
+      // 아래 리턴 지우고 파일에 맞게 수정해줘 
+      return !!(
+        data.firstName 
+      );
     default:
       return true;
   }
@@ -84,18 +99,20 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
 // 각 스텝별 필수 선택 항목 메시지
 const getValidationMessage = (stepId: string): string => {
   switch (stepId) {
-    case 'skin-concerns':
+    case SKIN_CONCERNS:
       return 'Please select both your skin type and skin concerns.';
-    case 'budget-preferences':
+    case BUDGET_PREFERENCES:
       return 'Please choose your budget range, treatment areas, and set your priorities.';
-    case 'treatment-goals':
+    case TREATMENT_GOALS:
       return 'Please select your treatment goals, preferred start time, and indicate any previous treatment history.';
-    case 'health-condition':
+    case HEALTH_CONDITIONS:
       return 'Please select your current health conditions.';
-    case 'visitPaths':
+    case VISIT_PATHS:
       return 'Please select how you found us.';
-    case 'basic-info':
+    case BASIC_INFO:
       return 'Please fill in your name, age, gender and email address.';
+    case UPLOAD_PHOTO:
+      return 'Please post a picture to diagnose your skin.';
     default:
       return 'Please complete all required fields.';
   }

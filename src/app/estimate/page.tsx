@@ -24,7 +24,7 @@ export default function EstimatePage() {
   return (
     <div className="p-4">
       {/* 버튼 영역 */}
-      <div className="mb-4 grid grid-cols-2 gap-2 text-sm md:flex md:text-base md:gap-2">
+      {/* <div className="mb-4 grid grid-cols-2 gap-2 text-sm md:flex md:text-base md:gap-2">
         <button onClick={() => setActiveComponent("skinFlow")} className={buttonStyle("skinFlow")}>
         BeautyQuestionnaire
         </button>
@@ -40,16 +40,17 @@ export default function EstimatePage() {
         <button onClick={() => setActiveComponent("animateSurveyForm")} className={buttonStyle("animateSurveyForm")}>
           animateSurveyForm
         </button>
-      </div>
+      </div> */}
 
       {/* 선택된 컴포넌트 렌더링 */}
-      <div>
+      {/* <div>
         { activeComponent === "skinFlow" && <BeautyQuestionnaire />}
         { activeComponent === "skin" && <SkinForm />}
         {activeComponent === "survey" && <SkinSurveyForm />}
         {activeComponent === "quote" && <EstimateStepPage />}
         {activeComponent === "animateSurveyForm" && <SkinSurveyFlow />}
-      </div>
+      </div> */}
+      <BeautyQuestionnaire />
     </div>
   
     );

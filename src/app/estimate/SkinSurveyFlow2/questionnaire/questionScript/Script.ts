@@ -13,16 +13,18 @@ import {
   FaComments
 } from 'react-icons/fa';
 // import { SiLemon8 } from 'react-icons/si';
+import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import UploadImageStep from "../UploadImageStep";
 
 export const steps = [
   {
-    id: "skin-concerns",
+    id: SKIN_CONCERNS,
     title: "Your Skin Story",
     subtitle: "Help us understand your unique skin concerns and goals",
     component: SkinConcernsStep,
   },
   {
-    id: "budget-preferences",
+    id: BUDGET_PREFERENCES,
     title: "Investment & Preferences",
     subtitle: "Let's find treatments that fit your lifestyle and budget",
     component: BudgetPreferencesStep,
@@ -34,23 +36,29 @@ export const steps = [
     component: TreatmentGoalsStep,
   },
   {
-    id: "health-condition",
+    id: HEALTH_CONDITIONS,
     title: "Your Health Contition",
     subtitle: "Please indicate any relevant health conditions",
     component: HealthConditionStep,
   },
   {
-    id: "visitPaths",
+    id: VISIT_PATHS,
     title: "How did you hear about us?",
     subtitle: "How did you hear about us?",
     component: VisitPathStep,
   },
   {
-    id: "basic-info",
+    id: BASIC_INFO,
     title: "Tell Us About You",
     subtitle: "Let's start with the basics to personalize your beauty journey",
     component: PrivateInfoStep,
   },
+  {
+    id: UPLOAD_PHOTO,
+    title: "Please post a picure to diagnose your skin",
+    subtitle: "Only png and jpg, jpeg files can be uploaded.",
+    component: UploadImageStep,
+  }
 ];
 
 
