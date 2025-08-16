@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Label } from '@/components/ui/label';
-import { useDroppable } from '@dnd-kit/core';
 import { Upload } from 'lucide-react';
 
 interface UploadImageStepProps {
@@ -30,7 +29,7 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange })
     // 지원되는 파일 형식 검증
     const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
     if (!allowedTypes.includes(file.type)) {
-      alert('Only PNG and JPG files can be uploaded');
+      alert('Only PNG and JPG, JPEG files can be uploaded');
       return;
     }
 

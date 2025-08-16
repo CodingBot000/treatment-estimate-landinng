@@ -87,9 +87,9 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
         data.email
       );
     case UPLOAD_PHOTO:
-      // 아래 리턴 지우고 파일에 맞게 수정해줘 
+      // 파일이 업로드되었는지 확인
       return !!(
-        data.firstName 
+        data.uploadedImage || data.imageFile
       );
     default:
       return true;

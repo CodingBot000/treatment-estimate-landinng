@@ -13,11 +13,17 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
   // 임시로 부작용 텍스트를 저장하는 상태
   const [tempSideEffects, setTempSideEffects] = useState(data.sideEffects || '');
   const [hasPastTreatments, setHasPastTreatments] = useState(
-    Array.isArray(data.pastTreatments) && data.pastTreatments.length > 0
+    Array.isArray(data.pastTreatments) && 
+    data.pastTreatments.length > 0 && 
+    !data.pastTreatments.includes('none')
   );
 
   useEffect(() => {
-    setHasPastTreatments(Array.isArray(data.pastTreatments) && data.pastTreatments.length > 0);
+    setHasPastTreatments(
+      Array.isArray(data.pastTreatments) && 
+      data.pastTreatments.length > 0 && 
+      !data.pastTreatments.includes('none')
+    );
   }, [data.pastTreatments]);
 
   const handleGoalToggle = (goalId: string) => {
@@ -41,17 +47,37 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
 
   const handlePastTreatmentToggle = (treatmentId: string) => {
     const currentTreatments = data.pastTreatments || [];
-    const updatedTreatments = currentTreatments.includes(treatmentId)
-      ? currentTreatments.filter((id: string) => id !== treatmentId)
-      : [...currentTreatments, treatmentId];
+    let updatedTreatments;
+    
+    if (treatmentId === 'none') {
+      // "none"을 선택한 경우
+      if (currentTreatments.includes('none')) {
+        // 이미 "none"이 선택되어 있다면 해제
+        updatedTreatments = currentTreatments.filter((id: string) => id !== 'none');
+      } else {
+        // "none"을 새로 선택하면 기존 모든 선택을 초기화하고 "none"만 선택
+        updatedTreatments = ['none'];
+      }
+    } else {
+      // "none" 외의 다른 항목을 선택한 경우
+      if (currentTreatments.includes(treatmentId)) {
+        // 이미 선택된 항목을 해제
+        updatedTreatments = currentTreatments.filter((id: string) => id !== treatmentId);
+      } else {
+        // 새로운 항목을 추가하되, "none"이 있다면 제거
+        updatedTreatments = currentTreatments
+          .filter((id: string) => id !== 'none')
+          .concat(treatmentId);
+      }
+    }
     
     // 시술 선택이 변경될 때마다 데이터 업데이트
-    const hasSelectedTreatments = updatedTreatments.length > 0;
+    const hasSelectedTreatments = updatedTreatments.length > 0 && !updatedTreatments.includes('none');
     
     onDataChange({
       ...data,
       pastTreatments: updatedTreatments,
-      // 시술이 선택되어 있고 임시 텍스트가 있을 때만 sideEffects 포함
+      // 시술이 선택되어 있고 임시 텍스트가 있을 때만 sideEffects 포함 ("none"은 제외)
       sideEffects: hasSelectedTreatments ? tempSideEffects : undefined
     });
   };

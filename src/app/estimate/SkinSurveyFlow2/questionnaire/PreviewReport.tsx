@@ -16,6 +16,11 @@ interface PreviewReportProps {
 const PreviewReport: React.FC<PreviewReportProps> = 
 ({ open, onOpenChange, formData, showSendFormButton }) => 
   {
+
+  const handleSubmit = () => {
+    console.log('formData: ', formData);
+  }
+
   const getStepSummary = (stepId: string, data: any) => {
     if (!data) return 'Not yet entered';
 
@@ -106,10 +111,20 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
       case UPLOAD_PHOTO:
-        // 아래 파일로 수정해줘 
         return (
           <div className="space-y-2">
-            <p><strong>First Name:</strong> {data.firstName}</p>
+            {data.uploadedImage ? (
+              <div>
+                <p><strong>Uploaded Image:</strong></p>
+                <img 
+                  src={data.uploadedImage} 
+                  alt="Uploaded skin image" 
+                  className="max-w-xs max-h-48 rounded-lg border border-gray-200 mt-2"
+                />
+              </div>
+            ) : (
+              <p><strong>Image:</strong> No image uploaded</p>
+            )}
           </div>
         );
       default:
@@ -142,6 +157,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
         
         <div className="flex justify-end mt-4">
           <Button 
+            onClick={handleSubmit}
             disabled={!showSendFormButton}
             className="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white"
           >

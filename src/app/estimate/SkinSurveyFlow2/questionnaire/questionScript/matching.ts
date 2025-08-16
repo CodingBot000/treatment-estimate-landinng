@@ -6,7 +6,7 @@ const recommend: typeof TreatmentType[keyof typeof TreatmentType][] = [];
 export function matching(stepId: string, age: number, budget: number, data: any) {
     
         switch (stepId) {
-          case 'skin-concerns':
+          case SKIN_CONCERNS:
             data.skinConcerns.forEach((concern: any) => {
                 if (concern.id === "acne") {
                     recommend.push(TreatmentType.capri);
