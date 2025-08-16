@@ -2,11 +2,7 @@
 
 
 import { useState } from "react";
-import SkinForm from "./skinForm/skin-form";
-import SkinSurveyForm from "./SkinSurveyForm/SkinSurveyForm";
-import EstimateStepPage from "./estimateStepPage/EstimateStepPage";
-import SkinSurveyFlow from "./SkinSurveryFlow/SkinSurveyFlow";
-import BeautyQuestionnaire from "./SkinSurveyFlow2/BeautyQuestionnaire";
+import BeautyQuestionnaire from "./SkinSurveyFlow/BeautyQuestionnaire";
 
 
 
@@ -23,33 +19,7 @@ export default function EstimatePage() {
 
   return (
     <div className="p-4">
-      {/* 버튼 영역 */}
-      {/* <div className="mb-4 grid grid-cols-2 gap-2 text-sm md:flex md:text-base md:gap-2">
-        <button onClick={() => setActiveComponent("skinFlow")} className={buttonStyle("skinFlow")}>
-        BeautyQuestionnaire
-        </button>
-        <button onClick={() => setActiveComponent("skin")} className={buttonStyle("skin")}>
-          SkinForm
-        </button>
-        <button onClick={() => setActiveComponent("survey")} className={buttonStyle("survey")}>
-          SkinSurveyForm
-        </button>
-        <button onClick={() => setActiveComponent("quote")} className={buttonStyle("quote")}>
-          EstimateStepPage
-        </button>
-        <button onClick={() => setActiveComponent("animateSurveyForm")} className={buttonStyle("animateSurveyForm")}>
-          animateSurveyForm
-        </button>
-      </div> */}
-
-      {/* 선택된 컴포넌트 렌더링 */}
-      {/* <div>
-        { activeComponent === "skinFlow" && <BeautyQuestionnaire />}
-        { activeComponent === "skin" && <SkinForm />}
-        {activeComponent === "survey" && <SkinSurveyForm />}
-        {activeComponent === "quote" && <EstimateStepPage />}
-        {activeComponent === "animateSurveyForm" && <SkinSurveyFlow />}
-      </div> */}
+     
       <BeautyQuestionnaire />
     </div>
   

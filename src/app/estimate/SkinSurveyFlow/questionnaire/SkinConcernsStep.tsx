@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { questions } from './questionScript/Script';
+import { questions } from '../../../data/form-definition';
 import { Textarea } from '@/components/ui/textarea';
 
 interface SkinConcernsStepProps {

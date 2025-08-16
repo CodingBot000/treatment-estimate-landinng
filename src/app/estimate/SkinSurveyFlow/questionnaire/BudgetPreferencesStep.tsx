@@ -3,7 +3,7 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { questions } from './questionScript/Script';
+import { questions } from '../../../data/form-definition';
 import {
   DndContext,
   closestCenter,

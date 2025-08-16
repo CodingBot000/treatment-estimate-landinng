@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import ProgressIndicator from './ProgressIndicator';
 import PreviewReport from './questionnaire/PreviewReport';
-import { steps } from './questionnaire/questionScript/Script';
+import { steps } from '../../data/form-definition';
 
 import { 
   BASIC_INFO,

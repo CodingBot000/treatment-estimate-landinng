@@ -2,7 +2,7 @@ import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
-import { steps } from './questionScript/Script';
+import { steps } from '../../../data/form-definition';
 import { Button } from '@/components/ui/button';
 import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 
