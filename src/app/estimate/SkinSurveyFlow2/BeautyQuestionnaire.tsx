@@ -17,22 +17,39 @@ import {
         VISIT_PATHS 
       } from '@/constants/steps';
 
-interface StepData {
-  concerns: string[];
-  budget: string;
-  treatmentAreas: string[];
-  priority: string[];
-  priorityOrder: string[];
-  goals: string[];
-  skinType: string;
-  visitPath: string;
+interface PrivateInfo {
   firstName: string;
   lastName: string;
   ageRange: string;
   gender: string;
   email: string;
+}
 
-  [key: string]: string | string[] | undefined; // 인덱스 시그니처
+interface StepData {
+  privateInfo?: PrivateInfo;
+  concerns?: string[];
+  budget?: string;
+  treatmentAreas?: string[];
+  priority?: string[];
+  priorityOrder?: string[];
+  goals?: string[];
+  skinType?: string;
+  visitPath?: string;
+  uploadedImage?: string; // base64 이미지 데이터
+  imageFile?: File; // 실제 파일 객체
+  imageFileName?: string; // 파일명
+  
+  // 다른 스텝의 배열 데이터들
+  healthConditions?: string[];
+  pastTreatments?: string[];
+  moreConcerns?: string;
+  otherAreas?: string;
+  sideEffects?: string;
+  additionalNotes?: string;
+  timeframe?: string;
+  otherConditions?: string;
+  otherPath?: string;
+  isPriorityConfirmed?: boolean;
 }
 
 // 각 스텝별 필수 선택 항목 검증 함수
@@ -72,19 +89,22 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
     
     case BASIC_INFO:
       console.log('validateStepData basic-info data', data);
-      console.log('validateStepData basic-info data.firstName', data.firstName);
-      console.log('validateStepData basic-info data.lastName', data.lastName);
-      console.log('validateStepData basic-info data.age', data.ageRange);
-      console.log('validateStepData basic-info data.gender', data.gender);
-      console.log('validateStepData basic-info data.email', data.email);
-      const testCondition = data.firstName && data.lastName && data.ageRange && data.gender && data.email;
+      console.log('validateStepData basic-info data.privateInfo', data.privateInfo);
+      const privateInfo = data.privateInfo;
+      if (!privateInfo) return false;
+      console.log('validateStepData basic-info privateInfo.firstName', privateInfo.firstName);
+      console.log('validateStepData basic-info privateInfo.lastName', privateInfo.lastName);
+      console.log('validateStepData basic-info privateInfo.ageRange', privateInfo.ageRange);
+      console.log('validateStepData basic-info privateInfo.gender', privateInfo.gender);
+      console.log('validateStepData basic-info privateInfo.email', privateInfo.email);
+      const testCondition = privateInfo.firstName && privateInfo.lastName && privateInfo.ageRange && privateInfo.gender && privateInfo.email;
       console.log('validateStepData basic-info testCondition::', !!testCondition);
       return !!(
-        data.firstName && 
-        data.lastName &&
-        data.ageRange &&
-        data.gender &&
-        data.email
+        privateInfo.firstName && 
+        privateInfo.lastName &&
+        privateInfo.ageRange &&
+        privateInfo.gender &&
+        privateInfo.email
       );
     case UPLOAD_PHOTO:
       // 파일이 업로드되었는지 확인

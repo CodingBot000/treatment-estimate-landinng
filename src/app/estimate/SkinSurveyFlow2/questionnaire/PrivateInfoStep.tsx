@@ -10,10 +10,15 @@ interface PrivateInfoStepProps {
 }
 
 const PrivateInfo: React.FC<PrivateInfoStepProps> = ({ data, onDataChange }) => {
+  const privateInfo = data.privateInfo || {};
+  
   const handleChange = (field: string, value: string) => {
     onDataChange({
       ...data,
-      [field]: value
+      privateInfo: {
+        ...privateInfo,
+        [field]: value
+      }
     });
   };
 
@@ -24,7 +29,7 @@ const PrivateInfo: React.FC<PrivateInfoStepProps> = ({ data, onDataChange }) => 
           <Label htmlFor="firstName" className="text-gray-700 font-medium">First Name</Label>
           <Input
             id="firstName"
-            value={data.firstName || ''}
+            value={privateInfo.firstName || ''}
             onChange={(e) => handleChange('firstName', e.target.value)}
             className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20"
             placeholder="Enter your first name"
@@ -35,7 +40,7 @@ const PrivateInfo: React.FC<PrivateInfoStepProps> = ({ data, onDataChange }) => 
           <Label htmlFor="lastName" className="text-gray-700 font-medium">Last Name</Label>
           <Input
             id="lastName"
-            value={data.lastName || ''}
+            value={privateInfo.lastName || ''}
             onChange={(e) => handleChange('lastName', e.target.value)}
             className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20"
             placeholder="Enter your last name"
@@ -46,7 +51,7 @@ const PrivateInfo: React.FC<PrivateInfoStepProps> = ({ data, onDataChange }) => 
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label className="text-gray-700 font-medium">Age Range</Label>
-          <Select value={data.ageRange || ''} onValueChange={(value) => handleChange('ageRange', value)}>
+          <Select value={privateInfo.ageRange || ''} onValueChange={(value) => handleChange('ageRange', value)}>
             <SelectTrigger className="border-rose-200 focus:border-rose-400">
               <SelectValue placeholder="Select your age range" />
             </SelectTrigger>
@@ -64,7 +69,7 @@ const PrivateInfo: React.FC<PrivateInfoStepProps> = ({ data, onDataChange }) => 
 
         <div className="space-y-2">
           <Label className="text-gray-700 font-medium">Gender</Label>
-          <Select value={data.gender || ''} onValueChange={(value) => handleChange('gender', value)}>
+          <Select value={privateInfo.gender || ''} onValueChange={(value) => handleChange('gender', value)}>
             <SelectTrigger className="border-rose-200 focus:border-rose-400">
               <SelectValue placeholder="Select gender" />
             </SelectTrigger>
@@ -83,7 +88,7 @@ const PrivateInfo: React.FC<PrivateInfoStepProps> = ({ data, onDataChange }) => 
         <Input
           id="email"
           type="email"
-          value={data.email || ''}
+          value={privateInfo.email || ''}
           onChange={(e) => handleChange('email', e.target.value)}
           className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20"
           placeholder="Enter your email address"

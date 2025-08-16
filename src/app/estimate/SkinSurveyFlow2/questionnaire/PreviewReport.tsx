@@ -101,13 +101,17 @@ const PreviewReport: React.FC<PreviewReportProps> =
         );
 
       case BASIC_INFO:
+        const privateInfo = data.privateInfo;
+        if (!privateInfo) {
+          return <p>No personal information provided</p>;
+        }
         return (
           <div className="space-y-2">
-            <p><strong>First Name:</strong> {data.firstName}</p>
-            <p><strong>Last Name:</strong> {data.lastName}</p>
-            <p><strong>Age Range:</strong> {data.ageRange}</p>
-            <p><strong>Gender:</strong> {data.gender}</p>
-            <p><strong>Email:</strong> {data.email}</p>
+            <p><strong>First Name:</strong> {privateInfo.firstName}</p>
+            <p><strong>Last Name:</strong> {privateInfo.lastName}</p>
+            <p><strong>Age Range:</strong> {privateInfo.ageRange}</p>
+            <p><strong>Gender:</strong> {privateInfo.gender}</p>
+            <p><strong>Email:</strong> {privateInfo.email}</p>
           </div>
         );
       case UPLOAD_PHOTO:
@@ -115,7 +119,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           <div className="space-y-2">
             {data.uploadedImage ? (
               <div>
-                <p><strong>Uploaded Image:</strong></p>
+                <p><strong>Uploaded Image:</strong> {data.imageFileName || 'Unknown file'}</p>
                 <img 
                   src={data.uploadedImage} 
                   alt="Uploaded skin image" 

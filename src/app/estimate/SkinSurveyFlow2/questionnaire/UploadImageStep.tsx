@@ -41,7 +41,8 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange })
       onDataChange({
         ...data,
         uploadedImage: result,
-        imageFile: file
+        imageFile: file,
+        imageFileName: file.name
       });
     };
     reader.readAsDataURL(file);
