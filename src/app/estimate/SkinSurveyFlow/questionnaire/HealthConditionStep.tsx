@@ -10,23 +10,26 @@ interface HealthConditionStepProps {
 }
 
 const HealthConditionStep: React.FC<HealthConditionStepProps> = ({ data, onDataChange }) => {
+  const healthConditions = data.healthConditions || { healthConditions: [] };
   const [hasOtherCondition, setHasOtherCondition] = useState(
-    Array.isArray(data.healthConditions) && data.healthConditions.includes('other')
+    Array.isArray(healthConditions.healthConditions) && healthConditions.healthConditions.includes('other')
   );
-  const [tempOtherConditions, setTempOtherConditions] = useState(data.otherConditions || '');
+  const [tempOtherConditions, setTempOtherConditions] = useState(healthConditions.otherConditions || '');
 
   useEffect(() => {
-    setHasOtherCondition(Array.isArray(data.healthConditions) && data.healthConditions.includes('other'));
-  }, [data.healthConditions]);
+    setHasOtherCondition(Array.isArray(healthConditions.healthConditions) && healthConditions.healthConditions.includes('other'));
+  }, [healthConditions.healthConditions]);
 
   const handleHealthConditionToggle = (conditionId: string) => {
-    const currentConditions = data.healthConditions || [];
+    const currentConditions = healthConditions.healthConditions || [];
     
     if (conditionId === 'none') {
       // '없음' 선택 시 다른 모든 선택 해제
       onDataChange({
         ...data,
-        healthConditions: ['none']
+        healthConditions: {
+          healthConditions: ['none']
+        }
       });
       return;
     }
@@ -46,8 +49,11 @@ const HealthConditionStep: React.FC<HealthConditionStepProps> = ({ data, onDataC
     
     onDataChange({
       ...data,
-      healthConditions: updatedConditions,
-      ...(shouldRemoveOtherConditions && { otherConditions: undefined })
+      healthConditions: {
+        ...healthConditions,
+        healthConditions: updatedConditions,
+        ...(shouldRemoveOtherConditions ? {} : { otherConditions: healthConditions.otherConditions })
+      }
     });
   };
 
@@ -59,7 +65,10 @@ const HealthConditionStep: React.FC<HealthConditionStepProps> = ({ data, onDataC
     if (hasOtherCondition) {
       onDataChange({
         ...data,
-        otherConditions: text
+        healthConditions: {
+          ...healthConditions,
+          otherConditions: text
+        }
       });
     }
   };
@@ -75,7 +84,7 @@ const HealthConditionStep: React.FC<HealthConditionStepProps> = ({ data, onDataC
             <Card
               key={condition.id}
               className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                (data.healthConditions || []).includes(condition.id)
+                (healthConditions.healthConditions || []).includes(condition.id)
                   ? 'border-rose-400 bg-rose-50 shadow-md'
                   : 'border-gray-200 hover:border-rose-300'
               }`}

@@ -10,21 +10,22 @@ interface TreatmentGoalsStepProps {
 }
 
 const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataChange }) => {
+  const pastTreatments = data.pastTreatments || { pastTreatments: [] };
   // 임시로 부작용 텍스트를 저장하는 상태
-  const [tempSideEffects, setTempSideEffects] = useState(data.sideEffects || '');
+  const [tempSideEffects, setTempSideEffects] = useState(pastTreatments.sideEffects || '');
   const [hasPastTreatments, setHasPastTreatments] = useState(
-    Array.isArray(data.pastTreatments) && 
-    data.pastTreatments.length > 0 && 
-    !data.pastTreatments.includes('none')
+    Array.isArray(pastTreatments.pastTreatments) && 
+    pastTreatments.pastTreatments.length > 0 && 
+    !pastTreatments.pastTreatments.includes('none')
   );
 
   useEffect(() => {
     setHasPastTreatments(
-      Array.isArray(data.pastTreatments) && 
-      data.pastTreatments.length > 0 && 
-      !data.pastTreatments.includes('none')
+      Array.isArray(pastTreatments.pastTreatments) && 
+      pastTreatments.pastTreatments.length > 0 && 
+      !pastTreatments.pastTreatments.includes('none')
     );
-  }, [data.pastTreatments]);
+  }, [pastTreatments.pastTreatments]);
 
   const handleGoalToggle = (goalId: string) => {
     const currentGoals = data.goals || [];
@@ -46,7 +47,7 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
   // };
 
   const handlePastTreatmentToggle = (treatmentId: string) => {
-    const currentTreatments = data.pastTreatments || [];
+    const currentTreatments = pastTreatments.pastTreatments || [];
     let updatedTreatments;
     
     if (treatmentId === 'none') {
@@ -76,9 +77,12 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
     
     onDataChange({
       ...data,
-      pastTreatments: updatedTreatments,
-      // 시술이 선택되어 있고 임시 텍스트가 있을 때만 sideEffects 포함 ("none"은 제외)
-      sideEffects: hasSelectedTreatments ? tempSideEffects : undefined
+      pastTreatments: {
+        ...pastTreatments,
+        pastTreatments: updatedTreatments,
+        // 시술이 선택되어 있고 임시 텍스트가 있을 때만 sideEffects 포함 ("none"은 제외)
+        sideEffects: hasSelectedTreatments ? tempSideEffects : undefined
+      }
     });
   };
 
@@ -90,7 +94,10 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
     if (hasPastTreatments) {
       onDataChange({
         ...data,
-        sideEffects: text
+        pastTreatments: {
+          ...pastTreatments,
+          sideEffects: text
+        }
       });
     }
   };
@@ -98,7 +105,10 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
   const handleNotesChange = (notes: string) => {
     onDataChange({
       ...data,
-      additionalNotes: notes
+      pastTreatments: {
+        ...pastTreatments,
+        additionalNotes: notes
+      }
     });
   };
 
@@ -158,7 +168,7 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
             <Card
               key={treatment.id}
               className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                (data.pastTreatments || []).includes(treatment.id)
+                (pastTreatments.pastTreatments || []).includes(treatment.id)
                   ? 'border-rose-400 bg-rose-50 shadow-md'
                   : 'border-gray-200 hover:border-rose-300'
               }`}
@@ -197,7 +207,7 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
           Anything else you'd like us to know? (Optional)
         </Label>
         <Textarea
-          value={data.additionalNotes || ''}
+          value={pastTreatments.additionalNotes || ''}
           onChange={(e) => handleNotesChange(e.target.value)}
           placeholder="Share any specific concerns, expectations, or questions you have about treatment..."
           className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20 min-h-[120px]"

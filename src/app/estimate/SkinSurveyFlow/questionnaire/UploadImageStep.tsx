@@ -8,8 +8,9 @@ interface UploadImageStepProps {
 }
 
 const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange }) => {
+  const uploadImage = data.uploadImage || {};
   const [isDragging, setIsDragging] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(data?.uploadedImage || null);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(uploadImage.uploadedImage || null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = useCallback((file: File) => {
@@ -40,9 +41,11 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange })
       setUploadedImage(result);
       onDataChange({
         ...data,
-        uploadedImage: result,
-        imageFile: file,
-        imageFileName: file.name
+        uploadImage: {
+          uploadedImage: result,
+          imageFile: file,
+          imageFileName: file.name
+        }
       });
     };
     reader.readAsDataURL(file);

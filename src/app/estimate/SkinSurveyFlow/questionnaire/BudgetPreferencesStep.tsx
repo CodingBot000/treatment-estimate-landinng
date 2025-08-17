@@ -74,17 +74,19 @@ const SortablePriorityItem: React.FC<SortablePriorityItemProps> = ({ priority, i
 };
 
 const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onDataChange }) => {
+  const treatmentAreas = data.treatmentAreas || { treatmentAreas: [] };
+  const priorityOrder = data.priorityOrder || { priorityOrder: [] };
   const [priorityItems, setPriorityItems] = useState(questions.priorities);
-  const [isPriorityConfirmed, setIsPriorityConfirmed] = useState(data.isPriorityConfirmed || false);
+  const [isPriorityConfirmed, setIsPriorityConfirmed] = useState(priorityOrder.isPriorityConfirmed || false);
   const [isDragging, setIsDragging] = useState(false);
   const [hasOtherArea, setHasOtherArea] = useState(
-    Array.isArray(data.treatmentAreas) && data.treatmentAreas.includes('other')
+    Array.isArray(treatmentAreas.treatmentAreas) && treatmentAreas.treatmentAreas.includes('other')
   );
-  const [tempOtherAreas, setTempOtherAreas] = useState(data.otherAreas || '');
+  const [tempOtherAreas, setTempOtherAreas] = useState(treatmentAreas.otherAreas || '');
 
   useEffect(() => {
-    setHasOtherArea(Array.isArray(data.treatmentAreas) && data.treatmentAreas.includes('other'));
-  }, [data.treatmentAreas]);
+    setHasOtherArea(Array.isArray(treatmentAreas.treatmentAreas) && treatmentAreas.treatmentAreas.includes('other'));
+  }, [treatmentAreas.treatmentAreas]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -117,14 +119,14 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
 
   useEffect(() => {
     // 초기 로드 시 저장된 순서와 확인 상태 복원
-    if (data.priorityOrder) {
+    if (priorityOrder.priorityOrder && priorityOrder.priorityOrder.length > 0) {
       const orderedItems = [...priorityItems].sort((a, b) => {
-        return data.priorityOrder.indexOf(a.id) - data.priorityOrder.indexOf(b.id);
+        return priorityOrder.priorityOrder.indexOf(a.id) - priorityOrder.priorityOrder.indexOf(b.id);
       });
       setPriorityItems(orderedItems);
     }
     // 저장된 확인 상태 복원
-    setIsPriorityConfirmed(!!data.isPriorityConfirmed);
+    setIsPriorityConfirmed(!!priorityOrder.isPriorityConfirmed);
   }, []);
 
   const handleBudgetChange = (budgetId: string) => {
@@ -135,7 +137,7 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
   };
 
   const handleAreaToggle = (areaId: string) => {
-    const currentAreas = data.treatmentAreas || [];
+    const currentAreas = treatmentAreas.treatmentAreas || [];
     const updatedAreas = currentAreas.includes(areaId)
       ? currentAreas.filter((id: string) => id !== areaId)
       : [...currentAreas, areaId];
@@ -147,8 +149,11 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
 
     onDataChange({
       ...data,
-      treatmentAreas: updatedAreas,
-      ...(shouldRemoveOtherAreas && { otherAreas: undefined })
+      treatmentAreas: {
+        ...treatmentAreas,
+        treatmentAreas: updatedAreas,
+        ...(shouldRemoveOtherAreas ? {} : { otherAreas: treatmentAreas.otherAreas })
+      }
     });
   };
 
@@ -160,22 +165,14 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
     if (hasOtherArea) {
       onDataChange({
         ...data,
-        otherAreas: text
+        treatmentAreas: {
+          ...treatmentAreas,
+          otherAreas: text
+        }
       });
     }
   };
 
-  const handlePriorityChange = (priority: string) => {
-    const currentPriorities = data.priority || [];
-    const updatedPriorities = currentPriorities.includes(priority)
-      ? currentPriorities.filter((id: string) => id !== priority)
-      : [...currentPriorities, priority];
-
-    onDataChange({
-      ...data,
-      priority: updatedPriorities
-    });
-  };
 
   const handleDragStart = () => {
     setIsDragging(true);
@@ -195,8 +192,11 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
         setIsPriorityConfirmed(false);
         onDataChange({
           ...data,
-          isPriorityConfirmed: false,
-          priorityOrder: null
+          priorityOrder: {
+            ...priorityOrder,
+            isPriorityConfirmed: false,
+            priorityOrder: []
+          }
         });
         
         return newItems;
@@ -208,9 +208,12 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
     setIsPriorityConfirmed(checked);
     onDataChange({
       ...data,
-      isPriorityConfirmed: checked,
-      // 체크된 경우에만 우선순위 순서 저장, 해제된 경우 null로 초기화
-      priorityOrder: checked ? priorityItems.map(item => item.id) : null
+      // 체크된 경우에만 우선순위 순서 저장, 해제된 경우 빈 배열로 초기화
+      priorityOrder: {
+        ...priorityOrder,
+        isPriorityConfirmed: checked,
+        priorityOrder: checked ? priorityItems.map(item => item.id) : []
+      }
     });
   };
 
@@ -249,7 +252,7 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
             <Card
               key={area.id}
               className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                (data.treatmentAreas || []).includes(area.id)
+                (treatmentAreas.treatmentAreas || []).includes(area.id)
                   ? 'border-rose-400 bg-rose-50 shadow-md'
                   : 'border-gray-200 hover:border-rose-300'
               }`}

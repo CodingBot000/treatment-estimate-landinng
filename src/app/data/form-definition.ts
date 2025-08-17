@@ -124,7 +124,7 @@ export const questions = {
       description: "Minimizing discomfort during the procedure matters most", // 시술 중 불편함 최소화가 중요함
     },
     {
-      id: "downtime",
+      id: "recoveryTime",
       label: "Recovery Time", // 회복 시간
       description: "Short or no downtime is preferred", // 짧은 또는 무회복 기간 선호
     },

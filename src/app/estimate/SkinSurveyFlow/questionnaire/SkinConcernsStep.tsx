@@ -10,15 +10,16 @@ interface SkinConcernsStepProps {
 }
 
 const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange }) => {
+  const skinConcerns = data.skinConcerns || { concerns: [] };
   const [hasOtherConcern, setHasOtherConcern] = useState(
-    Array.isArray(data.concerns) && data.concerns.includes('other')
+    Array.isArray(skinConcerns.concerns) && skinConcerns.concerns.includes('other')
   );
   // 임시로 other 텍스트를 저장하는 상태
-  const [tempMoreConcerns, setTempMoreConcerns] = useState(data.moreConcerns || '');
+  const [tempMoreConcerns, setTempMoreConcerns] = useState(skinConcerns.moreConcerns || '');
 
   useEffect(() => {
-    setHasOtherConcern(Array.isArray(data.concerns) && data.concerns.includes('other'));
-  }, [data.concerns]);
+    setHasOtherConcern(Array.isArray(skinConcerns.concerns) && skinConcerns.concerns.includes('other'));
+  }, [skinConcerns.concerns]);
 
   const handleSkinTypeChange = (typeId: string) => {
     onDataChange({
@@ -28,7 +29,7 @@ const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange 
   };
 
   const handleConcernToggle = (concernId: string) => {
-    const currentConcerns = data.concerns || [];
+    const currentConcerns = skinConcerns.concerns || [];
     const updatedConcerns = currentConcerns.includes(concernId)
       ? currentConcerns.filter((id: string) => id !== concernId)
       : [...currentConcerns, concernId];
@@ -40,8 +41,11 @@ const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange 
 
     onDataChange({
       ...data,
-      concerns: updatedConcerns,
-      ...(shouldRemoveMoreConcerns && { moreConcerns: undefined })
+      skinConcerns: {
+        ...skinConcerns,
+        concerns: updatedConcerns,
+        ...(shouldRemoveMoreConcerns ? {} : { moreConcerns: skinConcerns.moreConcerns })
+      }
     });
   };
 
@@ -53,26 +57,32 @@ const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange 
     if (hasOtherConcern) {
       onDataChange({
         ...data,
-        moreConcerns: text
+        skinConcerns: {
+          ...skinConcerns,
+          moreConcerns: text
+        }
       });
     }
   };
 
   const handleSubOptionToggle = (parentId: string, subOptionId: string) => {
     const combinedId = `${parentId}_${subOptionId}`;
-    const currentConcerns = data.concerns || [];
+    const currentConcerns = skinConcerns.concerns || [];
     const updatedConcerns = currentConcerns.includes(combinedId)
       ? currentConcerns.filter((id: string) => id !== combinedId)
       : [...currentConcerns, combinedId];
     
     onDataChange({
       ...data,
-      concerns: updatedConcerns
+      skinConcerns: {
+        ...skinConcerns,
+        concerns: updatedConcerns
+      }
     });
   };
 
   const isSubOptionSelected = (parentId: string, subOptionId: string) => {
-    const currentConcerns = data.concerns || [];
+    const currentConcerns = skinConcerns.concerns || [];
     return currentConcerns.includes(`${parentId}_${subOptionId}`);
   };
 
@@ -111,7 +121,7 @@ const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange 
             <Card
               key={concern.id}
               className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                (data.concerns || []).includes(concern.id)
+                (skinConcerns.concerns || []).includes(concern.id)
                   ? 'border-rose-400 bg-rose-50 shadow-md'
                   : 'border-gray-200 hover:border-rose-300'
               }`}

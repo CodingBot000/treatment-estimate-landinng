@@ -26,75 +26,78 @@ const PreviewReport: React.FC<PreviewReportProps> =
 
     switch (stepId) {
       case SKIN_CONCERNS:
+        const skinConcerns = data.skinConcerns;
         return (
           <div className="space-y-2">
             <p><strong>Skin Type:</strong> {data.skinType}</p>
-            <p><strong>Skin Concerns:</strong> {data.concerns?.join(', ')}</p>
-            {data.moreConcerns && (
+            <p><strong>Skin Concerns:</strong> {skinConcerns?.concerns?.join(', ')}</p>
+            {skinConcerns?.moreConcerns && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">
                 <p><strong>Other Concerns:</strong></p>
-                <p className="text-gray-700 whitespace-pre-wrap">{data.moreConcerns}</p>
+                <p className="text-gray-700 whitespace-pre-wrap">{skinConcerns.moreConcerns}</p>
               </div>
             )}
           </div>
         );
 
       case BUDGET_PREFERENCES:
+        const treatmentAreas = data.treatmentAreas;
         return (
           <div className="space-y-2">
             <p><strong>Budget Range:</strong> {data.budget}</p>
-            <p><strong>Treatment Areas:</strong> {data.treatmentAreas?.join(', ')}</p>
-            {data.otherAreas && (
+            <p><strong>Treatment Areas:</strong> {treatmentAreas?.treatmentAreas?.join(', ')}</p>
+            {treatmentAreas?.otherAreas && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">
                 <p><strong>Other Treatment Areas:</strong></p>
-                <p className="text-gray-700 whitespace-pre-wrap">{data.otherAreas}</p>
+                <p className="text-gray-700 whitespace-pre-wrap">{treatmentAreas.otherAreas}</p>
               </div>
             )}
-            <p><strong>Priority Order:</strong> {data.priorityOrder?.join(' > ')}</p>
+            <p><strong>Priority Order:</strong> {data.priorityOrder?.priorityOrder?.join(' > ')}</p>
           </div>
         );
 
       case TREATMENT_GOALS:
+        const pastTreatments = data.pastTreatments;
         return (
           <div className="space-y-2">
             <p><strong>Treatment Goals:</strong> {data.goals?.join(', ')}</p>
             {/* <p><strong>Preferred Start Time:</strong> {data.timeframe}</p> */}
-            <p><strong>Previous Treatments:</strong> {data.pastTreatments?.join(', ')}</p>
-            {data.sideEffects && (
+            <p><strong>Previous Treatments:</strong> {pastTreatments?.pastTreatments?.join(', ')}</p>
+            {pastTreatments?.sideEffects && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">
                 <p><strong>Treatment Side Effects:</strong></p>
-                <p className="text-gray-700 whitespace-pre-wrap">{data.sideEffects}</p>
+                <p className="text-gray-700 whitespace-pre-wrap">{pastTreatments.sideEffects}</p>
               </div>
             )}
-            {data.additionalNotes && (
-              <p><strong>Additional Notes:</strong> {data.additionalNotes}</p>
+            {pastTreatments?.additionalNotes && (
+              <p><strong>Additional Notes:</strong> {pastTreatments.additionalNotes}</p>
             )}
           </div>
         );
 
       case HEALTH_CONDITIONS:
+        const healthConditions = data.healthConditions;
         return (
           <div className="space-y-2">
-            <p><strong>Health Conditions:</strong> {data.healthConditions?.join(', ')}</p>
-            {data.otherConditions && !data.healthConditions?.includes('none') && (
+            <p><strong>Health Conditions:</strong> {healthConditions?.healthConditions?.join(', ')}</p>
+            {healthConditions?.otherConditions && !healthConditions.healthConditions?.includes('none') && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">
                 <p><strong>Other Health Conditions:</strong></p>
-                <p className="text-gray-700 whitespace-pre-wrap">{data.otherConditions}</p>
+                <p className="text-gray-700 whitespace-pre-wrap">{healthConditions.otherConditions}</p>
               </div>
             )}
           </div>
         );
 
       case VISIT_PATHS:
-        // console.log('PreviewReport - visitPaths data:', data);
-        // console.log('PreviewReport - full formData:', formData);
+        const visitPath = data.visitPath;
         return (
           <div className="space-y-2">
-            <p><strong>Referral Source:</strong> {data.visitPath}</p>
-            {data.otherPath && data.visitPath === 'other' && (
+            <p><strong>Referral Source:</strong> {visitPath?.visitPath}</p>
+            {visitPath?.otherPath && visitPath.visitPath === 'other' && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">
                 <p><strong>Other Referral Source:</strong></p>
-                <p className="text-gray-700 whitespace-pre-wrap">{data.otherPath}</p>
+                <p className="text-gray-700 whitespace-pre-wrap">{visitPath.otherPath}</p>
               </div>
             )}
           </div>
@@ -115,13 +118,14 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
       case UPLOAD_PHOTO:
+        const uploadImage = data.uploadImage;
         return (
           <div className="space-y-2">
-            {data.uploadedImage ? (
+            {uploadImage?.uploadedImage ? (
               <div>
-                <p><strong>Uploaded Image:</strong> {data.imageFileName || 'Unknown file'}</p>
+                <p><strong>Uploaded Image:</strong> {uploadImage.imageFileName || 'Unknown file'}</p>
                 <img 
-                  src={data.uploadedImage} 
+                  src={uploadImage.uploadedImage} 
                   alt="Uploaded skin image" 
                   className="max-w-xs max-h-48 rounded-lg border border-gray-200 mt-2"
                 />

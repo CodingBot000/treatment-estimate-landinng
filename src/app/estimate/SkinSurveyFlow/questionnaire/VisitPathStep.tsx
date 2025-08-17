@@ -12,30 +12,35 @@ interface VisitPathStepProps {
 }
 
 const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => {
-  const [hasOtherPath, setHasOtherPath] = useState(data.visitPath === 'other');
-  const [tempOtherPath, setTempOtherPath] = useState(data.otherPath || '');
+  const visitPath = data.visitPath || { visitPath: '', otherPath: '' };
+  const [hasOtherPath, setHasOtherPath] = useState(visitPath.visitPath === 'other');
+  const [tempOtherPath, setTempOtherPath] = useState(visitPath.otherPath || '');
 
   useEffect(() => {
-    setHasOtherPath(data.visitPath === 'other');
-  }, [data.visitPath]);
+    setHasOtherPath(visitPath.visitPath === 'other');
+  }, [visitPath.visitPath]);
 
-  const handleVisitPathChange = (visitPath: string) => {
-    const shouldRemoveOtherPath = data.visitPath === 'other' && visitPath !== 'other';
+  const handleVisitPathChange = (selectedPath: string) => {
+    const shouldRemoveOtherPath = visitPath.visitPath === 'other' && selectedPath !== 'other';
     
-    console.log('VisitPathStep - handleVisitPathChange - before update:', { visitPath, data, tempOtherPath });
+    console.log('VisitPathStep - handleVisitPathChange - before update:', { selectedPath, data, tempOtherPath });
     
     // other를 선택할 때 이전에 저장된 tempOtherPath를 복원
-    if (visitPath === 'other') {
+    if (selectedPath === 'other') {
       onDataChange({
         ...data,
-        visitPath,
-        otherPath: tempOtherPath
+        visitPath: {
+          visitPath: selectedPath,
+          otherPath: tempOtherPath
+        }
       });
     } else {
       onDataChange({
         ...data,
-        visitPath,
-        ...(shouldRemoveOtherPath && { otherPath: undefined })
+        visitPath: {
+          visitPath: selectedPath,
+          ...(shouldRemoveOtherPath ? {} : { otherPath: visitPath.otherPath })
+        }
       });
     }
   };
@@ -50,8 +55,10 @@ const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => 
     if (hasOtherPath) {
       onDataChange({
         ...data,
-        visitPath: 'other',
-        otherPath: text
+        visitPath: {
+          visitPath: 'other',
+          otherPath: text
+        }
       });
     }
   };
@@ -84,7 +91,7 @@ const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => 
               <Card
                 key={path.id}
                 className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                  data.visitPath === path.id
+                  visitPath.visitPath === path.id
                     ? 'border-rose-400 bg-rose-50 shadow-md'
                     : 'border-gray-200 hover:border-rose-300'
                 }`}
