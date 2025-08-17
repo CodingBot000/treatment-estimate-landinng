@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
 import { steps } from '../../../data/form-definition';
 import { Button } from '@/components/ui/button';
 import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { supabase } from '@/lib/supabaseClient';
+import SubmissionModal from './SubmissionModal';
 
 interface PreviewReportProps {
   open: boolean;
@@ -16,10 +18,91 @@ interface PreviewReportProps {
 const PreviewReport: React.FC<PreviewReportProps> = 
 ({ open, onOpenChange, formData, showSendFormButton }) => 
   {
+  const [isSubmissionModalOpen, setIsSubmissionModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
-  const handleSubmit = () => {
-    console.log('formData: ', formData);
-  }
+  const handleSubmit = async () => {
+    setIsSubmissionModalOpen(true);
+    setIsSubmitting(true);
+    setIsCompleted(false);
+
+    try {
+      // 모든 스텝의 데이터를 합치기
+      const allStepData = Object.values(formData).reduce((acc, stepData) => {
+        return { ...acc, ...stepData };
+      }, {});
+
+      // 이미지 업로드 처리
+      let imagePaths: string[] = [];
+      if (allStepData.uploadImage?.imageFile) {
+        const submissionId = crypto.randomUUID();
+        const originalFileName = allStepData.uploadImage.imageFileName || 'image.jpg';
+        
+        // 파일명을 안전하게 변환 (한글/특수문자 제거)
+        const safeFileName = originalFileName
+          .replace(/[^a-zA-Z0-9.-]/g, '_') // 영문, 숫자, 점, 하이픈만 허용
+          .replace(/_{2,}/g, '_'); // 연속된 언더스코어를 하나로 변환
+        
+        const imagePath = `consultation_photos/${submissionId}/raw/${safeFileName}`;
+        
+        // Supabase Storage에 이미지 업로드 (bucket: users)
+        const { error: uploadError } = await supabase.storage
+          .from('users')
+          .upload(imagePath, allStepData.uploadImage.imageFile, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (uploadError) {
+          console.error('Image upload error:', uploadError);
+          throw new Error('Failed to upload image');
+        }
+
+        imagePaths = [imagePath];
+      }
+
+      // API로 데이터 전송
+      const response = await fetch('/api/consultation/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...allStepData,
+          imagePaths
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit consultation');
+      }
+
+      const result = await response.json();
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Submission failed');
+      }
+
+      console.log('Submission successful:', result);
+      setIsCompleted(true);
+      
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('Failed to submit consultation. Please try again.');
+      setIsSubmissionModalOpen(false);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSubmissionComplete = () => {
+    setIsSubmissionModalOpen(false);
+    setIsCompleted(false);
+    onOpenChange(false);
+    // 페이지 새로고침 또는 다른 페이지로 이동
+    window.location.reload();
+  };
 
   const getStepSummary = (stepId: string, data: any) => {
     if (!data) return 'Not yet entered';
@@ -174,6 +257,15 @@ const PreviewReport: React.FC<PreviewReportProps> =
         </div>
         
       </DialogContent>
+
+      {/* Submission Modal */}
+      <SubmissionModal
+        open={isSubmissionModalOpen}
+        onOpenChange={setIsSubmissionModalOpen}
+        isSubmitting={isSubmitting}
+        isCompleted={isCompleted}
+        onComplete={handleSubmissionComplete}
+      />
     </Dialog>
   );
 };
