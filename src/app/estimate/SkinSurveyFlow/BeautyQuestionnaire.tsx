@@ -248,15 +248,22 @@ const BeautyQuestionnaire = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
       {/* Header */}
-      <PageHeader currentStep={currentStep} totalSteps={steps.length} />
+      <PageHeader 
+        currentStep={currentStep} 
+        totalSteps={steps.length} 
+        onBack={currentStep > 0 ? handlePrevious : undefined}
+      />
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 pb-32">
-        <div className="mb-8 text-center animate-fade-in">
+        <div className="mb-8 animate-fade-in">
+          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
+              {currentStep + 1} / {steps.length}
+          </h2>
           <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
             {steps[currentStep].title}
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 max-w-2xl">
             {steps[currentStep].subtitle}
           </p>
         </div>
@@ -274,33 +281,44 @@ const BeautyQuestionnaire = () => {
       {/* Navigation - Sticky Bottom */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t border-rose-100 shadow-lg">
         <div className="max-w-4xl mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <Button
-              variant="outline"
-              onClick={handlePrevious}
-              disabled={currentStep === 0}
-              className="px-6"
-            >
-              <ChevronLeft className="w-4 h-4 mr-2" />
-              Previous
-            </Button>
-
-            {currentStep === steps.length - 1 ? (
-              <Button onClick={handleSubmit} 
-              className="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white px-8 py-3 rounded-full shadow-lg shadow-rose-200/50 flex items-center space-x-2"
-            
+          <div className="flex items-center gap-3">
+            {currentStep === 0 ? (
+              <Button onClick={handleNext} 
+                className="w-full h-12 px-4 rounded-lg text-white flex items-center justify-center"
+                style={{ backgroundColor: '#FB718F' }}
               >
-                <Star className="w-4 h-4 mr-2" />
-                Complete
+                Next
+              </Button>
+            ) : currentStep === steps.length - 1 ? (
+              <Button onClick={handleSubmit} 
+                className="w-full h-12 px-4 rounded-lg text-white flex items-center justify-center"
+                style={{ backgroundColor: '#FB718F' }}
+              >
+                Submit
               </Button>
             ) : (
-              <Button onClick={handleNext} 
-              className="bg-gradient-to-r from-rose-400 to-pink-500 hover:from-rose-500 hover:to-pink-600 text-white px-8 py-3 rounded-full shadow-lg shadow-rose-200/50 flex items-center space-x-2"
-
-              >
-                Continue
-                <ChevronRight className="w-4 h-4 ml-2" />
-              </Button>
+              <>
+                <Button
+                  onClick={handlePrevious}
+                  className="w-25 h-12 px-4 rounded-lg border border-gray-300 bg-white text-gray-500 flex items-center justify-center"
+                  style={{ 
+                    borderColor: '#E4E5E7',
+                    color: '#777777',
+                    fontFamily: 'Pretendard Variable',
+                    fontWeight: 600,
+                    fontSize: '16px',
+                    lineHeight: '140%'
+                  }}
+                >
+                  Previous
+                </Button>
+                <Button onClick={handleNext} 
+                  className="flex-1 h-12 px-4 rounded-lg text-white flex items-center justify-center"
+                  style={{ backgroundColor: '#FB718F' }}
+                >
+                  Next
+                </Button>
+              </>
             )}
           </div>
         </div>

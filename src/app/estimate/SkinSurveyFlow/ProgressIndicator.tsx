@@ -17,7 +17,7 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({ currentStep, tota
           style={{ width: `${progress}%` }}
         />
       </div>
-      <div className="flex justify-between mt-3">
+      {/* <div className="flex justify-between mt-3">
         {Array.from({ length: totalSteps }, (_, index) => (
           <div
             key={index}
@@ -30,7 +30,7 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({ currentStep, tota
             {index + 1}
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
