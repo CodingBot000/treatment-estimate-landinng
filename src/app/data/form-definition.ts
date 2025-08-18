@@ -1,5 +1,5 @@
 import PrivateInfoStep from "../estimate/SkinSurveyFlow/questionnaire/PrivateInfoStep";
-import BudgetPreferencesStep from "../estimate/SkinSurveyFlow/questionnaire/BudgetPreferencesStep";
+import BudgetStep from "../estimate/SkinSurveyFlow/questionnaire/BudgetStep";
 import TreatmentGoalsStep from "../estimate/SkinSurveyFlow/questionnaire/TreatmentGoalsStep";
 import VisitPathStep from "../estimate/SkinSurveyFlow/questionnaire/VisitPathStep";
 import SkinConcernsStep from "../estimate/SkinSurveyFlow/questionnaire/SkinConcernsStep";
@@ -13,9 +13,11 @@ import {
   FaComments
 } from 'react-icons/fa';
 // import { SiLemon8 } from 'react-icons/si';
-import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { BASIC_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import UploadImageStep from "../estimate/SkinSurveyFlow/questionnaire/UploadImageStep";
 import SkinTypeStep from "../estimate/SkinSurveyFlow/questionnaire/SkinTypeStep";
+import PreferencesStep from "../estimate/SkinSurveyFlow/questionnaire/PreferencesStep";
+import PrioriotyFactorStep from "../estimate/SkinSurveyFlow/questionnaire/PrioriotyFactorStep";
 
 export const steps = [
     {
@@ -31,13 +33,26 @@ export const steps = [
     component: SkinConcernsStep,
   },
   {
-    id: BUDGET_PREFERENCES,
-    title: "Investment & Preferences",
-    subtitle: "Let's find treatments that fit your lifestyle and budget",
-    component: BudgetPreferencesStep,
+    id: BUDGET,
+    title: "Investment",
+    subtitle: "Let's find treatments that fit your budget",
+    component: BudgetStep,
   },
   {
-    id: "treatment-goals",
+    id: PREFERENCES,
+    title: "Preferences",
+    subtitle: "Let's find treatments that fit your lifestyle",
+    component: PreferencesStep,
+  },
+  {
+    id: PRIORITYFACTORS,
+    title: "Order priority factors",
+    subtitle: "Let's find treatments that fit your priorities",
+    component: PrioriotyFactorStep,
+  },
+  
+  {
+    id: TREATMENT_GOALS,
     title: "Your Beauty Vision",
     subtitle: "What transformation are you hoping to achieve?",
     component: TreatmentGoalsStep,

@@ -9,8 +9,10 @@ import { steps } from '../../data/form-definition';
 
 import { 
   BASIC_INFO,
-   BUDGET_PREFERENCES,
+   BUDGET,
     HEALTH_CONDITIONS,
+     PREFERENCES,
+     PRIORITYFACTORS,
      SKIN_CONCERNS,
       SKIN_TYPE,
       TREATMENT_GOALS,
@@ -98,18 +100,27 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
         skinConcerns.concerns.length > 0 // 피부 고민 1개 이상 선택 필수
       );
     
-    case BUDGET_PREFERENCES:
+    case BUDGET:
+      return !!(
+        data.budget  // 예산 범위 선택 필수
+      );
+    case PREFERENCES:
       const treatmentAreas = data.treatmentAreas;
+      return !!(
+        treatmentAreas?.treatmentAreas && 
+        treatmentAreas.treatmentAreas.length > 0  // 관리 부위 1개 이상 선택 필수
+      );
+    
+      case PRIORITYFACTORS:
+      
       const priorityOrder = data.priorityOrder;
       return !!(
-        data.budget && // 예산 범위 선택 필수
-        treatmentAreas?.treatmentAreas && 
-        treatmentAreas.treatmentAreas.length > 0 && // 관리 부위 1개 이상 선택 필수
         priorityOrder?.priorityOrder &&
         priorityOrder.priorityOrder.length > 0 && // 우선순위 확정 필수
         priorityOrder?.isPriorityConfirmed // 우선순위 확정 필수
       );
     
+
     case TREATMENT_GOALS:
       const pastTreatments = data.pastTreatments;
       console.log(`treatment-goals  data.goals:${data.goals}  data.goals.length:${data.goals?.length} data.timeframe:${data.timeframe} pastTreatments:${pastTreatments?.pastTreatments}`);
@@ -162,8 +173,12 @@ const getValidationMessage = (stepId: string): string => {
       return 'Please select your skin type.';
     case SKIN_CONCERNS:
       return 'Please select skin concerns.';
-    case BUDGET_PREFERENCES:
-      return 'Please choose your budget range, treatment areas, and set your priorities.';
+    case BUDGET:
+      return 'Please choose your budget range.';
+    case PREFERENCES:
+      return 'Please choose your treatment areas.';
+    case PRIORITYFACTORS:
+      return 'Please set your priorities.';
     case TREATMENT_GOALS:
       return 'Please select your treatment goals, preferred start time, and indicate any previous treatment history.';
     case HEALTH_CONDITIONS:

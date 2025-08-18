@@ -22,7 +22,7 @@ import {
 } from '@dnd-kit/sortable';
 import { SortableItem } from './SortableItem';
 
-interface BudgetPreferencesStepProps {
+interface PrioriotyFactorStepProps {
   data: any;
   onDataChange: (data: any) => void;
 }
@@ -73,20 +73,20 @@ const SortablePriorityItem: React.FC<SortablePriorityItemProps> = ({ priority, i
   );
 };
 
-const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onDataChange }) => {
-  const treatmentAreas = data.treatmentAreas || { treatmentAreas: [] };
+const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataChange }) => {
+  // const treatmentAreas = data.treatmentAreas || { treatmentAreas: [] };
   const priorityOrder = data.priorityOrder || { priorityOrder: [] };
   const [priorityItems, setPriorityItems] = useState(questions.priorities);
   const [isPriorityConfirmed, setIsPriorityConfirmed] = useState(priorityOrder.isPriorityConfirmed || false);
   const [isDragging, setIsDragging] = useState(false);
-  const [hasOtherArea, setHasOtherArea] = useState(
-    Array.isArray(treatmentAreas.treatmentAreas) && treatmentAreas.treatmentAreas.includes('other')
-  );
-  const [tempOtherAreas, setTempOtherAreas] = useState(treatmentAreas.otherAreas || '');
+  // const [hasOtherArea, setHasOtherArea] = useState(
+  //   Array.isArray(treatmentAreas.treatmentAreas) && treatmentAreas.treatmentAreas.includes('other')
+  // );
+  // const [tempOtherAreas, setTempOtherAreas] = useState(treatmentAreas.otherAreas || '');
 
-  useEffect(() => {
-    setHasOtherArea(Array.isArray(treatmentAreas.treatmentAreas) && treatmentAreas.treatmentAreas.includes('other'));
-  }, [treatmentAreas.treatmentAreas]);
+  // useEffect(() => {
+  //   setHasOtherArea(Array.isArray(treatmentAreas.treatmentAreas) && treatmentAreas.treatmentAreas.includes('other'));
+  // }, [treatmentAreas.treatmentAreas]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -129,49 +129,49 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
     setIsPriorityConfirmed(!!priorityOrder.isPriorityConfirmed);
   }, []);
 
-  const handleBudgetChange = (budgetId: string) => {
-    onDataChange({
-      ...data,
-      budget: budgetId
-    });
-  };
+  // const handleBudgetChange = (budgetId: string) => {
+  //   onDataChange({
+  //     ...data,
+  //     budget: budgetId
+  //   });
+  // };
 
-  const handleAreaToggle = (areaId: string) => {
-    const currentAreas = treatmentAreas.treatmentAreas || [];
-    const updatedAreas = currentAreas.includes(areaId)
-      ? currentAreas.filter((id: string) => id !== areaId)
-      : [...currentAreas, areaId];
+  // const handleAreaToggle = (areaId: string) => {
+  //   const currentAreas = treatmentAreas.treatmentAreas || [];
+  //   const updatedAreas = currentAreas.includes(areaId)
+  //     ? currentAreas.filter((id: string) => id !== areaId)
+  //     : [...currentAreas, areaId];
     
-    // other가 해제되면 otherAreas는 임시저장소에 보관하고 데이터에서만 제거
-    const shouldRemoveOtherAreas = areaId === 'other' && 
-      currentAreas.includes('other') && 
-      !updatedAreas.includes('other');
+  //   // other가 해제되면 otherAreas는 임시저장소에 보관하고 데이터에서만 제거
+  //   const shouldRemoveOtherAreas = areaId === 'other' && 
+  //     currentAreas.includes('other') && 
+  //     !updatedAreas.includes('other');
 
-    onDataChange({
-      ...data,
-      treatmentAreas: {
-        ...treatmentAreas,
-        treatmentAreas: updatedAreas,
-        ...(shouldRemoveOtherAreas ? {} : { otherAreas: treatmentAreas.otherAreas })
-      }
-    });
-  };
+  //   onDataChange({
+  //     ...data,
+  //     treatmentAreas: {
+  //       ...treatmentAreas,
+  //       treatmentAreas: updatedAreas,
+  //       ...(shouldRemoveOtherAreas ? {} : { otherAreas: treatmentAreas.otherAreas })
+  //     }
+  //   });
+  // };
 
-  const handleOtherAreasChange = (text: string) => {
-    // 임시 상태 업데이트
-    setTempOtherAreas(text);
+  // const handleOtherAreasChange = (text: string) => {
+  //   // 임시 상태 업데이트
+  //   setTempOtherAreas(text);
     
-    // other가 선택되어 있을 때만 실제 데이터에 반영
-    if (hasOtherArea) {
-      onDataChange({
-        ...data,
-        treatmentAreas: {
-          ...treatmentAreas,
-          otherAreas: text
-        }
-      });
-    }
-  };
+  //   // other가 선택되어 있을 때만 실제 데이터에 반영
+  //   if (hasOtherArea) {
+  //     onDataChange({
+  //       ...data,
+  //       treatmentAreas: {
+  //         ...treatmentAreas,
+  //         otherAreas: text
+  //       }
+  //     });
+  //   }
+  // };
 
 
   const handleDragStart = () => {
@@ -219,68 +219,6 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
 
   return (
     <div className="space-y-8">
-      {/* Budget Range */}
-      <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
-          What's your budget range for treatment?
-        </Label>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {questions.budgetRanges.map((range) => (
-            <Card
-              key={range.id}
-              className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                data.budget === range.id
-                  ? 'border-rose-400 bg-rose-50 shadow-md'
-                  : 'border-gray-200 hover:border-rose-300'
-              }`}
-              onClick={() => handleBudgetChange(range.id)}
-            >
-              <h3 className="font-medium text-gray-900 mb-1">{range.label}</h3>
-              <p className="text-sm text-gray-600">{range.description}</p>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Treatment Areas */}
-      <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
-          Which areas would you like to focus on? (Select all that apply)
-        </Label>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {questions.treatmentAreas.map((area) => (
-            <Card
-              key={area.id}
-              className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                (treatmentAreas.treatmentAreas || []).includes(area.id)
-                  ? 'border-rose-400 bg-rose-50 shadow-md'
-                  : 'border-gray-200 hover:border-rose-300'
-              }`}
-              onClick={() => handleAreaToggle(area.id)}
-            >
-              <div className="text-center">
-                <span className="font-medium text-gray-900">{area.label}</span>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      {/* Treatment Areas Others */}
-      {hasOtherArea && (
-        <div className="animate-fadeIn">
-          <Label className="text-lg font-medium text-gray-800 mb-4 block">
-            If you have other areas not listed above, please specify them below.
-          </Label>
-          <Textarea
-            value={tempOtherAreas}
-            onChange={(e) => handleOtherAreasChange(e.target.value)}
-            placeholder="Please describe other treatment areas you're interested in..."
-            className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20 min-h-[120px]"
-          />
-        </div>
-      )}
-
       {/* Priorities */}
       <div>
         <div className="flex items-center justify-between mb-4">
@@ -330,4 +268,4 @@ const BudgetPreferencesStep: React.FC<BudgetPreferencesStepProps> = ({ data, onD
   );
 };
 
-export default BudgetPreferencesStep;
+export default PrioriotyFactorStep;

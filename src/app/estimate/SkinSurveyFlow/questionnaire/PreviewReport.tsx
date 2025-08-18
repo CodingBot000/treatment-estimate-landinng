@@ -4,7 +4,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
 import { steps } from '../../../data/form-definition';
 import { Button } from '@/components/ui/button';
-import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { BASIC_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import { supabase } from '@/lib/supabaseClient';
 import SubmissionModal from './SubmissionModal';
 
@@ -130,11 +130,16 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
 
-      case BUDGET_PREFERENCES:
-        const treatmentAreas = data.treatmentAreas;
+      case BUDGET:
         return (
           <div className="space-y-2">
             <p><strong>Budget Range:</strong> {data.budget}</p>
+          </div>
+        );
+        case PREFERENCES:
+        const treatmentAreas = data.treatmentAreas;
+        return (
+          <div className="space-y-2">
             <p><strong>Treatment Areas:</strong> {treatmentAreas?.treatmentAreas?.join(', ')}</p>
             {treatmentAreas?.otherAreas && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">
@@ -142,10 +147,15 @@ const PreviewReport: React.FC<PreviewReportProps> =
                 <p className="text-gray-700 whitespace-pre-wrap">{treatmentAreas.otherAreas}</p>
               </div>
             )}
+
+          </div>
+        );
+        case PRIORITYFACTORS:
+        return (
+          <div className="space-y-2">
             <p><strong>Priority Order:</strong> {data.priorityOrder?.priorityOrder?.join(' > ')}</p>
           </div>
         );
-
       case TREATMENT_GOALS:
         const pastTreatments = data.pastTreatments;
         return (
