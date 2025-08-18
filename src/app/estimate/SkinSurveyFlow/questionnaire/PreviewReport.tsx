@@ -4,7 +4,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
 import { steps } from '../../../data/form-definition';
 import { Button } from '@/components/ui/button';
-import { BASIC_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { BASIC_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import { supabase } from '@/lib/supabaseClient';
 import SubmissionModal from './SubmissionModal';
 
@@ -157,11 +157,16 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
       case TREATMENT_GOALS:
-        const pastTreatments = data.pastTreatments;
         return (
           <div className="space-y-2">
             <p><strong>Treatment Goals:</strong> {data.goals?.join(', ')}</p>
-            {/* <p><strong>Preferred Start Time:</strong> {data.timeframe}</p> */}
+            
+          </div>
+        );
+      case TREATMENT_EXPERIENCE_BEFORE:
+        const pastTreatments = data.pastTreatments;
+        return (
+          <div className="space-y-2">
             <p><strong>Previous Treatments:</strong> {pastTreatments?.pastTreatments?.join(', ')}</p>
             {pastTreatments?.sideEffects && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">

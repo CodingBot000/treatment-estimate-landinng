@@ -13,11 +13,12 @@ import {
   FaComments
 } from 'react-icons/fa';
 // import { SiLemon8 } from 'react-icons/si';
-import { BASIC_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { BASIC_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import UploadImageStep from "../estimate/SkinSurveyFlow/questionnaire/UploadImageStep";
 import SkinTypeStep from "../estimate/SkinSurveyFlow/questionnaire/SkinTypeStep";
 import PreferencesStep from "../estimate/SkinSurveyFlow/questionnaire/PreferencesStep";
 import PrioriotyFactorStep from "../estimate/SkinSurveyFlow/questionnaire/PrioriotyFactorStep";
+import TreatmentExpBeforeStep from "../estimate/SkinSurveyFlow/questionnaire/TreatmentExpBefore";
 
 export const steps = [
     {
@@ -56,6 +57,12 @@ export const steps = [
     title: "Your Beauty Vision",
     subtitle: "What transformation are you hoping to achieve?",
     component: TreatmentGoalsStep,
+  },
+  {
+    id: TREATMENT_EXPERIENCE_BEFORE,
+    title: "Your Experience",
+    subtitle: "Have you had any of these treatments before?",
+    component: TreatmentExpBeforeStep,
   },
   {
     id: HEALTH_CONDITIONS,

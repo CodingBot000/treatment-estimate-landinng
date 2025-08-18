@@ -15,6 +15,7 @@ import {
      PRIORITYFACTORS,
      SKIN_CONCERNS,
       SKIN_TYPE,
+      TREATMENT_EXPERIENCE_BEFORE,
       TREATMENT_GOALS,
        UPLOAD_PHOTO,
         VISIT_PATHS 
@@ -122,12 +123,16 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
     
 
     case TREATMENT_GOALS:
+      
+      // console.log(`treatment-goals  data.goals:${data.goals}  data.goals.length:${data.goals?.length} data.timeframe:${data.timeframe} pastTreatments:${pastTreatments?.pastTreatments}`);
+      return !!(
+        data.goals && 
+        data.goals.length > 0
+      );
+    case TREATMENT_EXPERIENCE_BEFORE:
       const pastTreatments = data.pastTreatments;
       console.log(`treatment-goals  data.goals:${data.goals}  data.goals.length:${data.goals?.length} data.timeframe:${data.timeframe} pastTreatments:${pastTreatments?.pastTreatments}`);
       return !!(
-        data.goals && 
-        data.goals.length > 0 && // 치료 목표 1개 이상 선택 필수
-        // data.timeframe && // 치료 시작 시기 선택 필수
         pastTreatments?.pastTreatments // 이전 치료 경험 선택 필수 (없는 경우도 빈 배열로 저장)
       );
     
@@ -180,7 +185,9 @@ const getValidationMessage = (stepId: string): string => {
     case PRIORITYFACTORS:
       return 'Please set your priorities.';
     case TREATMENT_GOALS:
-      return 'Please select your treatment goals, preferred start time, and indicate any previous treatment history.';
+      return 'Please select your treatment goals.';
+    case TREATMENT_EXPERIENCE_BEFORE:
+      return 'Please indicate any previous treatment history.';
     case HEALTH_CONDITIONS:
       return 'Please select your current health conditions.';
     case VISIT_PATHS:
