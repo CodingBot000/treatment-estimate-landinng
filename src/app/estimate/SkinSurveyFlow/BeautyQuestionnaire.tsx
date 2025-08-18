@@ -8,7 +8,7 @@ import PreviewReport from './questionnaire/PreviewReport';
 import { steps } from '../../data/form-definition';
 
 import { 
-  BASIC_INFO,
+  USER_INFO,
    BUDGET,
     HEALTH_CONDITIONS,
      PREFERENCES,
@@ -131,7 +131,7 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
       );
     case TREATMENT_EXPERIENCE_BEFORE:
       const pastTreatments = data.pastTreatments;
-      console.log(`treatment-goals  data.goals:${data.goals}  data.goals.length:${data.goals?.length} data.timeframe:${data.timeframe} pastTreatments:${pastTreatments?.pastTreatments}`);
+      // console.log(`treatment-goals  data.goals:${data.goals}  data.goals.length:${data.goals?.length} data.timeframe:${data.timeframe} pastTreatments:${pastTreatments?.pastTreatments}`);
       return !!(
         pastTreatments?.pastTreatments // 이전 치료 경험 선택 필수 (없는 경우도 빈 배열로 저장)
       );
@@ -142,18 +142,18 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
     case VISIT_PATHS:
       return !!data.visitPath?.visitPath; // 방문 경로 선택 필수
     
-    case BASIC_INFO:
-      console.log('validateStepData basic-info data', data);
-      console.log('validateStepData basic-info data.privateInfo', data.privateInfo);
+    case USER_INFO:
+      // console.log('validateStepData basic-info data', data);
+      // console.log('validateStepData basic-info data.privateInfo', data.privateInfo);
       const privateInfo = data.privateInfo;
       if (!privateInfo) return false;
-      console.log('validateStepData basic-info privateInfo.firstName', privateInfo.firstName);
-      console.log('validateStepData basic-info privateInfo.lastName', privateInfo.lastName);
-      console.log('validateStepData basic-info privateInfo.ageRange', privateInfo.ageRange);
-      console.log('validateStepData basic-info privateInfo.gender', privateInfo.gender);
-      console.log('validateStepData basic-info privateInfo.email', privateInfo.email);
-      const testCondition = privateInfo.firstName && privateInfo.lastName && privateInfo.ageRange && privateInfo.gender && privateInfo.email;
-      console.log('validateStepData basic-info testCondition::', !!testCondition);
+      // console.log('validateStepData basic-info privateInfo.firstName', privateInfo.firstName);
+      // console.log('validateStepData basic-info privateInfo.lastName', privateInfo.lastName);
+      // console.log('validateStepData basic-info privateInfo.ageRange', privateInfo.ageRange);
+      // console.log('validateStepData basic-info privateInfo.gender', privateInfo.gender);
+      // console.log('validateStepData basic-info privateInfo.email', privateInfo.email);
+      // const testCondition = privateInfo.firstName && privateInfo.lastName && privateInfo.ageRange && privateInfo.gender && privateInfo.email;
+      // console.log('validateStepData basic-info testCondition::', !!testCondition);
       return !!(
         privateInfo.firstName && 
         privateInfo.lastName &&
@@ -192,7 +192,7 @@ const getValidationMessage = (stepId: string): string => {
       return 'Please select your current health conditions.';
     case VISIT_PATHS:
       return 'Please select how you found us.';
-    case BASIC_INFO:
+    case USER_INFO:
       return 'Please fill in your name, age, gender and email address.';
     case UPLOAD_PHOTO:
       return 'Please post a picture to diagnose your skin.';
@@ -262,7 +262,6 @@ const BeautyQuestionnaire = () => {
         variant: "destructive",
         title: "Please make a required selection",
         description: getValidationMessage(steps[currentStep].id),
-        duration: 2500,
       });
       return;
     }
@@ -287,7 +286,8 @@ const BeautyQuestionnaire = () => {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 pb-32">
-        {/* <div className="mb-8 animate-fade-in">
+        <div className="mb-8 animate-fade-in">
+          {currentStep + 1 > steps.length -1 ? (
           <h2 
             className="mb-3"
             style={{
@@ -298,8 +298,23 @@ const BeautyQuestionnaire = () => {
               color: '#111827'
             }}
           >
-            {currentStep + 1} / {steps.length}
+            {currentStep + 1} / {steps.length - 1 }
           </h2>
+        ) : (
+         <h2 
+            className="mb-3"
+            style={{
+              fontFamily: 'Pretendard Variable',
+              fontWeight: 500,
+              fontSize: '20px',
+              lineHeight: '140%',
+              color: '#111827'
+            }}
+          >
+            Completetion
+          </h2>
+         )}
+          
           <h2 
             className="mb-3"
             style={{
@@ -324,7 +339,7 @@ const BeautyQuestionnaire = () => {
           >
             {steps[currentStep].subtitle}
           </p>
-        </div> */}
+        </div>
 
         {/* <Card className="bg-white/70 backdrop-blur-sm border-rose-100 shadow-xl shadow-rose-100/20 animate-scale-in"> */}
         {/* <Card className="bg-white backdrop-blur-sm shadow-xl animate-scale-in"> */}

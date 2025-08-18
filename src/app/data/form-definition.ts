@@ -13,7 +13,7 @@ import {
   FaComments
 } from 'react-icons/fa';
 // import { SiLemon8 } from 'react-icons/si';
-import { BASIC_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { USER_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import UploadImageStep from "../estimate/SkinSurveyFlow/questionnaire/UploadImageStep";
 import SkinTypeStep from "../estimate/SkinSurveyFlow/questionnaire/SkinTypeStep";
 import PreferencesStep from "../estimate/SkinSurveyFlow/questionnaire/PreferencesStep";
@@ -83,9 +83,9 @@ export const steps = [
     component: VisitPathStep,
   },
   {
-    id: BASIC_INFO,
-    title: "Tell Us About You",
-    subtitle: "Let's start with the basics to personalize your beauty journey",
+    id: USER_INFO,
+    title: "I'll send you the diagnosis. Please tell me your personal information",
+    subtitle: "It will take about one day to receive the diagnosis results.",
     component: PrivateInfoStep,
   },
  

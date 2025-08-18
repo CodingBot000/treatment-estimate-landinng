@@ -4,7 +4,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
 import { steps } from '../../../data/form-definition';
 import { Button } from '@/components/ui/button';
-import { BASIC_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { USER_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import { supabase } from '@/lib/supabaseClient';
 import SubmissionModal from './SubmissionModal';
 import { useRouter } from 'next/navigation';
@@ -212,7 +212,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
 
-      case BASIC_INFO:
+      case USER_INFO:
         const privateInfo = data.privateInfo;
         if (!privateInfo) {
           return <p>No personal information provided</p>;
