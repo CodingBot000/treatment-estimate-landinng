@@ -3,6 +3,8 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { questions } from '../../../data/form-definition';
 import { Textarea } from '@/components/ui/textarea';
+import CardBasic from '@/components/card/CardBasic';
+import { ChoiceCard } from '@/components/card/ChoiceCard';
 
 interface SkinConcernsStepProps {
   data: any;
@@ -65,54 +67,41 @@ const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange 
     }
   };
 
-  const handleSubOptionToggle = (parentId: string, subOptionId: string) => {
-    const combinedId = `${parentId}_${subOptionId}`;
-    const currentConcerns = skinConcerns.concerns || [];
-    const updatedConcerns = currentConcerns.includes(combinedId)
-      ? currentConcerns.filter((id: string) => id !== combinedId)
-      : [...currentConcerns, combinedId];
-    
-    onDataChange({
-      ...data,
-      skinConcerns: {
-        ...skinConcerns,
-        concerns: updatedConcerns
-      }
-    });
-  };
-
-  const isSubOptionSelected = (parentId: string, subOptionId: string) => {
-    const currentConcerns = skinConcerns.concerns || [];
-    return currentConcerns.includes(`${parentId}_${subOptionId}`);
-  };
 
   return (
     <div className="space-y-8">
       {/* Skin Type Selection */}
-      <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
-          What's your skin type?
-        </Label>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {questions.skinTypes.map((type) => (
-            <Card
+     {/* <div>
+      <Label className="text-lg font-medium text-gray-800 mb-4 block">
+        What's your skin type?
+      </Label>
+
+      <div role="radiogroup" aria-label="Skin type" className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {questions.skinTypes.map((type) => {
+          const isSelected = data.skinType === type.id;
+
+          return (
+            <ChoiceCard
               key={type.id}
-              className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                data.skinType === type.id
-                  ? 'border-rose-400 bg-rose-50 shadow-md'
-                  : 'border-gray-200 hover:border-rose-300'
-              }`}
-              onClick={() => handleSkinTypeChange(type.id)}
-            >
-              <h3 className="font-medium text-gray-900 mb-1">{type.label}</h3>
-              <p className="text-sm text-gray-600">{type.description}</p>
-            </Card>
-          ))}
-        </div>
+              mode="single"
+              title={type.label}
+              subtitle={type.description}
+              selected={isSelected}
+              onSelect={() => handleSkinTypeChange(type.id)}
+              showIndicator={false} // 싱글은 점 숨김 (디자인 가이드)
+              className={
+                isSelected
+                  ? 'p-4 border-rose-400 bg-rose-50 shadow-md'
+                  : 'p-4 border-gray-200 hover:border-rose-300 hover:shadow-md'
+              }
+            />
+          );
+        })}
       </div>
+    </div> */}
 
       {/* Skin Concerns */}
-      <div>
+      {/* <div>
         <Label className="text-lg font-medium text-gray-800 mb-4 block">
           What are your main skin concerns? (Select all that apply)
         </Label>
@@ -131,8 +120,33 @@ const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange 
             </Card>
           ))}
         </div>
-      </div>
+      </div> */}
 
+      <div>
+        <Label className="text-lg font-medium text-gray-800 mb-4 block">
+          What are your main skin concerns? (Select all that apply)
+        </Label>
+
+        <div role="group" aria-label="Skin concerns" className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {questions.skinConcerns.map((concern) => {
+            const isSelected = (skinConcerns.concerns ?? []).includes(concern.id);
+            return (
+              <ChoiceCard
+                key={concern.id}
+                mode="multi"
+                title={concern.label}
+                selected={isSelected}
+                onSelect={() => handleConcernToggle(concern.id)}
+                className={
+                  isSelected
+                    ? 'border-rose-400 bg-rose-50 shadow-md ring-0' // 선택 시 스타일
+                    : 'border-gray-200 hover:border-rose-300'       // 미선택 스타일
+                }
+              />
+            );
+          })}
+        </div>
+      </div>
       {/* Skin Concerns Others */}
       {hasOtherConcern && (
         <div className="animate-fadeIn">

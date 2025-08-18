@@ -13,10 +13,17 @@ import {
   FaComments
 } from 'react-icons/fa';
 // import { SiLemon8 } from 'react-icons/si';
-import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import UploadImageStep from "../estimate/SkinSurveyFlow/questionnaire/UploadImageStep";
+import SkinTypeStep from "../estimate/SkinSurveyFlow/questionnaire/SkinTypeStep";
 
 export const steps = [
+    {
+    id: SKIN_TYPE,
+    title: "What's your skin type?",
+    subtitle: "Help us understand your unique skin concerns and goals",
+    component: SkinTypeStep,
+  },
   {
     id: SKIN_CONCERNS,
     title: "Your Skin Story",
@@ -63,6 +70,40 @@ export const steps = [
 
 
 export const questions = {
+
+  skinTypes: [
+    {
+      id: "dry",
+      label: "Dry", // 건성
+      description: "Often feels tight, may have flaky patches", // 당김이 있고 각질이 있을 수 있음
+    },
+    {
+      id: "oily",
+      label: "Oily", // 지성
+      description: "Shiny appearance, enlarged pores", // 번들거림, 넓은 모공
+    },
+    {
+      id: "combination",
+      label: "Combination", // 복합성
+      description: "Oily T-zone, dry cheeks", // T존은 지성, 볼은 건성
+    },
+    {
+      id: "sensitive",
+      label: "Sensitive", // 민감성
+      description: "Easily irritated, reactive to products", // 쉽게 자극받고 제품에 민감함
+    },
+    {
+      id: "normal",
+      label: "Normal", // 정상
+      description: "Well-balanced, rarely problematic", // 균형 잡힌 피부, 문제 적음
+    },
+    {
+      id: "not_sure",
+      label: "Not Sure", 
+      description: "Not Sure", 
+    },
+  ],
+
   budgetRanges: [
     {
       id: "under-1000",
@@ -137,39 +178,6 @@ export const questions = {
       id: "location",
       label: "Clinic Location", // 병원 위치
       description: "Convenient access and proximity are key", // 접근성과 가까운 위치가 중요
-    },
-  ],
-
-  skinTypes: [
-    {
-      id: "dry",
-      label: "Dry", // 건성
-      description: "Often feels tight, may have flaky patches", // 당김이 있고 각질이 있을 수 있음
-    },
-    {
-      id: "oily",
-      label: "Oily", // 지성
-      description: "Shiny appearance, enlarged pores", // 번들거림, 넓은 모공
-    },
-    {
-      id: "combination",
-      label: "Combination", // 복합성
-      description: "Oily T-zone, dry cheeks", // T존은 지성, 볼은 건성
-    },
-    {
-      id: "sensitive",
-      label: "Sensitive", // 민감성
-      description: "Easily irritated, reactive to products", // 쉽게 자극받고 제품에 민감함
-    },
-    {
-      id: "normal",
-      label: "Normal", // 정상
-      description: "Well-balanced, rarely problematic", // 균형 잡힌 피부, 문제 적음
-    },
-    {
-      id: "not_sure",
-      label: "Not Sure", 
-      description: "Not Sure", 
     },
   ],
 

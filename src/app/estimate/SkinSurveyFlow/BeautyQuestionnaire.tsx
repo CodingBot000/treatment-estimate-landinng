@@ -12,6 +12,7 @@ import {
    BUDGET_PREFERENCES,
     HEALTH_CONDITIONS,
      SKIN_CONCERNS,
+      SKIN_TYPE,
       TREATMENT_GOALS,
        UPLOAD_PHOTO,
         VISIT_PATHS 
@@ -64,8 +65,9 @@ interface HealthConditions {
 
 interface StepData {
   skinType?: string;
-  privateInfo?: PrivateInfo;
   skinConcerns?: SkinConcerns; 
+  privateInfo?: PrivateInfo;
+
   treatmentAreas?: TreatmentAreas;
   priorityOrder?: PriorityOrder;
   pastTreatments?: PastTreatments;
@@ -83,11 +85,15 @@ interface StepData {
 const validateStepData = (stepId: string, data: StepData): boolean => {
   console.log('validateStepData validateStepData stepId:', stepId);
   switch (stepId) {
+    case SKIN_TYPE:
+      return !!(
+        data.skinType
+      );
     case SKIN_CONCERNS:
       // 피부 타입과 피부 고민 모두 필수 선택
       const skinConcerns = data.skinConcerns;
       return !!(
-        data.skinType && // 피부 타입 선택 필수
+        // data.skinType && // 피부 타입 선택 필수
         skinConcerns?.concerns && 
         skinConcerns.concerns.length > 0 // 피부 고민 1개 이상 선택 필수
       );
@@ -152,8 +158,10 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
 // 각 스텝별 필수 선택 항목 메시지
 const getValidationMessage = (stepId: string): string => {
   switch (stepId) {
+    case SKIN_TYPE:
+      return 'Please select your skin type.';
     case SKIN_CONCERNS:
-      return 'Please select both your skin type and skin concerns.';
+      return 'Please select skin concerns.';
     case BUDGET_PREFERENCES:
       return 'Please choose your budget range, treatment areas, and set your priorities.';
     case TREATMENT_GOALS:

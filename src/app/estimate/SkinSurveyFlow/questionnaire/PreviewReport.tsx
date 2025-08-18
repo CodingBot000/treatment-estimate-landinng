@@ -4,7 +4,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
 import { steps } from '../../../data/form-definition';
 import { Button } from '@/components/ui/button';
-import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import { supabase } from '@/lib/supabaseClient';
 import SubmissionModal from './SubmissionModal';
 
@@ -108,11 +108,18 @@ const PreviewReport: React.FC<PreviewReportProps> =
     if (!data) return 'Not yet entered';
 
     switch (stepId) {
+      case SKIN_TYPE:
+        const skinType = data.skinType;
+        return (
+          <div className="space-y-2">
+            <p><strong>Skin Type:</strong> {data.skinType}</p>
+          </div>
+        );
+
       case SKIN_CONCERNS:
         const skinConcerns = data.skinConcerns;
         return (
           <div className="space-y-2">
-            <p><strong>Skin Type:</strong> {data.skinType}</p>
             <p><strong>Skin Concerns:</strong> {skinConcerns?.concerns?.join(', ')}</p>
             {skinConcerns?.moreConcerns && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">

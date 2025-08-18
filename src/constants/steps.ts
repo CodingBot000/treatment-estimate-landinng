@@ -1,3 +1,4 @@
+export const SKIN_TYPE = "skin-type";
 export const SKIN_CONCERNS = "skin-concerns";
 export const BUDGET_PREFERENCES = "budget-preferences";
 export const TREATMENT_GOALS = "treatment-goals";
