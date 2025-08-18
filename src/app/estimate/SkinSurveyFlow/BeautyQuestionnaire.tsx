@@ -310,7 +310,7 @@ const BeautyQuestionnaire = () => {
 
       {/* Navigation - Sticky Bottom */}
       <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t border-rose-100 shadow-lg">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+        <div className="max-w-[768px] mx-auto px-4 sm:px-6 md:px-8 py-4">
           <div className="flex items-center gap-3">
             {currentStep === 0 ? (
               <Button onClick={handleNext} 

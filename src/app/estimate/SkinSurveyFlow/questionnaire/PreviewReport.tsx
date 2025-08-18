@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { BASIC_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import { supabase } from '@/lib/supabaseClient';
 import SubmissionModal from './SubmissionModal';
+import { useRouter } from 'next/navigation';
 
 interface PreviewReportProps {
   open: boolean;
@@ -18,6 +19,8 @@ interface PreviewReportProps {
 const PreviewReport: React.FC<PreviewReportProps> = 
 ({ open, onOpenChange, formData, showSendFormButton }) => 
   {
+
+  const router = useRouter();
   const [isSubmissionModalOpen, setIsSubmissionModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -101,7 +104,8 @@ const PreviewReport: React.FC<PreviewReportProps> =
     setIsCompleted(false);
     onOpenChange(false);
     // 페이지 새로고침 또는 다른 페이지로 이동
-    window.location.reload();
+    // window.location.reload();
+    router.replace('/estimate/SkinSurveyFlow/questionnaire/complete')
   };
 
   const getStepSummary = (stepId: string, data: any) => {
