@@ -19,18 +19,23 @@ const SelectionDot: React.FC<{ checked: boolean; disabled?: boolean }> = ({ chec
   return (
     <span
       aria-hidden
-      className={cn(
-        'relative flex h-5 w-5 items-center justify-center rounded-full border',
-        checked ? 'border-gray-900' : 'border-gray-300',
-        disabled && 'opacity-50'
-      )}
+      className="relative flex items-center justify-center rounded-full"
+      style={{
+        width: '20px',
+        height: '20px',
+        border: '1px solid #D6D6D6'
+      }}
     >
-      <span
-        className={cn(
-          'h-2.5 w-2.5 rounded-full',
-          checked ? 'bg-gray-900' : 'bg-transparent'
-        )}
-      />
+      {checked && !disabled && (
+        <span
+          className="rounded-full"
+          style={{
+            width: '12px',
+            height: '12px',
+            background: '#FB718F'
+          }}
+        />
+      )}
     </span>
   );
 };
@@ -58,21 +63,37 @@ export const ChoiceCard = React.forwardRef<HTMLDivElement, ChoiceCardProps>(
         onClick={() => !disabled && onSelect?.()}
         onKeyDown={handleKeyDown}
         data-selected={selected ? '' : undefined}
-        className={cn(
-          // 기존 CardBasic 스타일을 최대한 유지
-          'w-82 min-h-16 h-16 py-5 px-4 rounded-lg border cursor-pointer transition-all duration-200',
-          'border-gray-300 hover:shadow-md',
-          selected && 'ring-2 ring-gray-900/10',
+          className={cn(
+          // 가득 채우고 세로 패딩만 유지
+          'w-full py-5 px-4 rounded-lg border cursor-pointer transition-all duration-200 bg-white',
+          
+          selected
+            ? 'border-rose-400 shadow-md'
+            : 'border-gray-300 hover:border-rose-300 hover:shadow-md',
           disabled && 'opacity-60 cursor-not-allowed',
           className
         )}
-        style={{ boxShadow: '0px 1px 2px rgba(0,0,0,0.05)', borderColor: '#E5E7EB' }}
+        // className={cn(
+        //   'cursor-pointer transition-all duration-200 rounded-lg border',
+        //   disabled && 'opacity-60 cursor-not-allowed',
+        //   className
+        // )}
+        // style={{
+        //   width: '328px',
+        //   height: '89px',
+        //   padding: '20px 16px',
+        //   borderRadius: '8px',
+        //   borderWidth: '1px',
+        //   borderColor: selected ? '#FB718F' : '#E5E7EB',
+        //   boxShadow: '0px 1px 2px 0px #0000000D',
+        //   backgroundColor: '#FFFFFF'
+        // }}
         {...props}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center" style={{ gap: '16px' }}>
           {indicatorVisible && <SelectionDot checked={selected} disabled={disabled} />}
 
-          <div className="flex flex-col gap-1">
+          <div className={`flex flex-col ${subtitle ? 'gap-1' : 'justify-center'}`}>
             <h3
               className="font-medium"
               style={{

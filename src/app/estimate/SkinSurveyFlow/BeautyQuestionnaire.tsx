@@ -222,8 +222,8 @@ const BeautyQuestionnaire = () => {
         variant: "destructive",
         title: "Please make a required selection",
         description: getValidationMessage(steps[currentStep].id),
-        duration: 1500,
-      });
+      
+      }); 
       return;
     }
 
@@ -254,29 +254,30 @@ const BeautyQuestionnaire = () => {
     console.log('currentStepData', currentStepData);
     if (!validateStepData(steps[currentStep].id, currentStepData)) {
       setIsValideSendForm(false);
-      console.log('validateStepData currentStepData::', currentStepData);
-      console.log('validateStepData currentStep::', currentStep);
-      console.log('validateStepData steps[currentStep].id::', steps[currentStep].id);
-      console.log('validateStepData launch toast message: ', getValidationMessage(steps[currentStep].id));
+      // console.log('validateStepData currentStepData::', currentStepData);
+      // console.log('validateStepData currentStep::', currentStep);
+      // console.log('validateStepData steps[currentStep].id::', steps[currentStep].id);
+      // console.log('validateStepData launch toast message: ', getValidationMessage(steps[currentStep].id));
       toast({
         variant: "destructive",
         title: "Please make a required selection",
         description: getValidationMessage(steps[currentStep].id),
-        duration: 2000,
+        duration: 2500,
       });
       return;
     }
 
     setIsPreviewOpen(true);
     setIsValideSendForm(true);
-    // TODO: API 호출 구현
-    console.log('Questionnaire completed:', formData);
+  
+    // console.log('Questionnaire completed:', formData);
   };
 
   const CurrentStepComponent = steps[currentStep].component as React.ComponentType<StepComponentProps>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    // <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen">
       {/* Header */}
       <PageHeader 
         currentStep={currentStep} 
@@ -286,30 +287,59 @@ const BeautyQuestionnaire = () => {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 pb-32">
-        <div className="mb-8 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
-              {currentStep + 1} / {steps.length}
+        {/* <div className="mb-8 animate-fade-in">
+          <h2 
+            className="mb-3"
+            style={{
+              fontFamily: 'Pretendard Variable',
+              fontWeight: 600,
+              fontSize: '20px',
+              lineHeight: '100%',
+              color: '#111827'
+            }}
+          >
+            {currentStep + 1} / {steps.length}
           </h2>
-          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
+          <h2 
+            className="mb-3"
+            style={{
+              fontFamily: 'Pretendard Variable',
+              fontWeight: 500,
+              fontSize: '20px',
+              lineHeight: '140%',
+              color: '#111827'
+            }}
+          >
             {steps[currentStep].title}
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl">
+          <p 
+            className="max-w-2xl"
+            style={{
+              fontFamily: 'Pretendard Variable',
+              fontWeight: 500,
+              fontSize: '16px',
+              lineHeight: '140%',
+              color: '#888B93'
+            }}
+          >
             {steps[currentStep].subtitle}
           </p>
-        </div>
+        </div> */}
 
-        <Card className="bg-white/70 backdrop-blur-sm border-rose-100 shadow-xl shadow-rose-100/20 animate-scale-in">
-          <div className="p-6 md:p-8">
+        {/* <Card className="bg-white/70 backdrop-blur-sm border-rose-100 shadow-xl shadow-rose-100/20 animate-scale-in"> */}
+        {/* <Card className="bg-white backdrop-blur-sm shadow-xl animate-scale-in"> */}
+          {/* <div className="p-6 md:p-8"> */}
+          <div>
             <CurrentStepComponent
               data={formData[steps[currentStep].id] || {}}
               onDataChange={(data: StepData) => handleStepData(steps[currentStep].id, data)}
             />
           </div>
-        </Card>
+        {/* </Card> */}
       </div>
 
       {/* Navigation - Sticky Bottom */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md border-t border-rose-100 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md  shadow-lg">
         <div className="max-w-[768px] mx-auto px-4 sm:px-6 md:px-8 py-4">
           <div className="flex items-center gap-3">
             {currentStep === 0 ? (
@@ -371,12 +401,12 @@ const BeautyQuestionnaire = () => {
       />
 
       {/* Decorative Elements */}
-      <div className="fixed top-20 right-10 opacity-20 pointer-events-none">
+      {/* <div className="fixed top-20 right-10 opacity-20 pointer-events-none">
         <Star className="w-8 h-8 text-rose-300 animate-pulse" />
       </div>
       <div className="fixed bottom-20 left-10 opacity-20 pointer-events-none">
         <Heart className="w-6 h-6 text-pink-300 animate-pulse" />
-      </div>
+      </div> */}
     </div>
   );
 };

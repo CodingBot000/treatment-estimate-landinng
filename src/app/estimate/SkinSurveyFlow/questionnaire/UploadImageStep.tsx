@@ -93,14 +93,14 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange })
   return (
     <div className="space-y-6">
       {/* Title */}
-      <div>
+      {/* <div>
         <Label className="text-lg font-medium text-gray-800 mb-2 block">
           Please post a picture to diagnose your skin
         </Label>
         <p className="text-sm text-gray-600 mb-6">
           Only png and jpg files can be uploaded.
         </p>
-      </div>
+      </div> */}
 
       {/* Upload Area */}
       <div

@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { questions } from '../../../data/form-definition';
 import { FaInstagram, FaReddit, FaTiktok, FaYoutube, FaGoogle, FaComments } from 'react-icons/fa';
+import { ChoiceCard } from '@/components/card/ChoiceCard';
 // import { SiLemon8 } from 'react-icons/si';
 
 interface VisitPathStepProps {
@@ -83,7 +84,7 @@ const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => 
         <Label className="text-lg font-medium text-gray-800 mb-4 block">
            How did you hear about us? 
         </Label>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {questions.visitPaths.map((path) => {
             const IconComponent = iconMap[path.id as keyof typeof iconMap];
             
@@ -113,8 +114,33 @@ const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => 
               </Card>
             );
           })}
-        </div>
+        </div> */}
 
+        <div role="radiogroup" aria-label="VisitPathStep" className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {questions.visitPaths.map((path) => {
+            const IconComponent = iconMap[path.id as keyof typeof iconMap];
+            
+            const isSelected = visitPath.visitPath === path.id;
+  
+            return (
+              <ChoiceCard
+                key={path.id}
+                mode="single"
+                title={path.label}
+                subtitle={path.id === 'Chat_Ai' ? path.description : undefined}
+                selected={isSelected}
+                onSelect={() => handleVisitPathChange(path.id)}
+                showIndicator={false} // 싱글은 점 숨김 (디자인 가이드)
+                className={
+                  isSelected
+                    ? 'p-4 border-rose-400 bg-rose-50 shadow-md'
+                    : 'p-4 border-gray-200 hover:border-rose-300 hover:shadow-md'
+                }
+              />
+            );
+          })}
+        </div>
+        
         {/* Other Visit Path */}
         {hasOtherPath && (
           <div className="mt-6 animate-fadeIn">

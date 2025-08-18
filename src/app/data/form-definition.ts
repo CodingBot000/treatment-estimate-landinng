@@ -21,6 +21,12 @@ import PrioriotyFactorStep from "../estimate/SkinSurveyFlow/questionnaire/Priori
 import TreatmentExpBeforeStep from "../estimate/SkinSurveyFlow/questionnaire/TreatmentExpBefore";
 
 export const steps = [
+   {
+    id: UPLOAD_PHOTO,
+    title: "Please post a picure to diagnose your skin",
+    subtitle: "Only png and jpg, jpeg files can be uploaded.",
+    component: UploadImageStep,
+  },
     {
     id: SKIN_TYPE,
     title: "What's your skin type?",
@@ -82,12 +88,7 @@ export const steps = [
     subtitle: "Let's start with the basics to personalize your beauty journey",
     component: PrivateInfoStep,
   },
-  {
-    id: UPLOAD_PHOTO,
-    title: "Please post a picure to diagnose your skin",
-    subtitle: "Only png and jpg, jpeg files can be uploaded.",
-    component: UploadImageStep,
-  }
+ 
 ];
 
 

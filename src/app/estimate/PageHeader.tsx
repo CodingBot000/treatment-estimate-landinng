@@ -11,8 +11,8 @@ interface PageHeaderProps {
 
 const PageHeader: React.FC<PageHeaderProps> = ({ currentStep, totalSteps, onBack }) => {
   return (
-    <div className="bg-white/80 backdrop-blur-md border-b border-rose-100 sticky top-0 z-50">
-      <div className="max-w-4xl mx-auto px-4 py-6">
+    <div className="bg-white sticky top-0 z-50 h-[60px]">
+      <div className="max-w-4xl mx-auto px-4 py-3 h-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-center w-full relative">
             {onBack && (
@@ -33,12 +33,14 @@ const PageHeader: React.FC<PageHeaderProps> = ({ currentStep, totalSteps, onBack
           {/* <div className="text-sm text-gray-500">
             Step {currentStep + 1} of {totalSteps}
           </div> */}
+          
         </div>
-        <ProgressIndicator 
+
+        </div>
+          <ProgressIndicator 
           currentStep={currentStep} 
           totalSteps={totalSteps} 
         />
-      </div>
     </div>
   );
 };

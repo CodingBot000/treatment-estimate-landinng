@@ -3,6 +3,7 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { questions } from '../../../data/form-definition';
+import { ChoiceCard } from '@/components/card/ChoiceCard';
 
 interface TreatmentExpBeforeStepProps {
   data: any;
@@ -27,24 +28,6 @@ const TreatmentExpBeforeStep: React.FC<TreatmentExpBeforeStepProps> = ({ data, o
     );
   }, [pastTreatments.pastTreatments]);
 
-  // const handleGoalToggle = (goalId: string) => {
-  //   const currentGoals = data.goals || [];
-  //   const updatedGoals = currentGoals.includes(goalId)
-  //     ? currentGoals.filter((id: string) => id !== goalId)
-  //     : [...currentGoals, goalId];
-    
-  //   onDataChange({
-  //     ...data,
-  //     goals: updatedGoals
-  //   });
-  // };
-
-  // const handleTimeframeChange = (timeframe: string) => {
-  //   onDataChange({
-  //     ...data,
-  //     timeframe
-  //   });
-  // };
 
   const handlePastTreatmentToggle = (treatmentId: string) => {
     const currentTreatments = pastTreatments.pastTreatments || [];
@@ -120,7 +103,7 @@ const TreatmentExpBeforeStep: React.FC<TreatmentExpBeforeStepProps> = ({ data, o
         <Label className="text-lg font-medium text-gray-800 mb-4 block">
           Have you had any of these treatments before? (Select all that apply)
         </Label>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {questions.pastTreatments.map((treatment) => (
             <Card
               key={treatment.id}
@@ -139,6 +122,27 @@ const TreatmentExpBeforeStep: React.FC<TreatmentExpBeforeStepProps> = ({ data, o
               </div>
             </Card>
           ))}
+        </div> */}
+
+        <div role="group" aria-label="TreatmentExpBeforeStep" className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {questions.pastTreatments.map((treatment) => {
+            const isSelected = (pastTreatments.pastTreatments ?? []).includes(treatment.id);
+            return (
+              <ChoiceCard
+                key={treatment.id}
+                mode="multi"
+                title={treatment.label}
+                subtitle={treatment.description}
+                selected={isSelected}
+                onSelect={() => handlePastTreatmentToggle(treatment.id)}
+                className={
+                  isSelected
+                    ? 'border-rose-400 bg-rose-50 shadow-md ring-0' // 선택 시 스타일
+                    : 'border-gray-200 hover:border-rose-300'       // 미선택 스타일
+                }
+              />
+            );
+          })}
         </div>
       </div>
 

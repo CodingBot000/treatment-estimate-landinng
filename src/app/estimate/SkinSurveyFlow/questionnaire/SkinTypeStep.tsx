@@ -29,7 +29,7 @@ const SkinTypeStep: React.FC<SkinTypeStepProps> = ({ data, onDataChange }) => {
         What's your skin type?
       </Label>
 
-      <div role="radiogroup" aria-label="Skin type" className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div role="radiogroup" aria-label="Skin type" className="grid grid-cols-1 gap-3">
         {questions.skinTypes.map((type) => {
           const isSelected = data.skinType === type.id;
 
@@ -42,11 +42,6 @@ const SkinTypeStep: React.FC<SkinTypeStepProps> = ({ data, onDataChange }) => {
               selected={isSelected}
               onSelect={() => handleSkinTypeChange(type.id)}
               showIndicator={false} // 싱글은 점 숨김 (디자인 가이드)
-              className={
-                isSelected
-                  ? 'p-4 border-rose-400 bg-rose-50 shadow-md'
-                  : 'p-4 border-gray-200 hover:border-rose-300 hover:shadow-md'
-              }
             />
           );
         })}

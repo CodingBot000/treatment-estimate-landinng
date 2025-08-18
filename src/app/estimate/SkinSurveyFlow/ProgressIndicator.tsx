@@ -10,7 +10,7 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({ currentStep, tota
   const progress = ((currentStep + 1) / totalSteps) * 100;
 
   return (
-    <div className="mt-6 flex justify-center">
+    <div className="flex justify-center">
       <div 
         className="bg-[#FFE4E6] h-1 overflow-hidden"
         style={{ width: '768px' }}

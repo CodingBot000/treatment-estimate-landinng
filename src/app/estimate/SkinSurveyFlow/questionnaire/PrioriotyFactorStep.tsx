@@ -74,20 +74,12 @@ const SortablePriorityItem: React.FC<SortablePriorityItemProps> = ({ priority, i
 };
 
 const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataChange }) => {
-  // const treatmentAreas = data.treatmentAreas || { treatmentAreas: [] };
+ 
   const priorityOrder = data.priorityOrder || { priorityOrder: [] };
   const [priorityItems, setPriorityItems] = useState(questions.priorities);
   const [isPriorityConfirmed, setIsPriorityConfirmed] = useState(priorityOrder.isPriorityConfirmed || false);
   const [isDragging, setIsDragging] = useState(false);
-  // const [hasOtherArea, setHasOtherArea] = useState(
-  //   Array.isArray(treatmentAreas.treatmentAreas) && treatmentAreas.treatmentAreas.includes('other')
-  // );
-  // const [tempOtherAreas, setTempOtherAreas] = useState(treatmentAreas.otherAreas || '');
-
-  // useEffect(() => {
-  //   setHasOtherArea(Array.isArray(treatmentAreas.treatmentAreas) && treatmentAreas.treatmentAreas.includes('other'));
-  // }, [treatmentAreas.treatmentAreas]);
-
+  
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -128,50 +120,6 @@ const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataC
     // 저장된 확인 상태 복원
     setIsPriorityConfirmed(!!priorityOrder.isPriorityConfirmed);
   }, []);
-
-  // const handleBudgetChange = (budgetId: string) => {
-  //   onDataChange({
-  //     ...data,
-  //     budget: budgetId
-  //   });
-  // };
-
-  // const handleAreaToggle = (areaId: string) => {
-  //   const currentAreas = treatmentAreas.treatmentAreas || [];
-  //   const updatedAreas = currentAreas.includes(areaId)
-  //     ? currentAreas.filter((id: string) => id !== areaId)
-  //     : [...currentAreas, areaId];
-    
-  //   // other가 해제되면 otherAreas는 임시저장소에 보관하고 데이터에서만 제거
-  //   const shouldRemoveOtherAreas = areaId === 'other' && 
-  //     currentAreas.includes('other') && 
-  //     !updatedAreas.includes('other');
-
-  //   onDataChange({
-  //     ...data,
-  //     treatmentAreas: {
-  //       ...treatmentAreas,
-  //       treatmentAreas: updatedAreas,
-  //       ...(shouldRemoveOtherAreas ? {} : { otherAreas: treatmentAreas.otherAreas })
-  //     }
-  //   });
-  // };
-
-  // const handleOtherAreasChange = (text: string) => {
-  //   // 임시 상태 업데이트
-  //   setTempOtherAreas(text);
-    
-  //   // other가 선택되어 있을 때만 실제 데이터에 반영
-  //   if (hasOtherArea) {
-  //     onDataChange({
-  //       ...data,
-  //       treatmentAreas: {
-  //         ...treatmentAreas,
-  //         otherAreas: text
-  //       }
-  //     });
-  //   }
-  // };
 
 
   const handleDragStart = () => {
