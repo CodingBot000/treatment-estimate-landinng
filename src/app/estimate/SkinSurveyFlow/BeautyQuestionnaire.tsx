@@ -277,6 +277,7 @@ const BeautyQuestionnaire = () => {
   return (
     // <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
     <div className="min-h-screen">
+      
       {/* Header */}
       <PageHeader 
         currentStep={currentStep} 
@@ -286,7 +287,7 @@ const BeautyQuestionnaire = () => {
       />
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8 pb-32">
+      <div className="max-w-4xl mx-auto px-4 py-8 pb-32 ">
         <div className="mb-8 animate-fade-in">
           {currentStep + 1 < steps.length ? (
           <h2 
@@ -418,13 +419,23 @@ const BeautyQuestionnaire = () => {
       </div>
 
       {/* Preview Floating Button */}
-      <Button
-        onClick={() => setIsPreviewOpen(true)}
-        className="fixed right-8 top-1/2 -translate-y-1/2 bg-white hover:bg-rose-50 text-rose-500 border-rose-200 shadow-lg rounded-full p-4 z-50"
-      >
-        <FileText className="w-6 h-6" />
-      </Button>
-
+      <div className="fixed inset-x-0 top-[calc(64px+12px)] z-50 pointer-events-none">
+        <div className="relative mx-auto max-w-[768px] px-4">
+          <Button
+            onClick={() => setIsPreviewOpen(true)}
+            className="
+              absolute right-4 top-0
+              bg-white hover:bg-rose-50 text-rose-500
+              border border-rose-200 shadow-lg
+              rounded-full p-4
+              pointer-events-auto
+            "
+          >
+            <FileText className="w-6 h-6" />
+          </Button>
+        </div>
+      </div>
+      
       {/* Preview Dialog */}
       <PreviewReport
         open={isPreviewOpen}

@@ -126,7 +126,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           <div className="space-y-2">
             <p><strong>Skin Concerns:</strong> {skinConcerns?.concerns?.join(', ')}</p>
             {skinConcerns?.moreConcerns && (
-              <div className="mt-2 p-3 bg-rose-50 rounded-md">
+              <div className="mt-2 p-3 rounded-md">
                 <p><strong>Other Concerns:</strong></p>
                 <p className="text-gray-700 whitespace-pre-wrap">{skinConcerns.moreConcerns}</p>
               </div>
@@ -146,7 +146,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           <div className="space-y-2">
             <p><strong>Treatment Areas:</strong> {treatmentAreas?.treatmentAreas?.join(', ')}</p>
             {treatmentAreas?.otherAreas && (
-              <div className="mt-2 p-3 bg-rose-50 rounded-md">
+              <div className="mt-2 p-3 rounded-md">
                 <p><strong>Other Treatment Areas:</strong></p>
                 <p className="text-gray-700 whitespace-pre-wrap">{treatmentAreas.otherAreas}</p>
               </div>
@@ -173,7 +173,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           <div className="space-y-2">
             <p><strong>Previous Treatments:</strong> {pastTreatments?.pastTreatments?.join(', ')}</p>
             {pastTreatments?.sideEffects && (
-              <div className="mt-2 p-3 bg-rose-50 rounded-md">
+              <div className="mt-2 p-3 rounded-md">
                 <p><strong>Treatment Side Effects:</strong></p>
                 <p className="text-gray-700 whitespace-pre-wrap">{pastTreatments.sideEffects}</p>
               </div>
@@ -190,7 +190,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           <div className="space-y-2">
             <p><strong>Health Conditions:</strong> {healthConditions?.healthConditions?.join(', ')}</p>
             {healthConditions?.otherConditions && !healthConditions.healthConditions?.includes('none') && (
-              <div className="mt-2 p-3 bg-rose-50 rounded-md">
+              <div className="mt-2 p-3 rounded-md">
                 <p><strong>Other Health Conditions:</strong></p>
                 <p className="text-gray-700 whitespace-pre-wrap">{healthConditions.otherConditions}</p>
               </div>
@@ -204,7 +204,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           <div className="space-y-2">
             <p><strong>Referral Source:</strong> {visitPath?.visitPath}</p>
             {visitPath?.otherPath && visitPath.visitPath === 'other' && (
-              <div className="mt-2 p-3 bg-rose-50 rounded-md">
+              <div className="mt-2 p-3 rounded-md">
                 <p><strong>Other Referral Source:</strong></p>
                 <p className="text-gray-700 whitespace-pre-wrap">{visitPath.otherPath}</p>
               </div>

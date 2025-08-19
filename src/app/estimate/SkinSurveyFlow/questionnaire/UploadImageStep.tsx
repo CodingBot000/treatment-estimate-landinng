@@ -115,10 +115,11 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange })
         {/* <Label className="text-lg font-medium text-gray-800 mb-2 block">
           Please post a picture to diagnose your skin
         </Label> */}
-        <p className="text-sm text-red-400 mb-1">
+        <ul className="list-disc list-inside text-sm text-red-400 mb-1 space-y-1">
           <li>Please upload photos focusing on the area(s) you’d like to consult about.</li>
           <li>If you’d like a full-face evaluation, please provide a front-facing photo. Make sure your face occupies at least 60% of the image height.</li>
-        </p>
+        </ul>
+
       </div>
 
       {/* Upload Area */}
