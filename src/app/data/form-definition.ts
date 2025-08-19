@@ -1,5 +1,5 @@
 import PrivateInfoStep from "../estimate/SkinSurveyFlow/questionnaire/PrivateInfoStep";
-import BudgetPreferencesStep from "../estimate/SkinSurveyFlow/questionnaire/BudgetPreferencesStep";
+import BudgetStep from "../estimate/SkinSurveyFlow/questionnaire/BudgetStep";
 import TreatmentGoalsStep from "../estimate/SkinSurveyFlow/questionnaire/TreatmentGoalsStep";
 import VisitPathStep from "../estimate/SkinSurveyFlow/questionnaire/VisitPathStep";
 import SkinConcernsStep from "../estimate/SkinSurveyFlow/questionnaire/SkinConcernsStep";
@@ -13,10 +13,26 @@ import {
   FaComments
 } from 'react-icons/fa';
 // import { SiLemon8 } from 'react-icons/si';
-import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { USER_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import UploadImageStep from "../estimate/SkinSurveyFlow/questionnaire/UploadImageStep";
+import SkinTypeStep from "../estimate/SkinSurveyFlow/questionnaire/SkinTypeStep";
+import PreferencesStep from "../estimate/SkinSurveyFlow/questionnaire/PreferencesStep";
+import PrioriotyFactorStep from "../estimate/SkinSurveyFlow/questionnaire/PrioriotyFactorStep";
+import TreatmentExpBeforeStep from "../estimate/SkinSurveyFlow/questionnaire/TreatmentExpBefore";
 
 export const steps = [
+   {
+    id: UPLOAD_PHOTO,
+    title: "Please post a picure to diagnose your skin",
+    subtitle: "Only png and jpg, jpeg files can be uploaded.",
+    component: UploadImageStep,
+  },
+    {
+    id: SKIN_TYPE,
+    title: "What's your skin type?",
+    subtitle: "Help us understand your unique skin concerns and goals",
+    component: SkinTypeStep,
+  },
   {
     id: SKIN_CONCERNS,
     title: "Your Skin Story",
@@ -24,16 +40,35 @@ export const steps = [
     component: SkinConcernsStep,
   },
   {
-    id: BUDGET_PREFERENCES,
-    title: "Investment & Preferences",
-    subtitle: "Let's find treatments that fit your lifestyle and budget",
-    component: BudgetPreferencesStep,
+    id: BUDGET,
+    title: "Investment",
+    subtitle: "Let's find treatments that fit your budget",
+    component: BudgetStep,
   },
   {
-    id: "treatment-goals",
+    id: PREFERENCES,
+    title: "Preferences",
+    subtitle: "Let's find treatments that fit your lifestyle",
+    component: PreferencesStep,
+  },
+  {
+    id: PRIORITYFACTORS,
+    title: "Order priority factors",
+    subtitle: "Let's find treatments that fit your priorities",
+    component: PrioriotyFactorStep,
+  },
+  
+  {
+    id: TREATMENT_GOALS,
     title: "Your Beauty Vision",
     subtitle: "What transformation are you hoping to achieve?",
     component: TreatmentGoalsStep,
+  },
+  {
+    id: TREATMENT_EXPERIENCE_BEFORE,
+    title: "Your Experience",
+    subtitle: "Have you had any of these treatments before?",
+    component: TreatmentExpBeforeStep,
   },
   {
     id: HEALTH_CONDITIONS,
@@ -48,21 +83,50 @@ export const steps = [
     component: VisitPathStep,
   },
   {
-    id: BASIC_INFO,
-    title: "Tell Us About You",
-    subtitle: "Let's start with the basics to personalize your beauty journey",
+    id: USER_INFO,
+    title: "I'll send you the diagnosis. Please tell me your personal information",
+    subtitle: "It will take about one day to receive the diagnosis results.",
     component: PrivateInfoStep,
   },
-  {
-    id: UPLOAD_PHOTO,
-    title: "Please post a picure to diagnose your skin",
-    subtitle: "Only png and jpg, jpeg files can be uploaded.",
-    component: UploadImageStep,
-  }
+ 
 ];
 
 
 export const questions = {
+
+  skinTypes: [
+    {
+      id: "dry",
+      label: "Dry", // 건성
+      description: "Often feels tight, may have flaky patches", // 당김이 있고 각질이 있을 수 있음
+    },
+    {
+      id: "oily",
+      label: "Oily", // 지성
+      description: "Shiny appearance, enlarged pores", // 번들거림, 넓은 모공
+    },
+    {
+      id: "combination",
+      label: "Combination", // 복합성
+      description: "Oily T-zone, dry cheeks", // T존은 지성, 볼은 건성
+    },
+    {
+      id: "sensitive",
+      label: "Sensitive", // 민감성
+      description: "Easily irritated, reactive to products", // 쉽게 자극받고 제품에 민감함
+    },
+    {
+      id: "normal",
+      label: "Normal", // 정상
+      description: "Well-balanced, rarely problematic", // 균형 잡힌 피부, 문제 적음
+    },
+    {
+      id: "not_sure",
+      label: "Not Sure", 
+      description: "Not Sure", 
+    },
+  ],
+
   budgetRanges: [
     {
       id: "under-1000",
@@ -137,39 +201,6 @@ export const questions = {
       id: "location",
       label: "Clinic Location", // 병원 위치
       description: "Convenient access and proximity are key", // 접근성과 가까운 위치가 중요
-    },
-  ],
-
-  skinTypes: [
-    {
-      id: "dry",
-      label: "Dry", // 건성
-      description: "Often feels tight, may have flaky patches", // 당김이 있고 각질이 있을 수 있음
-    },
-    {
-      id: "oily",
-      label: "Oily", // 지성
-      description: "Shiny appearance, enlarged pores", // 번들거림, 넓은 모공
-    },
-    {
-      id: "combination",
-      label: "Combination", // 복합성
-      description: "Oily T-zone, dry cheeks", // T존은 지성, 볼은 건성
-    },
-    {
-      id: "sensitive",
-      label: "Sensitive", // 민감성
-      description: "Easily irritated, reactive to products", // 쉽게 자극받고 제품에 민감함
-    },
-    {
-      id: "normal",
-      label: "Normal", // 정상
-      description: "Well-balanced, rarely problematic", // 균형 잡힌 피부, 문제 적음
-    },
-    {
-      id: "not_sure",
-      label: "Not Sure", 
-      description: "Not Sure", 
     },
   ],
 

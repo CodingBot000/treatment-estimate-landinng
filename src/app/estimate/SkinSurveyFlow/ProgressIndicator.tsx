@@ -10,14 +10,20 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({ currentStep, tota
   const progress = ((currentStep + 1) / totalSteps) * 100;
 
   return (
-    <div className="mt-6">
-      <div className="w-full bg-rose-100 rounded-full h-2 overflow-hidden">
+    <div className="flex justify-center">
+      <div 
+        className="bg-[#FFE4E6] h-1 overflow-hidden"
+        style={{ width: '768px' }}
+      >
         <div 
-          className="h-full bg-gradient-to-r from-rose-400 to-pink-500 rounded-full transition-all duration-500 ease-out"
-          style={{ width: `${progress}%` }}
+          className="h-full transition-all duration-500 ease-out"
+          style={{ 
+            width: `${progress}%`,
+            background: 'linear-gradient(0deg, #FB718F, #FB718F)'
+          }}
         />
       </div>
-      <div className="flex justify-between mt-3">
+      {/* <div className="flex justify-between mt-3">
         {Array.from({ length: totalSteps }, (_, index) => (
           <div
             key={index}
@@ -30,9 +36,10 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({ currentStep, tota
             {index + 1}
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
+
 
 export default ProgressIndicator;

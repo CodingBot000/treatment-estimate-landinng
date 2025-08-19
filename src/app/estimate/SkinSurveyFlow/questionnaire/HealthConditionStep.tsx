@@ -3,6 +3,7 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { questions } from '../../../data/form-definition';
+import { ChoiceCard } from '@/components/card/ChoiceCard';
 
 interface HealthConditionStepProps {
   data: any;
@@ -79,21 +80,28 @@ const HealthConditionStep: React.FC<HealthConditionStepProps> = ({ data, onDataC
         <Label className="text-lg font-medium text-gray-800 mb-4 block">
           Do you have any of the following medical conditions that we should consider before treatment? (Select all that apply)
         </Label>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {questions.medicalConditions.map((condition) => (
-            <Card
-              key={condition.id}
-              className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
-                (healthConditions.healthConditions || []).includes(condition.id)
-                  ? 'border-rose-400 bg-rose-50 shadow-md'
-                  : 'border-gray-200 hover:border-rose-300'
-              }`}
-              onClick={() => handleHealthConditionToggle(condition.id)}
-            >
-              <h3 className="font-medium text-gray-900 mb-1">{condition.label}</h3>
-              <p className="text-sm text-gray-600">{condition.description}</p>
-            </Card>
-          ))}
+
+
+        <div role="group" aria-label="HealthConditionStep" className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {questions.medicalConditions.map((condition) => {
+              const isSelected = (healthConditions.healthConditions ?? []).includes(condition.id);
+              return (
+                <ChoiceCard
+                  key={condition.id}
+                  mode="multi"
+                  title={condition.label}
+                  subtitle={condition.description}
+                  selected={isSelected}
+                  onSelect={() => handleHealthConditionToggle(condition.id)}
+                  className={
+                    isSelected
+                      ? 'border-rose-400 bg-rose-50 shadow-md ring-0' // 선택 시 스타일
+                      : 'border-gray-200 hover:border-rose-300'       // 미선택 스타일
+                  }
+                />
+              );
+            })}
+         
         </div>
         {/* Other Health Conditions */}
         {hasOtherCondition && (

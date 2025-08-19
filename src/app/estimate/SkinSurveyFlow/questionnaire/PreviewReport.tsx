@@ -4,9 +4,10 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
 import { steps } from '../../../data/form-definition';
 import { Button } from '@/components/ui/button';
-import { BASIC_INFO, BUDGET_PREFERENCES, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { USER_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import { supabase } from '@/lib/supabaseClient';
 import SubmissionModal from './SubmissionModal';
+import { useRouter } from 'next/navigation';
 
 interface PreviewReportProps {
   open: boolean;
@@ -18,6 +19,8 @@ interface PreviewReportProps {
 const PreviewReport: React.FC<PreviewReportProps> = 
 ({ open, onOpenChange, formData, showSendFormButton }) => 
   {
+
+  const router = useRouter();
   const [isSubmissionModalOpen, setIsSubmissionModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -101,18 +104,26 @@ const PreviewReport: React.FC<PreviewReportProps> =
     setIsCompleted(false);
     onOpenChange(false);
     // 페이지 새로고침 또는 다른 페이지로 이동
-    window.location.reload();
+    // window.location.reload();
+    router.replace('/estimate/SkinSurveyFlow/questionnaire/complete')
   };
 
   const getStepSummary = (stepId: string, data: any) => {
     if (!data) return 'Not yet entered';
 
     switch (stepId) {
+      case SKIN_TYPE:
+        const skinType = data.skinType;
+        return (
+          <div className="space-y-2">
+            <p><strong>Skin Type:</strong> {data.skinType}</p>
+          </div>
+        );
+
       case SKIN_CONCERNS:
         const skinConcerns = data.skinConcerns;
         return (
           <div className="space-y-2">
-            <p><strong>Skin Type:</strong> {data.skinType}</p>
             <p><strong>Skin Concerns:</strong> {skinConcerns?.concerns?.join(', ')}</p>
             {skinConcerns?.moreConcerns && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">
@@ -123,11 +134,16 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
 
-      case BUDGET_PREFERENCES:
-        const treatmentAreas = data.treatmentAreas;
+      case BUDGET:
         return (
           <div className="space-y-2">
             <p><strong>Budget Range:</strong> {data.budget}</p>
+          </div>
+        );
+        case PREFERENCES:
+        const treatmentAreas = data.treatmentAreas;
+        return (
+          <div className="space-y-2">
             <p><strong>Treatment Areas:</strong> {treatmentAreas?.treatmentAreas?.join(', ')}</p>
             {treatmentAreas?.otherAreas && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">
@@ -135,16 +151,26 @@ const PreviewReport: React.FC<PreviewReportProps> =
                 <p className="text-gray-700 whitespace-pre-wrap">{treatmentAreas.otherAreas}</p>
               </div>
             )}
+
+          </div>
+        );
+        case PRIORITYFACTORS:
+        return (
+          <div className="space-y-2">
             <p><strong>Priority Order:</strong> {data.priorityOrder?.priorityOrder?.join(' > ')}</p>
           </div>
         );
-
       case TREATMENT_GOALS:
-        const pastTreatments = data.pastTreatments;
         return (
           <div className="space-y-2">
             <p><strong>Treatment Goals:</strong> {data.goals?.join(', ')}</p>
-            {/* <p><strong>Preferred Start Time:</strong> {data.timeframe}</p> */}
+            
+          </div>
+        );
+      case TREATMENT_EXPERIENCE_BEFORE:
+        const pastTreatments = data.pastTreatments;
+        return (
+          <div className="space-y-2">
             <p><strong>Previous Treatments:</strong> {pastTreatments?.pastTreatments?.join(', ')}</p>
             {pastTreatments?.sideEffects && (
               <div className="mt-2 p-3 bg-rose-50 rounded-md">
@@ -186,7 +212,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
 
-      case BASIC_INFO:
+      case USER_INFO:
         const privateInfo = data.privateInfo;
         if (!privateInfo) {
           return <p>No personal information provided</p>;
