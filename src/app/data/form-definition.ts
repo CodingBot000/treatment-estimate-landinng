@@ -453,8 +453,8 @@ export const questions = {
     { id: 'reddit', label: 'Reddit', description: 'Reddit', icon: FaReddit }, // 레딧
     { id: 'tiktok', label: 'TikTok', description: 'TikTok', icon: FaTiktok }, // 틱톡
     { id: 'youtube', label: 'YouTube', description: 'YouTube', icon: FaYoutube }, // 유튜브
-    { id: 'google_search', label: 'Google Search', description: 'Google_search', icon: FaGoogle }, // 구글 검색
-    { id: 'Chat_Ai', label: 'Chat AI', description: 'ChatGpt, Claude, Gemini, Perplexity, etc', icon: FaComments }, // 챗봇 AI (ChatGPT 등)
+    { id: 'web_search', label: 'Web search', description: 'Search engine (e.g., Google, Bing, Yahoo, Naver, Baidu)', icon: FaGoogle }, // 구글 검색
+    { id: 'Chat_Ai', label: 'Chat AI', description: '(e.g., ChatGPT, Claude, Gemini, Perplexity, etc.)', icon: FaComments }, // 챗봇 AI (ChatGPT 등)
     { id: 'other', label: 'Other', description: 'Other', icon: FaComments }, // 기타
   ],
 };

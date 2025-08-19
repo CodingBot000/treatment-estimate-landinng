@@ -127,7 +127,8 @@ const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => 
                 key={path.id}
                 mode="single"
                 title={path.label}
-                subtitle={path.id === 'Chat_Ai' ? path.description : undefined}
+                subtitle={(path.id === 'Chat_Ai' ||
+                  path.id === 'web_search')  ? path.description : undefined}
                 selected={isSelected}
                 onSelect={() => handleVisitPathChange(path.id)}
                 showIndicator={false} // 싱글은 점 숨김 (디자인 가이드)
