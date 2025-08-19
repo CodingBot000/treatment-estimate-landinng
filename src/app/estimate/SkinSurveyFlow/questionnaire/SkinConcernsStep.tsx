@@ -67,9 +67,9 @@ const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange 
     <div className="space-y-8">
     
       <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
+        {/* <Label className="text-lg font-medium text-gray-800 mb-4 block">
           What are your main skin concerns? (Select all that apply)
-        </Label>
+        </Label> */}
 
         <div role="group" aria-label="Skin concerns" className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {questions.skinConcerns.map((concern) => {

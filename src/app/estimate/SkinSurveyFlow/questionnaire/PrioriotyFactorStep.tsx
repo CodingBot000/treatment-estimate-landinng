@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { questions } from '../../../data/form-definition';
 import {
@@ -77,7 +76,7 @@ const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataC
  
   const priorityOrder = data.priorityOrder || { priorityOrder: [] };
   const [priorityItems, setPriorityItems] = useState(questions.priorities);
-  const [isPriorityConfirmed, setIsPriorityConfirmed] = useState(priorityOrder.isPriorityConfirmed || false);
+  const [isPriorityConfirmed, setIsPriorityConfirmed] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
   
   const sensors = useSensors(
@@ -116,9 +115,16 @@ const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataC
         return priorityOrder.priorityOrder.indexOf(a.id) - priorityOrder.priorityOrder.indexOf(b.id);
       });
       setPriorityItems(orderedItems);
+    } else {
+      // 처음 로드 시 기본 순서로 데이터 저장
+      onDataChange({
+        ...data,
+        priorityOrder: {
+          isPriorityConfirmed: true,
+          priorityOrder: questions.priorities.map(item => item.id)
+        }
+      });
     }
-    // 저장된 확인 상태 복원
-    setIsPriorityConfirmed(!!priorityOrder.isPriorityConfirmed);
   }, []);
 
 
@@ -137,13 +143,12 @@ const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataC
         
         const newItems = arrayMove(items, oldIndex, newIndex);
         
-        setIsPriorityConfirmed(false);
+        // 드래그 완료 시 즉시 새로운 순서를 저장
         onDataChange({
           ...data,
           priorityOrder: {
-            ...priorityOrder,
-            isPriorityConfirmed: false,
-            priorityOrder: []
+            isPriorityConfirmed: true,
+            priorityOrder: newItems.map(item => item.id)
           }
         });
         
@@ -152,38 +157,11 @@ const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataC
     }
   };
 
-  const handlePriorityConfirm = (checked: boolean) => {
-    setIsPriorityConfirmed(checked);
-    onDataChange({
-      ...data,
-      // 체크된 경우에만 우선순위 순서 저장, 해제된 경우 빈 배열로 초기화
-      priorityOrder: {
-        ...priorityOrder,
-        isPriorityConfirmed: checked,
-        priorityOrder: checked ? priorityItems.map(item => item.id) : []
-      }
-    });
-  };
 
   return (
     <div className="space-y-8">
       {/* Priorities */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <Label className="text-lg font-medium text-gray-800">
-            Arrange these factors in order of importance to you
-          </Label>
-          <div className="flex items-center gap-2">
-            <Switch
-              checked={isPriorityConfirmed}
-              onCheckedChange={handlePriorityConfirm}
-              disabled={isDragging}
-            />
-            <span className="text-sm text-gray-600">
-              {isPriorityConfirmed ? "Confirmed" : "Confirm order"}
-            </span>
-          </div>
-        </div>
         
         <DndContext
           sensors={sensors}

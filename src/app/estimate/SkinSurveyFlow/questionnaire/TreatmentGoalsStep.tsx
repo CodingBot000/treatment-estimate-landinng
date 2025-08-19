@@ -29,9 +29,9 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
     <div className="space-y-8">
       {/* Treatment Goals */}
       <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
+        {/* <Label className="text-lg font-medium text-gray-800 mb-4 block">
           What are your treatment goals? (Select all that apply)
-        </Label>
+        </Label> */}
      
 
         <div role="group" aria-label="TreatmentGoalsStep" className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -42,6 +42,7 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
                 key={goal.id}
                 mode="multi"
                 title={goal.label}
+                subtitle={goal.description}
                 selected={isSelected}
                 onSelect={() => handleGoalToggle(goal.id)}
                 className={

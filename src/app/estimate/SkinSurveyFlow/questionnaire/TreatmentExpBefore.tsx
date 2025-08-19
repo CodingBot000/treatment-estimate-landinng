@@ -100,9 +100,10 @@ const TreatmentExpBeforeStep: React.FC<TreatmentExpBeforeStepProps> = ({ data, o
   
       {/* Past Treatments */}
       <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
+        {/* <Label className="text-lg font-medium text-gray-800 mb-4 block">
           Have you had any of these treatments before? (Select all that apply)
-        </Label>
+        </Label> */}
+
         {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {questions.pastTreatments.map((treatment) => (
             <Card

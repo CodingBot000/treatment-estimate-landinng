@@ -66,9 +66,9 @@ const PreferencesStep: React.FC<PreferencesStepProps> = ({ data, onDataChange })
 
       {/* Treatment Areas */}
       <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
+        {/* <Label className="text-lg font-medium text-gray-800 mb-4 block">
           Which areas would you like to focus on? (Select all that apply)
-        </Label>
+        </Label> */}
   
         <div role="group" aria-label="PreferencesStep" className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {questions.treatmentAreas.map((area) => {

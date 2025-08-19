@@ -20,10 +20,10 @@ const BudgetStep: React.FC<BudgetStepProps> = ({ data, onDataChange }) => {
     <div className="space-y-8">
       {/* Budget Range */}
       <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
+        {/* <Label className="text-lg font-medium text-gray-800 mb-4 block">
           What's your budget range for treatment?
-        </Label>
-        <div role="radiogroup" aria-label="Skin type" className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        </Label> */}
+        <div role="radiogroup" aria-label="BudgetStep" className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {questions.budgetRanges.map((type) => {
             const isSelected = data.budget === type.id;
 

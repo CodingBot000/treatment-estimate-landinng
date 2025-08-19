@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Label } from '@/components/ui/label';
-import { Upload } from 'lucide-react';
+import { Upload, X } from 'lucide-react';
 
 interface UploadImageStepProps {
   data: any;
@@ -90,17 +90,36 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange })
     }
   }, [handleFile]);
 
+  const handleDeleteImage = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setUploadedImage(null);
+    onDataChange({
+      ...data,
+      uploadImage: {
+        uploadedImage: null,
+        imageFile: null,
+        imageFileName: null
+      }
+    });
+    // Reset file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  }, [data, onDataChange]);
+
   return (
     <div className="space-y-6">
       {/* Title */}
-      {/* <div>
-        <Label className="text-lg font-medium text-gray-800 mb-2 block">
+      <div>
+        {/* <Label className="text-lg font-medium text-gray-800 mb-2 block">
           Please post a picture to diagnose your skin
-        </Label>
-        <p className="text-sm text-gray-600 mb-6">
-          Only png and jpg files can be uploaded.
+        </Label> */}
+        <p className="text-sm text-red-400 mb-1">
+          <li>Please upload photos focusing on the area(s) you’d like to consult about.</li>
+          <li>If you’d like a full-face evaluation, please provide a front-facing photo. Make sure your face occupies at least 60% of the image height.</li>
         </p>
-      </div> */}
+      </div>
 
       {/* Upload Area */}
       <div
@@ -127,15 +146,22 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange })
         />
 
         {uploadedImage ? (
-          <div className="space-y-4">
+          <div className="space-y-4 relative">
+            <button
+              onClick={handleDeleteImage}
+              className="absolute top-0 right-0 -mt-2 -mr-2 z-10 w-8 h-8 bg-gray-500 hover:bg-gray-600 rounded-full flex items-center justify-center transition-colors duration-200"
+              aria-label="Delete image"
+            >
+              <X className="w-4 h-4 text-white" />
+            </button>
             <img
               src={uploadedImage}
               alt="Uploaded image"
               className="max-w-full max-h-64 mx-auto rounded-lg shadow-md"
             />
-            <p className="text-sm text-gray-600">
+            {/* <p className="text-sm text-gray-600">
               Click to change image
-            </p>
+            </p> */}
           </div>
         ) : (
           <div className="space-y-4">
@@ -144,7 +170,7 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange })
             </div>
             <div>
               <p className="text-lg font-medium text-gray-900 mb-2">
-                Click to upload a file
+                Click or drag & drop images to upload
               </p>
               <p className="text-sm text-gray-600">
                 You can upload up to 10MB.
