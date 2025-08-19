@@ -81,9 +81,9 @@ const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => 
     <div className="space-y-8">
       {/* Budget Range */}
       <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
+        {/* <Label className="text-lg font-medium text-gray-800 mb-4 block">
            How did you hear about us? 
-        </Label>
+        </Label> */}
         {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {questions.visitPaths.map((path) => {
             const IconComponent = iconMap[path.id as keyof typeof iconMap];

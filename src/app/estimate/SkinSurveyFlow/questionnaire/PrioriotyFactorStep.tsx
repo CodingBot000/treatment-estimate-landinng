@@ -170,9 +170,9 @@ const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataC
       {/* Priorities */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <Label className="text-lg font-medium text-gray-800">
+          {/* <Label className="text-lg font-medium text-gray-800">
             Arrange these factors in order of importance to you
-          </Label>
+          </Label> */}
           <div className="flex items-center gap-2">
             <Switch
               checked={isPriorityConfirmed}

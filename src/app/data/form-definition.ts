@@ -23,7 +23,7 @@ import TreatmentExpBeforeStep from "../estimate/SkinSurveyFlow/questionnaire/Tre
 export const steps = [
    {
     id: UPLOAD_PHOTO,
-    title: "Please post a picure to diagnose your skin",
+    title: "Please post a picture to diagnose your skin",
     subtitle: "Only png and jpg, jpeg files can be uploaded.",
     component: UploadImageStep,
   },
@@ -35,20 +35,20 @@ export const steps = [
   },
   {
     id: SKIN_CONCERNS,
-    title: "Your Skin Story",
+    title: "What are your main skin concerns? (Select all that apply)",
     subtitle: "Help us understand your unique skin concerns and goals",
     component: SkinConcernsStep,
   },
   {
     id: BUDGET,
-    title: "Investment",
+    title: "What's your budget range of treatment?",
     subtitle: "Let's find treatments that fit your budget",
     component: BudgetStep,
   },
   {
     id: PREFERENCES,
-    title: "Preferences",
-    subtitle: "Let's find treatments that fit your lifestyle",
+    title: "Which areas would you like to focus on? (Select all that apply)",
+    subtitle: "Select target areas to personalize your dermatology consult",
     component: PreferencesStep,
   },
   {
@@ -60,26 +60,26 @@ export const steps = [
   
   {
     id: TREATMENT_GOALS,
-    title: "Your Beauty Vision",
+    title: "What's your main treatment goal? (Select all that apply)",
     subtitle: "What transformation are you hoping to achieve?",
     component: TreatmentGoalsStep,
   },
   {
     id: TREATMENT_EXPERIENCE_BEFORE,
-    title: "Your Experience",
+    title: "Have you had any of these treatments before? (Select all that apply)",
     subtitle: "Have you had any of these treatments before?",
     component: TreatmentExpBeforeStep,
   },
   {
     id: HEALTH_CONDITIONS,
-    title: "Your Health Contition",
+    title: "Do you have any of the following medical conditions that we should consider before treatment? (Select all that apply)",
     subtitle: "Please indicate any relevant health conditions",
     component: HealthConditionStep,
   },
   {
     id: VISIT_PATHS,
     title: "How did you hear about us?",
-    subtitle: "How did you hear about us?",
+    subtitle: "Choose one.",
     component: VisitPathStep,
   },
   {

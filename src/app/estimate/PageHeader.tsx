@@ -18,7 +18,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ currentStep, totalSteps, onBack
             {onBack && (
               <button 
                 onClick={onBack}
-                className="absolute left-0 ml-6 w-6 h-6 flex items-center justify-center"
+                className="absolute left-0 w-6 h-6 flex items-center justify-center"
               >
                 <Image 
                   src="/estimate/icons/btn_back.svg" 

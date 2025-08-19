@@ -281,13 +281,14 @@ const BeautyQuestionnaire = () => {
       <PageHeader 
         currentStep={currentStep} 
         totalSteps={steps.length} 
-        onBack={currentStep > 0 ? handlePrevious : undefined}
+        // onBack={currentStep > 0 ? handlePrevious : undefined}
+        onBack={handlePrevious}
       />
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 pb-32">
         <div className="mb-8 animate-fade-in">
-          {currentStep + 1 > steps.length -1 ? (
+          {currentStep + 1 < steps.length ? (
           <h2 
             className="mb-3"
             style={{
@@ -311,7 +312,7 @@ const BeautyQuestionnaire = () => {
               color: '#111827'
             }}
           >
-            Completetion
+            Completion
           </h2>
          )}
           

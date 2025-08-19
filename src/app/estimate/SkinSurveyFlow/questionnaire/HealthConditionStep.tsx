@@ -77,10 +77,10 @@ const HealthConditionStep: React.FC<HealthConditionStepProps> = ({ data, onDataC
   return (
     <div className="space-y-8">
       <div>
-        <Label className="text-lg font-medium text-gray-800 mb-4 block">
+        {/* <Label className="text-lg font-medium text-gray-800 mb-4 block">
           Do you have any of the following medical conditions that we should consider before treatment? (Select all that apply)
         </Label>
-
+ */}
 
         <div role="group" aria-label="HealthConditionStep" className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {questions.medicalConditions.map((condition) => {
