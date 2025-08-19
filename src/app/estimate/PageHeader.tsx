@@ -28,19 +28,14 @@ const PageHeader: React.FC<PageHeaderProps> = ({ currentStep, totalSteps, onBack
                 />
               </button>
             )}
-              <h1 className="text-xl font-semibold text-gray-900">Treatment Recommendation</h1>
+            <h1 className="text-xl font-semibold text-gray-900">Treatment Recommendation</h1>
           </div>
-          {/* <div className="text-sm text-gray-500">
-            Step {currentStep + 1} of {totalSteps}
-          </div> */}
-          
         </div>
-
-        </div>
-          <ProgressIndicator 
-          currentStep={currentStep} 
-          totalSteps={totalSteps} 
-        />
+      </div>
+      <ProgressIndicator 
+        currentStep={currentStep} 
+        totalSteps={totalSteps} 
+      />
     </div>
   );
 };
