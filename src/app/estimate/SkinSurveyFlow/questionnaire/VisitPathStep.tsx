@@ -143,19 +143,22 @@ const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => 
         </div>
         
         {/* Other Visit Path */}
-        {hasOtherPath && (
-          <div className="mt-6 animate-fadeIn">
-            <Label className="text-lg font-medium text-gray-800 mb-4 block">
-              Please tell us how you found us:
-            </Label>
-            <Textarea
-              value={tempOtherPath}
-              onChange={(e) => handleOtherPathChange(e.target.value)}
-              placeholder="Please describe how you heard about us..."
-              className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20 min-h-[120px]"
-            />
-          </div>
-        )}
+        <div 
+          className={`mt-6 transition-all duration-300 ${
+            hasOtherPath ? 'opacity-100 max-h-96' : 'opacity-0 max-h-0 overflow-hidden'
+          }`}
+        >
+          <Label className="text-lg font-medium text-gray-800 mb-4 block">
+            Please tell us how you found us:
+          </Label>
+          <Textarea
+            value={tempOtherPath}
+            onChange={(e) => handleOtherPathChange(e.target.value)}
+            placeholder="Please describe how you heard about us..."
+            className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20 min-h-[120px]"
+            disabled={!hasOtherPath}
+          />
+        </div>
       </div>
 
     </div>
