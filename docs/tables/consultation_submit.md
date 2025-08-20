@@ -12,11 +12,11 @@ PreviewModal에서 Submit을 누를 때, 최종 formData를 아래 DB 컬럼 매
 
 왼쪽은 테이블 컬럼 이름이고 오른쪽은 해당 컬럼에 넣을 데이터들이야 
 
-private_first_name text,    -> interface PrivateInfo 의 firstName 
-  private_last_name  text,  -> interface PrivateInfo 의 lastName 
-  private_email      text,  -> interface PrivateInfo 의 email  
-  private_age_range  text,   -> interface PrivateInfo 의 ageRange 
-  private_gender     text,   -> interface PrivateInfo 의 gender  
+private_first_name text,    -> interface UserInfo 의 firstName 
+  private_last_name  text,  -> interface UserInfo 의 lastName 
+  private_email      text,  -> interface UserInfo 의 email  
+  private_age_range  text,   -> interface UserInfo 의 ageRange 
+  private_gender     text,   -> interface UserInfo 의 gender  
 
   -- type1: 단일 선택
   skin_types       text,     -> interface StepData 의 skinType

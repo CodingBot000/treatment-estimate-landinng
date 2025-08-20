@@ -1,4 +1,4 @@
-import PrivateInfoStep from "../estimate/SkinSurveyFlow/questionnaire/PrivateInfoStep";
+import UserInfoStep from "../estimate/SkinSurveyFlow/questionnaire/UserInfoStep";
 import BudgetStep from "../estimate/SkinSurveyFlow/questionnaire/BudgetStep";
 import TreatmentGoalsStep from "../estimate/SkinSurveyFlow/questionnaire/TreatmentGoalsStep";
 import VisitPathStep from "../estimate/SkinSurveyFlow/questionnaire/VisitPathStep";
@@ -86,7 +86,7 @@ export const steps = [
     id: USER_INFO,
     title: "I'll send you the diagnosis. Please tell me your personal information",
     subtitle: "It will take about one day to receive the diagnosis results.",
-    component: PrivateInfoStep,
+    component: UserInfoStep,
   },
  
 ];
