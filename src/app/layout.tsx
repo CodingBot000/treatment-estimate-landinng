@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>BeautyLink</title>
+        <title>BeautyWell</title>
         <meta name="description" content="Receive a customized treatment quote tailored just for you - completely free. Experience premium anti-aging aesthetic care with Beauty Link." />
         {/* <!-- Meta Pixel Code --> */}
         <Script id="meta-pixel" strategy="afterInteractive">

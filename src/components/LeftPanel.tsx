@@ -7,7 +7,7 @@ export default function LeftPanel() {
         <div className="w-full flex justify-center mb-6">
           <Image
             src="/estimate/googleplay.png"
-            alt="BeautyLink Logo"
+            alt="Googleplay Logo"
             width={320}
             height={65}
             priority
