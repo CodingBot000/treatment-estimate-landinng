@@ -216,6 +216,10 @@ const BeautyQuestionnaire = () => {
   const handleNext = () => {
     const currentStepData = formData[steps[currentStep].id] || {};
     
+    console.log('handleNext - currentStep:', currentStep);
+    console.log('handleNext - currentStepData:', currentStepData);
+    console.log('handleNext - validation result:', validateStepData(steps[currentStep].id, currentStepData));
+    
     if (!validateStepData(steps[currentStep].id, currentStepData)) {
       setIsValideSendForm(false);
       toast({
@@ -228,6 +232,7 @@ const BeautyQuestionnaire = () => {
     }
 
     if (currentStep < steps.length - 1) {
+      console.log('handleNext - moving to next step:', currentStep + 1);
       setCurrentStep(currentStep + 1);
       // 스크롤을 즉시 최상단으로 이동
       window.scrollTo(0, 0);
@@ -288,7 +293,7 @@ const BeautyQuestionnaire = () => {
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 pb-32 ">
-        <div className="mb-8 animate-fade-in">
+        <div className="mb-8">
           {currentStep + 1 < steps.length ? (
           <h2 
             className="mb-3"
@@ -299,8 +304,9 @@ const BeautyQuestionnaire = () => {
               lineHeight: '100%',
               color: '#111827'
             }}
+            translate="no"
           >
-            {currentStep + 1} / {steps.length - 1 }
+            <span>{currentStep + 1}</span> / <span>{steps.length - 1}</span>
           </h2>
         ) : (
          <h2 
@@ -312,6 +318,7 @@ const BeautyQuestionnaire = () => {
               lineHeight: '140%',
               color: '#111827'
             }}
+            translate="no"
           >
             Completion
           </h2>
@@ -360,11 +367,16 @@ const BeautyQuestionnaire = () => {
         <div className="max-w-[768px] mx-auto px-4 sm:px-6 md:px-8 py-4">
           <div className="flex items-center gap-3">
             {currentStep === 0 ? (
-              <Button onClick={handleNext} 
+              <Button 
+                onClick={(e) => {
+                  console.log('Button clicked!', e);
+                  handleNext();
+                }}
                 className="w-full h-12 px-4 rounded-lg text-white flex items-center justify-center"
                 style={{ backgroundColor: '#FB718F' }}
+                translate="no"
               >
-                Next
+                <span translate="no">Next</span>
               </Button>
             ) : currentStep === steps.length - 1 ? (
               <Button onClick={handleSubmit} 
@@ -398,7 +410,12 @@ const BeautyQuestionnaire = () => {
                 >
                   Previous
                 </Button>
-                <Button onClick={handleNext} 
+                <Button 
+                  onClick={(e) => {
+                    console.log('Next Button clicked!', e);
+                    handleNext();
+                  }}
+                  translate="no" 
                   className="
                     flex-1 h-12 px-4 rounded-lg text-white
                     flex items-center justify-center
@@ -410,7 +427,7 @@ const BeautyQuestionnaire = () => {
                     disabled:opacity-60 disabled:pointer-events-none
                   "
                 >
-                  Next
+                  <span translate="no">Next</span>
                 </Button>
               </>
             )}

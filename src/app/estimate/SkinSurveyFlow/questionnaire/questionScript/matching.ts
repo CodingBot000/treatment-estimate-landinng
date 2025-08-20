@@ -1,151 +1,96 @@
-import { TreatmentType } from "./treatmentType";
-import { USER_INFO, BUDGET, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+// import { TreatmentType } from "./treatmentType";
 
-const recommend: typeof TreatmentType[keyof typeof TreatmentType][] = [];
+// function recommendTreatments(answers) {
+//   const { skinConcerns, treatmentGoals, treatmentAreas, budgetRange, priority, pastTreatments, medicalConditions } = answers;
+//   let recs = new Set<TreatmentType>();
 
-export function matching(stepId: string, age: number, budget: number, data: any) {
-    
-        switch (stepId) {
-          case SKIN_CONCERNS:
-            data.skinConcerns.forEach((concern: any) => {
-                if (concern.id === "acne") {
-                    recommend.push(TreatmentType.capri);
-                    recommend.push(TreatmentType.neobeam);
-                }
-                else if (concern.id === "pores") {
-                    //a
-                    recommend.push(TreatmentType.potenza);
-                    recommend.push(TreatmentType.secret);
-                    recommend.push(TreatmentType.praxel);
+//   // 1. Base recommendations by concerns/goals
+//   for (let concern of skinConcerns) {
+//     for (let treat of baseRecommendationsByConcern[concern] || []) {
+//        recs.add(treat);
+//     }
+//   }
+//   for (let goal of treatmentGoals) {
+//     for (let treat of baseRecommendationsByGoal[goal] || []) {
+//        recs.add(treat);
+//     }
+//   }
+//   // (Areas could further filter these recs here if needed)
 
-                    // or  b
-                    recommend.push(TreatmentType.skinbooster_juvelook);
-                    recommend.push(TreatmentType.skinbooster_rejuran);
-                    recommend.push(TreatmentType.skinbooster_ha);
-                    
+//   // 2. Adjust for priority
+//   if (priority === "price") {
+//     // replace or remove expensive options
+//     if (recs.has("ulthera_400") || recs.has("ulthera_600")) {
+//       recs.delete("ulthera_400"); recs.delete("ulthera_600");
+//       recs.add("liftera_400"); // cheaper alternative
+//     }
+//     // ... other replacements for cost-saving
+//   }
+//   if (priority === "effectiveness") {
+//     // possibly add top-tier treatments if not already present
+//     if (recs.has("liftera_400")) {
+//       recs.delete("liftera_400");
+//       recs.add("ulthera_400"); // go for more effective option
+//     }
+//     // ... ensure the best options are chosen
+//   }
+//   if (priority === "pain") {
+//     // remove painful options
+//     if (recs.has("ulthera_400")) {
+//       recs.delete("ulthera_400");
+//       recs.add("thermage_600"); // lower pain alternative for lifting
+//     }
+//     if (recs.has("co2")) {
+//       recs.delete("co2"); // skip CO2 laser due to pain
+//     }
+//     // ... similar adjustments for other painful treatments
+//   }
+//   if (priority === "recoveryTime") {
+//     if (recs.has("co2")) recs.delete("co2"); // remove long-downtime treatments
+//     if (recs.has("praxel")) recs.delete("praxel");
+//     // ... etc.
+//   }
 
+//   // 3. Budget enforcement
+//   let budgetKRW = getBudgetUpperLimitKRW(budgetRange);
+//   let totalCost = sum(Array.from(recs).map(t => +TreatmentType[t].price));
+//   if (totalCost > budgetKRW) {
+//     // try removing optional treatments until within budget
+//     let recList = Array.from(recs).sort((a,b) => +TreatmentType[b].price - +TreatmentType[a].price);
+//     for (let t of recList) {
+//       if (totalCost <= budgetKRW) break;
+//       // remove the most expensive or lowest-priority item
+//       recs.delete(t);
+//       totalCost -= +TreatmentType[t].price;
+//     }
+//   }
 
-                    // or ab
-                    
-                    
-                }
-                else if (concern.id === "redness") {
-                    // a
-                    recommend.push(TreatmentType.v_beam);
-                    recommend.push(TreatmentType.exel_v);
+//   // 4. Filter out past treatments conflicts
+//   if (pastTreatments.includes("botox_4m")) recs.delete("botox");
+//   if (pastTreatments.includes("filler_2w")) recs.delete("filler");
+//   if (pastTreatments.includes("laser_2w")) {
+//     for (let t of recs) {
+//       if (isLaserTreatment(t)) recs.delete(t);
+//     }
+//   }
+//   if (pastTreatments.includes("skinbooster_2w")) {
+//     recs.forEach(t => { if(t.startsWith("skinbooster")) recs.delete(t) });
+//   }
+//   // stem cell recent: similar removal if within 1 month etc.
 
-                    // or b
-                    recommend.push(TreatmentType.stem_cell);
-                    recommend.push(TreatmentType.skinbooster_juvelook);
-                    recommend.push(TreatmentType.skinbooster_rejuran);
-                    recommend.push(TreatmentType.skinbooster_ha);
+//   // 5. Filter out medical contraindications
+//   if (medicalConditions.includes("pregnant")) {
+//     recs.forEach(t => {
+//       if (isInjectable(t) || isHighRiskForPregnancy(t)) recs.delete(t);
+//     });
+//   }
+//   if (medicalConditions.includes("blood_clotting")) {
+//     recs.forEach(t => { if (isInjectable(t)) recs.delete(t); });
+//   }
+//   if (medicalConditions.includes("immunosuppressants")) {
+//     recs.forEach(t => { if (createsOpenWound(t)) recs.delete(t); });
+//   }
+//   // ... etc for other conditions
 
-                    // or ab
-                    
-                }
-                else if (concern.id === "uneven_tone") {
-                    recommend.push(TreatmentType.toning);
-                    recommend.push(TreatmentType.genesis);
-                }
-                else if (concern.id === "sagging") {
-                    if (age >= 30 && age < 40) {
-                        recommend.push(TreatmentType.ulthera_400);
-                        recommend.push(TreatmentType.shrink_400);
-                        recommend.push(TreatmentType.liftera_400);
-
-                    }
-                    else if (age >= 40 && age < 50) {
-                        recommend.push(TreatmentType.ulthera_600);
-                        recommend.push(TreatmentType.shrink_600);
-                        recommend.push(TreatmentType.liftera_600);
-                    }
-                    else if (age >= 50) {
-                        recommend.push(TreatmentType.ulthera_800);
-                        recommend.push(TreatmentType.shrink_800);
-                        recommend.push(TreatmentType.liftera_800);
-                    }
-                    recommend.push(TreatmentType.inmode);
-                    recommend.push(TreatmentType.onda);
-                    recommend.push(TreatmentType.tune_liner);
-                }
-                else if (concern.id === "elasticity") {
-                    if (age >= 30 && age < 40) {
-                        recommend.push(TreatmentType.thermage_600);
-                        recommend.push(TreatmentType.oligio_600);
-                        recommend.push(TreatmentType.density_600);
-
-                    }
-                    else if (age >= 40 && age < 50) {
-                        recommend.push(TreatmentType.thermage_900);
-                        recommend.push(TreatmentType.oligio_900);
-                        recommend.push(TreatmentType.density_900);
-                    }
-                    recommend.push(TreatmentType.tune_face);
-                    recommend.push(TreatmentType.inmode);
-                    recommend.push(TreatmentType.onda);
-                }
-                else if (concern.id === "doublie_chin") {
-                    recommend.push(TreatmentType.ulthera_200);
-                    recommend.push(TreatmentType.shrink_200);
-                    recommend.push(TreatmentType.liftera_200);                    
-                    recommend.push(TreatmentType.tune_face);
-                    recommend.push(TreatmentType.inmode);
-                    recommend.push(TreatmentType.onda);
-                }
-                else if (concern.id === "volumizing") {
-                    recommend.push(TreatmentType.juvelook);
-                    recommend.push(TreatmentType.scultra);
-                    recommend.push(TreatmentType.filler);
-                    
-                }
-                else if (concern.id === "wrinkles") {
-                    recommend.push(TreatmentType.botox);
-                    recommend.push(TreatmentType.sof_wave_200);
-                    // recommend.push(TreatmentType.sof_wave_300);
-                }
-                else if (concern.id === "dryness_glow") {
-                    recommend.push(TreatmentType.stem_cell);
-                    recommend.push(TreatmentType.skinbooster_juvelook);
-                    recommend.push(TreatmentType.skinbooster_rejuran);
-                    recommend.push(TreatmentType.skinbooster_ha);
-                }
-                else if (concern.id === "pigmentation") {
-                    if (concern.subOptions.id === "Moles") {
-                        recommend.push(TreatmentType.co2);
-                    } else if (concern.subOptions.id === "lentigo") {
-                        recommend.push(TreatmentType.repot_or_toning_and_genesis);
-                    } else {
-                        recommend.push(TreatmentType.toning);
-                        recommend.push(TreatmentType.genesis);
-                    }
-
-                }
-                else if (concern.id === "scars") {
-                    if (concern.subOptions.id === "red") {
-                        recommend.push(TreatmentType.v_beam);
-                        recommend.push(TreatmentType.exel_v);
-                        
-                    } else if (concern.subOptions.id === "brown") {
-                        recommend.push(TreatmentType.toning);
-                        recommend.push(TreatmentType.genesis);
-                    } else if (concern.subOptions.id === "rough") {
-                        recommend.push(TreatmentType.potenza);
-                        recommend.push(TreatmentType.secret);
-                        recommend.push(TreatmentType.praxel);
-                        recommend.push(TreatmentType.juvegen);
-                        recommend.push(TreatmentType.skinbooster_juvelook);
-                        recommend.push(TreatmentType.skinbooster_rejuran);
-                        recommend.push(TreatmentType.skinbooster_ha);                        
-                        recommend.push(TreatmentType.stem_cell);
-                    }
-                }
-                else if (concern.id === "filler") {
-                    recommend.push(TreatmentType.filler);
-                }
-                else if (concern.id === "other") {
-                    // recommend.push(TreatmentType.other);
-                }
-            });
-    
-        }
-}
+//   return Array.from(recs);
+// }

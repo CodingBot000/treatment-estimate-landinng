@@ -52,17 +52,31 @@ const PrivateInfo: React.FC<PrivateInfoStepProps> = ({ data, onDataChange }) => 
         <div className="space-y-2">
           <Label className="text-gray-700 font-medium">Age Range</Label>
           <Select value={privateInfo.ageRange || ''} onValueChange={(value) => handleChange('ageRange', value)}>
-            <SelectTrigger className="border-rose-200 focus:border-rose-400">
+            <SelectTrigger className="border-rose-200 focus:border-rose-400" translate="no">
               <SelectValue placeholder="Select your age range" />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="teen">Teen (14–19)</SelectItem>
-              <SelectItem value="20s">20s</SelectItem>
-              <SelectItem value="30s">30s</SelectItem>
-              <SelectItem value="40s">40s</SelectItem>
-              <SelectItem value="50s">50s</SelectItem>
-              <SelectItem value="60s">60s</SelectItem>
-              <SelectItem value="70s+">70+</SelectItem>
+            <SelectContent translate="no">
+              <SelectItem value="teen" translate="no">
+                <span translate="yes">Teen (14–19)</span>
+              </SelectItem>
+              <SelectItem value="20s" translate="no">
+                <span translate="yes">20s</span>
+              </SelectItem>
+              <SelectItem value="30s" translate="no">
+                <span translate="yes">30s</span>
+              </SelectItem>
+              <SelectItem value="40s" translate="no">
+                <span translate="yes">40s</span>
+              </SelectItem>
+              <SelectItem value="50s" translate="no">
+                <span translate="yes">50s</span>
+              </SelectItem>
+              <SelectItem value="60s" translate="no">
+                <span translate="yes">60s</span>
+              </SelectItem>
+              <SelectItem value="70s+" translate="no">
+                <span translate="yes">70+</span>
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -70,14 +84,22 @@ const PrivateInfo: React.FC<PrivateInfoStepProps> = ({ data, onDataChange }) => 
         <div className="space-y-2">
           <Label className="text-gray-700 font-medium">Gender</Label>
           <Select value={privateInfo.gender || ''} onValueChange={(value) => handleChange('gender', value)}>
-            <SelectTrigger className="border-rose-200 focus:border-rose-400">
+            <SelectTrigger className="border-rose-200 focus:border-rose-400" translate="no">
               <SelectValue placeholder="Select gender" />
             </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="female">Female</SelectItem>
-              <SelectItem value="male">Male</SelectItem>
-              <SelectItem value="non-binary">Non-binary</SelectItem>
-              <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+            <SelectContent translate="no">
+              <SelectItem value="female" translate="no">
+                <span translate="yes">Female</span>
+              </SelectItem>
+              <SelectItem value="male" translate="no">
+                <span translate="yes">Male</span>
+              </SelectItem>
+              <SelectItem value="non-binary" translate="no">
+                <span translate="yes">Non-binary</span>
+              </SelectItem>
+              <SelectItem value="prefer-not-to-say" translate="no">
+                <span translate="yes">Prefer not to say</span>
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>

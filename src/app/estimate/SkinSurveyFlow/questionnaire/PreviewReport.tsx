@@ -8,6 +8,7 @@ import { USER_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKI
 import { supabase } from '@/lib/supabaseClient';
 import SubmissionModal from './SubmissionModal';
 import { useRouter } from 'next/navigation';
+import { getBudgetRangeById } from '@/app/data/datamapper';
 
 interface PreviewReportProps {
   open: boolean;
@@ -137,7 +138,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
       case BUDGET:
         return (
           <div className="space-y-2">
-            <p><strong>Budget Range:</strong> {data.budget}</p>
+            <p><strong>Budget Range:</strong> {getBudgetRangeById(data.budget)?.label}</p>
           </div>
         );
         case PREFERENCES:
