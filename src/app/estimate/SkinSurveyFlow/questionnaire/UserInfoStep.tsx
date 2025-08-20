@@ -151,8 +151,8 @@ const UserInfo: React.FC<UserInfoStepProps> = ({ data, onDataChange }) => {
       </div>
 
       <div className="space-y-3">
-        <div className="flex items-center gap-2">
-          <Label className="text-gray-700 font-medium">Enter the messenger for real-time consultation if needed (at least one is required).</Label>
+        <div className="flex items-center gap-2"> 
+          <Label className="text-gray-700 font-medium">Enter the messenger or SNS ID for real-time consultation if needed (at least one is required).</Label>
           <button
             type="button"
             onClick={addMessengerInput}

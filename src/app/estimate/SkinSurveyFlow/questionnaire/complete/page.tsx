@@ -56,6 +56,13 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onNext }) => {
           <p className="text-gray-500 text-sm">
             We’ll notify you as soon as your diagnostic is ready—usually within 24 hours. If diagnostic requests stack up, it can take up to 3 days.
           </p>
+
+            {/* Highlighted Notice */}
+          <div className="mt-6 bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 shadow-sm">
+            <p className="text-rose-700 font-semibold text-sm md:text-base">
+              Also, our professional skin consultation and recommendation web service will be launching soon within this month, so stay tuned!
+            </p>
+          </div>
         </div>
       </div>
 
