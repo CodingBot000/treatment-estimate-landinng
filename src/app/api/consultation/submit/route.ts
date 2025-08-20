@@ -17,11 +17,12 @@ export async function POST(request: NextRequest) {
       form_version: 1,
       
       // Private Info
-      private_first_name: data.privateInfo?.firstName || null,
-      private_last_name: data.privateInfo?.lastName || null,
-      private_email: data.privateInfo?.email || null,
-      private_age_range: data.privateInfo?.ageRange || null,
-      private_gender: data.privateInfo?.gender || null,
+      private_first_name: data.userInfo?.firstName || null,
+      private_last_name: data.userInfo?.lastName || null,
+      private_email: data.userInfo?.email || null,
+      private_age_range: data.userInfo?.ageRange || null,
+      private_gender: data.userInfo?.gender || null,
+      messengers: data.userInfo?.messengers || [],
       
       // Single selections
       skin_types: data.skinType || null,

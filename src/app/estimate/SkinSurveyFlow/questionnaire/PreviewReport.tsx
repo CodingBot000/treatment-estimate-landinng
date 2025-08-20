@@ -214,17 +214,25 @@ const PreviewReport: React.FC<PreviewReportProps> =
         );
 
       case USER_INFO:
-        const privateInfo = data.privateInfo;
-        if (!privateInfo) {
+        const userInfo = data.userInfo;
+        if (!userInfo) {
           return <p>No personal information provided</p>;
         }
         return (
           <div className="space-y-2">
-            <p><strong>First Name:</strong> {privateInfo.firstName}</p>
-            <p><strong>Last Name:</strong> {privateInfo.lastName}</p>
-            <p><strong>Age Range:</strong> {privateInfo.ageRange}</p>
-            <p><strong>Gender:</strong> {privateInfo.gender}</p>
-            <p><strong>Email:</strong> {privateInfo.email}</p>
+            <p><strong>First Name:</strong> {userInfo.firstName}</p>
+            <p><strong>Last Name:</strong> {userInfo.lastName}</p>
+            <p><strong>Age Range:</strong> {userInfo.ageRange}</p>
+            <p><strong>Gender:</strong> {userInfo.gender}</p>
+            <p><strong>Email:</strong> {userInfo.email}</p>
+            {userInfo.messengers && userInfo.messengers.length > 0 && (
+              <div>
+                <p><strong>Messengers:</strong></p>
+                {userInfo.messengers.map((messenger: string, index: number) => (
+                  <p key={index} className="ml-4">• {messenger}</p>
+                ))}
+              </div>
+            )}
           </div>
         );
       case UPLOAD_PHOTO:

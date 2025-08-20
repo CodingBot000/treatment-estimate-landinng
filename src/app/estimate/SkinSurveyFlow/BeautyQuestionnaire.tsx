@@ -21,12 +21,13 @@ import {
         VISIT_PATHS 
       } from '@/constants/steps';
 
-interface PrivateInfo {
+interface UserInfo {
   firstName: string;
   lastName: string;
   ageRange: string;
   gender: string;
   email: string;
+  messengers: string[];
 }
 
 interface SkinConcerns {
@@ -69,7 +70,7 @@ interface HealthConditions {
 interface StepData {
   skinType?: string;
   skinConcerns?: SkinConcerns; 
-  privateInfo?: PrivateInfo;
+  userInfo?: UserInfo;
 
   treatmentAreas?: TreatmentAreas;
   priorityOrder?: PriorityOrder;
@@ -143,23 +144,16 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
       return !!data.visitPath?.visitPath; // 방문 경로 선택 필수
     
     case USER_INFO:
-      // console.log('validateStepData basic-info data', data);
-      // console.log('validateStepData basic-info data.privateInfo', data.privateInfo);
-      const privateInfo = data.privateInfo;
-      if (!privateInfo) return false;
-      // console.log('validateStepData basic-info privateInfo.firstName', privateInfo.firstName);
-      // console.log('validateStepData basic-info privateInfo.lastName', privateInfo.lastName);
-      // console.log('validateStepData basic-info privateInfo.ageRange', privateInfo.ageRange);
-      // console.log('validateStepData basic-info privateInfo.gender', privateInfo.gender);
-      // console.log('validateStepData basic-info privateInfo.email', privateInfo.email);
-      // const testCondition = privateInfo.firstName && privateInfo.lastName && privateInfo.ageRange && privateInfo.gender && privateInfo.email;
-      // console.log('validateStepData basic-info testCondition::', !!testCondition);
+      
+      const userInfo = data.userInfo;
+      if (!userInfo) return false;
+      
       return !!(
-        privateInfo.firstName && 
-        privateInfo.lastName &&
-        privateInfo.ageRange &&
-        privateInfo.gender &&
-        privateInfo.email
+        userInfo.firstName && 
+        userInfo.lastName &&
+        userInfo.ageRange &&
+        userInfo.gender &&
+        userInfo.email
       );
     case UPLOAD_PHOTO:
       // 파일이 업로드되었는지 확인
