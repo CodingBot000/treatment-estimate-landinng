@@ -54,7 +54,7 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onNext }) => {
             I will send the results to the contact information you filled out.
           </p>
           <p className="text-gray-500 text-sm">
-            We’ll notify you of your results as quickly as possible—usually within 24 hours. If demand is high, it may take up to 3 days. We appreciate your patience.
+            We’ll notify you as soon as your diagnostic is ready—usually within 24 hours. If diagnostic requests stack up, it can take up to 3 days.
           </p>
         </div>
       </div>
