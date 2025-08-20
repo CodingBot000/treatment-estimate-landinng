@@ -113,6 +113,24 @@ const PreviewReport: React.FC<PreviewReportProps> =
     if (!data) return 'Not yet entered';
 
     switch (stepId) {
+        case UPLOAD_PHOTO:
+        const uploadImage = data.uploadImage;
+        return (
+          <div className="space-y-2">
+            {uploadImage?.uploadedImage ? (
+              <div>
+                <p><strong>Uploaded Image:</strong> {uploadImage.imageFileName || 'Unknown file'}</p>
+                <img 
+                  src={uploadImage.uploadedImage} 
+                  alt="Uploaded skin image" 
+                  className="max-w-xs max-h-48 rounded-lg border border-gray-200 mt-2"
+                />
+              </div>
+            ) : (
+              <p><strong>Image:</strong> No image uploaded</p>
+            )}
+          </div>
+        );
       case SKIN_TYPE:
         const skinType = data.skinType;
         return (
@@ -225,7 +243,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
             <p><strong>Age Range:</strong> {userInfo.ageRange}</p>
             <p><strong>Gender:</strong> {userInfo.gender}</p>
             <p><strong>Email:</strong> {userInfo.email}</p>
-            {userInfo.messengers && userInfo.messengers.length > 0 && (
+             {userInfo.messengers && userInfo.messengers.length > 0 && (
               <div>
                 <p><strong>Messengers:</strong></p>
                 {userInfo.messengers.map((messenger: string, index: number) => (
@@ -235,24 +253,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
             )}
           </div>
         );
-      case UPLOAD_PHOTO:
-        const uploadImage = data.uploadImage;
-        return (
-          <div className="space-y-2">
-            {uploadImage?.uploadedImage ? (
-              <div>
-                <p><strong>Uploaded Image:</strong> {uploadImage.imageFileName || 'Unknown file'}</p>
-                <img 
-                  src={uploadImage.uploadedImage} 
-                  alt="Uploaded skin image" 
-                  className="max-w-xs max-h-48 rounded-lg border border-gray-200 mt-2"
-                />
-              </div>
-            ) : (
-              <p><strong>Image:</strong> No image uploaded</p>
-            )}
-          </div>
-        );
+    
       default:
         return 'No data available';
     }

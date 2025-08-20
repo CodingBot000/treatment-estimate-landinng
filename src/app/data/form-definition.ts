@@ -54,7 +54,7 @@ export const steps = [
   {
     id: PRIORITYFACTORS,
     title: "Order priority factors",
-    subtitle: "Let's find treatments that fit your priorities",
+    subtitle: "Let's find treatments that fit your priorities. (Adjust the priority by DRAG AND DROP)",
     component: PrioriotyFactorStep,
   },
   

@@ -153,7 +153,8 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
         userInfo.lastName &&
         userInfo.ageRange &&
         userInfo.gender &&
-        userInfo.email
+        userInfo.email &&
+        userInfo.messengers.length > 0
       );
     case UPLOAD_PHOTO:
       // 파일이 업로드되었는지 확인
