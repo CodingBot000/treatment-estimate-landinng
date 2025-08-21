@@ -4,6 +4,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 interface CompleteStepProps {
   onNext: () => void;
@@ -38,14 +39,12 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onNext }) => {
 
         {/* Diagnosis Card */}
         <div className="flex justify-center">
-          <Card className="w-40 h-32 bg-pink-50 border-pink-100 flex flex-col items-center justify-center space-y-2">
-            <p className="text-pink-300 text-sm font-medium tracking-wider">
-              DIAGNOSIS
-            </p>
-            <div className="w-12 h-12 bg-pink-200 rounded-full flex items-center justify-center">
-              <div className="w-6 h-8 bg-pink-300 rounded-t-full"></div>
-            </div>
-          </Card>
+          <Image
+            src="/estimate/diagnosis_goal.svg"
+            alt="Diagnosis Goal"
+            width={240}
+            height={240}
+          />
         </div>
 
         {/* Information Text */}

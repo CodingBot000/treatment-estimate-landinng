@@ -4,6 +4,9 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus } from 'lucide-react';
+import { CountryCode } from '@/app/models/country-code.dto';
+import { isValidEmail } from '@/utils/validators';
+import { NationModal } from '@/components/template/modal/nations';
 
 interface UserInfoStepProps {
   data: any;
@@ -12,6 +15,9 @@ interface UserInfoStepProps {
 
 const UserInfo: React.FC<UserInfoStepProps> = ({ data, onDataChange }) => {
   const userInfo = data.userInfo || {};
+  const [nation, setNation] = useState<CountryCode | null>(null);
+  const [emailError, setEmailError] = useState<string | undefined>(undefined)
+
   const [messengerInputs, setMessengerInputs] = useState<string[]>([]);
 
   useEffect(() => {
@@ -24,6 +30,13 @@ const UserInfo: React.FC<UserInfoStepProps> = ({ data, onDataChange }) => {
   }, [userInfo.messengers]);
   
   const handleChange = (field: string, value: string) => {
+    if (field === 'email') {
+      if (value && !isValidEmail(value)) {
+        setEmailError("유효한 이메일 주소를 입력해주세요.")
+      } else {
+        setEmailError(undefined)
+      }
+    }
     onDataChange({
       ...data,
       userInfo: {
@@ -54,6 +67,8 @@ const UserInfo: React.FC<UserInfoStepProps> = ({ data, onDataChange }) => {
     }
   };
 
+  const hasEmailError = !!emailError;
+ 
   return (
     <div className="space-y-6">
       <div className="grid md:grid-cols-2 gap-6">
@@ -138,16 +153,58 @@ const UserInfo: React.FC<UserInfoStepProps> = ({ data, onDataChange }) => {
       </div>
 
       <div className="space-y-2">
+        <Label className="text-gray-700 font-medium">Country</Label>
+        {/* <div className="flex space-x-2">
+          <button
+            type="button"
+            className="w-48 px-3 py-2 border border-gray-300 rounded-md flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+            onClick={() => setCountryModalOpen(true)}
+          >
+            <span>{selectedCountry.country_name}</span>
+            <svg className="w-4 h-4 ml-2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+          </button>
+        </div> */}
+        {/* <CountrySelectModal
+          open={countryModalOpen}
+          countryList={country}
+          onSelect={(item) => handleChange('phoneCountry', `${item.country_name})`)}
+          onCancel={() => setCountryModalOpen(false)}
+        /> */}
+         <div>
+          <NationModal
+            nation={nation?.country_name || ""}
+            onSelect={(value: CountryCode) => {
+              setNation(value);
+              handleChange('country', value.country_name);
+            }}
+          />
+        </div>
+    </div>                
+
+      <div className="space-y-2">
         <Label htmlFor="email" className="text-gray-700 font-medium">Email Address</Label>
         <Input
           id="email"
           type="email"
           value={userInfo.email || ''}
           onChange={(e) => handleChange('email', e.target.value)}
-          className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20"
+          className={`border ${
+          hasEmailError
+            ? "border-rose-400 focus:border-rose-500 focus:ring-rose-500/20"
+            : "border-rose-200 focus:border-rose-400 focus:ring-rose-400/20"
+        }`}
           placeholder="Enter your email address"
+          aria-invalid={hasEmailError}
+          aria-describedby={hasEmailError ? "email-error" : undefined}
         />
-        <p className="text-sm text-gray-500">We'll use this to send your personalized treatment recommendations</p>
+        {hasEmailError ? (
+        <p id="email-error" className="text-sm text-rose-500">
+          {emailError}
+        </p>
+      ) : (
+         <p className="text-sm text-gray-500">We'll use this to send your personalized treatment recommendations
+         </p>
+      )}
       </div>
 
       <div className="space-y-3">
