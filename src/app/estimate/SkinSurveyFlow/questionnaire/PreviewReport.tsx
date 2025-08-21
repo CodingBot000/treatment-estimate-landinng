@@ -9,6 +9,7 @@ import { supabase } from '@/lib/supabaseClient';
 import SubmissionModal from './SubmissionModal';
 import { useRouter } from 'next/navigation';
 import { getBudgetRangeById } from '@/app/data/datamapper';
+import { fbqTrack } from '@/utils/metapixel';
 
 interface PreviewReportProps {
   open: boolean;
@@ -27,10 +28,12 @@ const PreviewReport: React.FC<PreviewReportProps> =
   const [isCompleted, setIsCompleted] = useState(false);
 
   const handleSubmit = async () => {
+    fbqTrack("Submit_diagnosis_click", { finalSubmit: "start" });
+    
     setIsSubmissionModalOpen(true);
     setIsSubmitting(true);
     setIsCompleted(false);
-
+    
     try {
       // 모든 스텝의 데이터를 합치기
       const allStepData = Object.values(formData).reduce((acc, stepData) => {
@@ -90,7 +93,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
 
       console.log('Submission successful:', result);
       setIsCompleted(true);
-      
+      fbqTrack("Submit_diagnosis_click", { finalSubmit: "success" });
     } catch (error) {
       console.error('Submission error:', error);
       alert('Failed to submit consultation. Please try again.');
