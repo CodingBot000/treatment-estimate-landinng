@@ -10,6 +10,7 @@ import SubmissionModal from './SubmissionModal';
 import { useRouter } from 'next/navigation';
 import { getBudgetRangeById } from '@/app/data/datamapper';
 import { fbqTrack } from '@/utils/metapixel';
+import { MessengerInput } from '@/components/input/InputMessengerFields';
 
 interface PreviewReportProps {
   open: boolean;
@@ -247,11 +248,12 @@ const PreviewReport: React.FC<PreviewReportProps> =
             <p><strong>Gender:</strong> {userInfo.gender}</p>
             <p><strong>Email:</strong> {userInfo.email}</p>
             <p><strong>Nation</strong> {userInfo.country}</p>
+            <p><strong>Korean Phone Number</strong> {userInfo.koreanPhoneNumber}</p>
              {userInfo.messengers && userInfo.messengers.length > 0 && (
               <div>
                 <p><strong>Messengers:</strong></p>
-                {userInfo.messengers.map((messenger: string, index: number) => (
-                  <p key={index} className="ml-4">• {messenger}</p>
+                {userInfo.messengers.map((messenger: MessengerInput, index: number) => (
+                  <p key={index} className="ml-4">• {messenger.type}: {messenger.value}</p>
                 ))}
               </div>
             )}

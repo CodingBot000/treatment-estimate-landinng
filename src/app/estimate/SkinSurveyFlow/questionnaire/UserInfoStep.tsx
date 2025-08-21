@@ -3,10 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus } from 'lucide-react';
 import { CountryCode } from '@/app/models/country-code.dto';
 import { isValidEmail } from '@/utils/validators';
 import { NationModal } from '@/components/template/modal/nations';
+import InputPhoneNumber from '@/components/input/InputPhoneNumber';
+import InputMessengerFields from '@/components/input/InputMessengerFields';
 
 interface UserInfoStepProps {
   data: any;
@@ -18,20 +19,10 @@ const UserInfo: React.FC<UserInfoStepProps> = ({ data, onDataChange }) => {
   const [nation, setNation] = useState<CountryCode | null>(null);
   const [emailError, setEmailError] = useState<string | undefined>(undefined)
 
-  const [messengerInputs, setMessengerInputs] = useState<string[]>([]);
-
-  useEffect(() => {
-    const existingMessengers = userInfo.messengers || [];
-    if (existingMessengers.length > 0) {
-      setMessengerInputs(existingMessengers);
-    } else if (messengerInputs.length === 0) {
-      setMessengerInputs(['']);
-    }
-  }, [userInfo.messengers]);
   
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: string, value: string | number | undefined) => {
     if (field === 'email') {
-      if (value && !isValidEmail(value)) {
+      if (value && typeof value === 'string' && !isValidEmail(value)) {
         setEmailError("유효한 이메일 주소를 입력해주세요.")
       } else {
         setEmailError(undefined)
@@ -46,26 +37,6 @@ const UserInfo: React.FC<UserInfoStepProps> = ({ data, onDataChange }) => {
     });
   };
 
-  const handleMessengerChange = (index: number, value: string) => {
-    const updatedInputs = [...messengerInputs];
-    updatedInputs[index] = value;
-    setMessengerInputs(updatedInputs);
-
-    const nonEmptyMessengers = updatedInputs.filter(msg => msg.trim() !== '');
-    onDataChange({
-      ...data,
-      userInfo: {
-        ...userInfo,
-        messengers: nonEmptyMessengers
-      }
-    });
-  };
-
-  const addMessengerInput = () => {
-    if (messengerInputs.length < 5) {
-      setMessengerInputs([...messengerInputs, '']);
-    }
-  };
 
   const hasEmailError = !!emailError;
  
@@ -207,32 +178,33 @@ const UserInfo: React.FC<UserInfoStepProps> = ({ data, onDataChange }) => {
       )}
       </div>
 
-      <div className="space-y-3">
-        <div className="flex items-center gap-2"> 
-          <Label className="text-gray-700 font-medium">Enter the messenger or SNS ID for real-time consultation if needed (at least one is required).</Label>
-          <button
-            type="button"
-            onClick={addMessengerInput}
-            disabled={messengerInputs.length >= 5}
-            className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-100 hover:bg-rose-200 disabled:bg-gray-100 disabled:cursor-not-allowed transition-colors"
-          >
-            <Plus className="w-4 h-4 text-rose-600" />
-          </button>
-        </div>
-        
-        <div className="space-y-3">
-          {messengerInputs.map((messenger, index) => (
-            <Input
-              key={index}
-              value={messenger}
-              onChange={(e) => handleMessengerChange(index, e.target.value)}
-              className="border-rose-200 focus:border-rose-400 focus:ring-rose-400/20"
-              placeholder={`Messenger ${index + 1}${index === 0 ? ' (Required)' : ''}`}
-              required={index === 0}
-            />
-          ))}
-        </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="koreanPhoneNumber" className="text-gray-700 font-medium">Korean Phone Number (Optional)</Label>
+        <InputPhoneNumber
+          id="koreanPhoneNumber"
+          value={userInfo.koreanPhoneNumber}
+          onChange={(value) => handleChange('koreanPhoneNumber', value)}
+          placeholder="Enter Korean phone number (numbers only)"
+        />
       </div>
+
+      <div className="space-y-3">
+        <InputMessengerFields
+          value={userInfo.messengers || []}
+          onChange={(messengerInputs) => {
+            // Store only messengers with values for data consistency
+            onDataChange({
+              ...data,
+              userInfo: {
+                ...userInfo,
+                messengers: messengerInputs
+              }
+            });
+          }}
+        />
+      </div>
+
     </div>
   );
 };

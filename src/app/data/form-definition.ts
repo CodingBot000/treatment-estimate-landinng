@@ -21,6 +21,7 @@ import PrioriotyFactorStep from "../estimate/SkinSurveyFlow/questionnaire/Priori
 import TreatmentExpBeforeStep from "../estimate/SkinSurveyFlow/questionnaire/TreatmentExpBefore";
 
 export const steps = [
+
    {
     id: UPLOAD_PHOTO,
     title: "Please post a picture to diagnose your skin",
