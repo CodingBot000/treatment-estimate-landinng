@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { isValidElement, useState } from 'react';
 import { ChevronLeft, ChevronRight, Heart, Star, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -20,6 +20,8 @@ import {
        UPLOAD_PHOTO,
         VISIT_PATHS 
       } from '@/constants/steps';
+import { isValidEmail } from '@/utils/validators';
+import { CountryCode, CountryInputDto } from '@/app/models/country-code.dto';
 
 interface UserInfo {
   firstName: string;
@@ -27,6 +29,7 @@ interface UserInfo {
   ageRange: string;
   gender: string;
   email: string;
+  country: string;
   messengers: string[];
 }
 
@@ -154,6 +157,7 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
         userInfo.ageRange &&
         userInfo.gender &&
         userInfo.email &&
+        isValidEmail(userInfo.email) && 
         userInfo.messengers.length > 0
       );
     case UPLOAD_PHOTO:

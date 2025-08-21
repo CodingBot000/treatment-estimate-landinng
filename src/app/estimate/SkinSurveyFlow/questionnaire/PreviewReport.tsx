@@ -243,6 +243,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
             <p><strong>Age Range:</strong> {userInfo.ageRange}</p>
             <p><strong>Gender:</strong> {userInfo.gender}</p>
             <p><strong>Email:</strong> {userInfo.email}</p>
+            <p><strong>Nation</strong> {userInfo.country}</p>
              {userInfo.messengers && userInfo.messengers.length > 0 && (
               <div>
                 <p><strong>Messengers:</strong></p>

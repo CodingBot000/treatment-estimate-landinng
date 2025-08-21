@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
       private_email: data.userInfo?.email || null,
       private_age_range: data.userInfo?.ageRange || null,
       private_gender: data.userInfo?.gender || null,
+      country: data.userInfo?.country || null,
       messengers: data.userInfo?.messengers || [],
       
       // Single selections
