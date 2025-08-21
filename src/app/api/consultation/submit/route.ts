@@ -23,7 +23,11 @@ export async function POST(request: NextRequest) {
       private_age_range: data.userInfo?.ageRange || null,
       private_gender: data.userInfo?.gender || null,
       country: data.userInfo?.country || null,
-      messengers: data.userInfo?.messengers || [],
+      korean_phone_number: data.userInfo?.koreanPhoneNumber || null,
+      messengers: data.userInfo?.messengers?.filter((msg: any) => msg.value?.trim() !== '').map((msg: any) => ({
+        ...msg,
+        value: msg.type === 'whatsapp' && msg.phone_code ? `+${msg.phone_code}${msg.value}` : msg.value
+      })) || [],
       
       // Single selections
       skin_types: data.skinType || null,

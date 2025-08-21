@@ -22,6 +22,7 @@ import {
       } from '@/constants/steps';
 import { isValidEmail } from '@/utils/validators';
 import { CountryCode, CountryInputDto } from '@/app/models/country-code.dto';
+import { MessengerInput } from '@/components/input/InputMessengerFields';
 
 interface UserInfo {
   firstName: string;
@@ -29,8 +30,9 @@ interface UserInfo {
   ageRange: string;
   gender: string;
   email: string;
+  koreanPhoneNumber: number;
   country: string;
-  messengers: string[];
+  messengers: MessengerInput[];
 }
 
 interface SkinConcerns {
