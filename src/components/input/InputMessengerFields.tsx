@@ -62,9 +62,8 @@ export default function InputMessengerFields({ value = [], onChange }: InputMess
     );
     setMessengerInputs(updatedInputs);
     
-    // Only send messengers with values to parent
-    const validMessengers = updatedInputs.filter(msg => msg.value.trim() !== '');
-    onChange(validMessengers);
+    // Send all messenger inputs to parent (including empty ones)
+    onChange(updatedInputs);
   }
 
   const handleMessengerValueChange = (index: number, nextValue: string) => {
@@ -73,9 +72,8 @@ export default function InputMessengerFields({ value = [], onChange }: InputMess
     );
     setMessengerInputs(updatedInputs);
     
-    // Only send messengers with values to parent
-    const validMessengers = updatedInputs.filter(msg => msg.value.trim() !== '');
-    onChange(validMessengers);
+    // Send all messenger inputs to parent (including empty ones)
+    onChange(updatedInputs);
   }
 
   const handleCountryCodeChange = (index: number, country: CountryCode) => {
@@ -89,9 +87,8 @@ export default function InputMessengerFields({ value = [], onChange }: InputMess
     );
     setMessengerInputs(updatedInputs);
     
-    // Only send messengers with values to parent
-    const validMessengers = updatedInputs.filter(msg => msg.value.trim() !== '');
-    onChange(validMessengers);
+    // Send all messenger inputs to parent (including empty ones)
+    onChange(updatedInputs);
   }
 
   const addMessengerRow = () => {
@@ -104,9 +101,8 @@ export default function InputMessengerFields({ value = [], onChange }: InputMess
     const updatedInputs = messengerInputs.filter((_, i) => i !== index);
     setMessengerInputs(updatedInputs);
     
-    // Only send messengers with values to parent
-    const validMessengers = updatedInputs.filter(msg => msg.value.trim() !== '');
-    onChange(validMessengers);
+    // Send all messenger inputs to parent (including empty ones)
+    onChange(updatedInputs);
   }
 
   return (
