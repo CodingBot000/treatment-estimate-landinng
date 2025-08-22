@@ -80,11 +80,7 @@ const PreferencesStep: React.FC<PreferencesStepProps> = ({ data, onDataChange })
                 title={area.label}
                 selected={isSelected}
                 onSelect={() => handleAreaToggle(area.id)}
-                className={
-                  isSelected
-                    ? 'border-rose-400 bg-rose-50 shadow-md ring-0' // 선택 시 스타일
-                    : 'border-gray-200 hover:border-rose-300'       // 미선택 스타일
-                }
+             
               />
             );
           })}

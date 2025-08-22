@@ -136,11 +136,7 @@ const TreatmentExpBeforeStep: React.FC<TreatmentExpBeforeStepProps> = ({ data, o
                 subtitle={treatment.description}
                 selected={isSelected}
                 onSelect={() => handlePastTreatmentToggle(treatment.id)}
-                className={
-                  isSelected
-                    ? 'border-rose-400 bg-rose-50 shadow-md ring-0' // 선택 시 스타일
-                    : 'border-gray-200 hover:border-rose-300'       // 미선택 스타일
-                }
+           
               />
             );
           })}

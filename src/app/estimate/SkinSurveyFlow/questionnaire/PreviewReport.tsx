@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { getBudgetRangeById } from '@/app/data/datamapper';
 import { fbqTrack } from '@/utils/metapixel';
 import { MessengerInput } from '@/components/input/InputMessengerFields';
+import { recommendTreatments } from './questionScript/matching';
 
 interface PreviewReportProps {
   open: boolean;
@@ -265,6 +266,39 @@ const PreviewReport: React.FC<PreviewReportProps> =
     }
   };
 
+  useEffect(() => {
+    // Console log entire formData
+    console.log("=== PreviewReport formData ===");
+    console.log(formData);
+    console.log("==============================");
+
+    // Map formData to recommendation algorithm parameters
+    const skinConcerns = formData.skinConcerns?.concerns?.map((concern: string) => ({ id: concern })) || [];
+    
+    // Add subOptions for concerns that have them
+    if (formData.skinConcerns?.moreConcerns) {
+      skinConcerns.push({ id: "other", subOptions: [formData.skinConcerns.moreConcerns] });
+    }
+
+    const treatmentAreas = formData.treatmentAreas?.treatmentAreas || [];
+    if (formData.treatmentAreas?.otherAreas) {
+      treatmentAreas.push(formData.treatmentAreas.otherAreas);
+    }
+
+    const output = recommendTreatments({
+      skinTypeId: formData.skinType || "combination",
+      skinConcerns: skinConcerns,
+      treatmentGoals: formData.goals || [],
+      treatmentAreas: treatmentAreas,
+      budgetRangeId: formData.budget || "1000-5000", 
+      priorityId: formData.priorityOrder?.priorityOrder?.[0] || "effectiveness",
+      pastTreatments: formData.pastTreatments?.pastTreatments || ["none"],
+      medicalConditions: formData.healthConditions?.healthConditions || ["none"],
+    });
+    console.log("=== Recommendation Output ===");
+    console.log(output);
+    console.log("=============================");
+  }, [formData]);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">

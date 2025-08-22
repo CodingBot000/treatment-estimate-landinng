@@ -93,11 +93,7 @@ const HealthConditionStep: React.FC<HealthConditionStepProps> = ({ data, onDataC
                   subtitle={condition.description}
                   selected={isSelected}
                   onSelect={() => handleHealthConditionToggle(condition.id)}
-                  className={
-                    isSelected
-                      ? 'border-rose-400 bg-rose-50 shadow-md ring-0' // 선택 시 스타일
-                      : 'border-gray-200 hover:border-rose-300'       // 미선택 스타일
-                  }
+           
                 />
               );
             })}
