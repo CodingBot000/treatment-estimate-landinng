@@ -111,7 +111,7 @@ export default function InputMessengerFields({ value = [], onChange }: InputMess
 
       <div className="space-y-3">
         {messengerInputs.map((row, index) => (
-          <div key={index} className="grid grid-cols-1 sm:grid-cols-12 gap-2">
+          <div key={index} className="grid grid-cols-1 sm:grid-cols-12 gap-1">
             {/* 왼쪽: shadcn Select */}
             <div className="sm:col-span-4">
               <Select

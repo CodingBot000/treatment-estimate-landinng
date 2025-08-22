@@ -323,7 +323,7 @@ export const questions = {
       },
       {
         id: "stemcell_1_6m",
-        label: "Stem Cell (1–6 months)",
+        label: "Stem Cell (1-6 months)",
         description: "Select if you have had a treatment within the past 1–6 months",
       },
       {
