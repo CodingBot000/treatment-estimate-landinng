@@ -111,21 +111,39 @@ type SkinTypeId =
 
 export interface SelectedConcern {
   id:
-    | "acne"
+    // Acne
+    | "acne-inflammatory"
+    | "acne-whiteheads"
+    // Basic concerns
     | "pores"
     | "redness"
     | "uneven_tone"
     | "sagging"
     | "elasticity"
-    | "doublie_chin"
+    | "double_chin"
     | "volumizing"
     | "wrinkles"
     | "dryness_glow"
-    | "pigmentation"
-    | "scars"
-    | "filler"
+    // Pigmentation
+    | "pigmentation-freckles"
+    | "pigmentation-sun-damage"
+    | "pigmentation-moles"
+    | "pigmentation-melasma"
+    | "pigmentation-lentigo"
+    | "pigmentation-not-sure"
+    // Scars
+    | "scar-red"
+    | "scar-brown"
+    | "scar-rough"
+    // Filler
+    | "filler-forehead"
+    | "filler-jawline"
+    | "filler-cheeks"
+    | "filler-under-eyes"
+    | "filler-body"
+    // Other
     | "other";
-  subOptions?: string[]; // 예: ["inflammatory-acne", "moles", "freckles" ...]
+  subOptions?: string[]; // deprecated - kept for backward compatibility
 }
 
 export interface RecommendInputs {
@@ -843,26 +861,24 @@ function addUnique(cands: Candidate[], add: Candidate[]) {
 }
 
 function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
-  const { id, subOptions = [] } = c;
+  const { id } = c;
   const out: Candidate[] = [];
 
   switch (id) {
-    case "acne": {
-      // 활동성 여드름 vs 면포/화이트헤드
-      if (subOptions.includes("inflammatory-acne")) {
-        addUnique(out, [
-          { key: "capri", importance: 1, why: "acne(염증) 감소" },
-          { key: "genesis", importance: 2, why: "피지/홍조 보조" },
-        ]);
-      }
-      if (subOptions.includes("whiteheads-small-bumps") || subOptions.length === 0) {
-        addUnique(out, [
-          { key: "genesis", importance: 1, why: "면포/피지 조절" },
-          { key: "capri", importance: 2, why: "여드름 보조" },
-        ]);
-      }
-      // 여드름 흉터 가능성
+    case "acne-inflammatory": {
       addUnique(out, [
+        { key: "capri", importance: 1, why: "acne(염증) 감소" },
+        { key: "genesis", importance: 2, why: "피지/홍조 보조" },
+        { key: "secret", importance: 2, why: "여드름 흉터/결(마니RF)" },
+        { key: "potenza", importance: 2, why: "여드름 흉터/결(RF)" },
+        { key: "praxel", importance: 3, why: "흉터 레이저(다운타임)" },
+      ]);
+      break;
+    }
+    case "acne-whiteheads": {
+      addUnique(out, [
+        { key: "genesis", importance: 1, why: "면포/피지 조절" },
+        { key: "capri", importance: 2, why: "여드름 보조" },
         { key: "secret", importance: 2, why: "여드름 흉터/결(마니RF)" },
         { key: "potenza", importance: 2, why: "여드름 흉터/결(RF)" },
         { key: "praxel", importance: 3, why: "흉터 레이저(다운타임)" },
@@ -911,7 +927,7 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
       ]);
       break;
     }
-    case "doublie_chin": {
+    case "double_chin": {
       addUnique(out, [
         { key: "tune_liner", importance: 1, why: "지방분해 주사(턱)" },
         { key: "ulthera_200", importance: 1, why: "턱선 리프팅" },
@@ -939,33 +955,91 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
       ]);
       break;
     }
-    case "pigmentation": {
-      if (subOptions.includes("moles")) {
-        addUnique(out, [{ key: "co2", importance: 1, why: "점/병변 제거" }]);
-      }
-      // 일반 색소/기미/주근깨
+    case "pigmentation-freckles": {
+      addUnique(out, [
+        { key: "toning", importance: 1, why: "색소/톤(주근깨)" },
+        { key: "genesis", importance: 2, why: "결/혈행 보조" },
+      ]);
+      break;
+    }
+    case "pigmentation-sun-damage": {
+      addUnique(out, [
+        { key: "toning", importance: 1, why: "색소/톤(햇빛 반점)" },
+        { key: "genesis", importance: 2, why: "결/혈행 보조" },
+      ]);
+      break;
+    }
+    case "pigmentation-moles": {
+      addUnique(out, [
+        { key: "co2", importance: 1, why: "점/병변 제거" },
+        { key: "toning", importance: 2, why: "색소 보조" },
+      ]);
+      break;
+    }
+    case "pigmentation-melasma": {
+      addUnique(out, [
+        { key: "toning", importance: 1, why: "색소/톤(기미)" },
+        { key: "genesis", importance: 2, why: "결/혈행 보조" },
+      ]);
+      break;
+    }
+    case "pigmentation-lentigo": {
+      addUnique(out, [
+        { key: "toning", importance: 1, why: "색소/톤(렌티고)" },
+        { key: "genesis", importance: 2, why: "결/혈행 보조" },
+      ]);
+      break;
+    }
+    case "pigmentation-not-sure": {
       addUnique(out, [
         { key: "toning", importance: 1, why: "색소/톤" },
         { key: "genesis", importance: 2, why: "결/혈행 보조" },
       ]);
       break;
     }
-    case "scars": {
-      // 붉은 흉터/갈색 흉터/거친 흉터
-      if (subOptions.includes("red")) addUnique(out, [{ key: "v_beam", importance: 1, why: "붉은 흉터" }]);
-      if (subOptions.includes("brown")) addUnique(out, [{ key: "toning", importance: 1, why: "갈색 흉터" }]);
-      if (subOptions.includes("rough") || subOptions.length === 0) {
-        addUnique(out, [
-          { key: "praxel", importance: 1, why: "결/흉터" },
-          { key: "secret", importance: 2, why: "흉터(마니RF)" },
-          { key: "potenza", importance: 2, why: "흉터(RF)" },
-          { key: "juvelook", importance: 3, why: "흉터/재생 주사" },
-        ]);
-      }
+    case "scar-red": {
+      addUnique(out, [
+        { key: "v_beam", importance: 1, why: "붉은 흉터" },
+        { key: "praxel", importance: 2, why: "결/흉터 보조" },
+        { key: "juvelook", importance: 3, why: "흉터/재생 주사" },
+      ]);
       break;
     }
-    case "filler": {
-      addUnique(out, [{ key: "filler", importance: 1, why: "지정 부위 볼륨" }]);
+    case "scar-brown": {
+      addUnique(out, [
+        { key: "toning", importance: 1, why: "갈색 흉터" },
+        { key: "praxel", importance: 2, why: "결/흉터 보조" },
+        { key: "juvelook", importance: 3, why: "흉터/재생 주사" },
+      ]);
+      break;
+    }
+    case "scar-rough": {
+      addUnique(out, [
+        { key: "praxel", importance: 1, why: "결/흉터" },
+        { key: "secret", importance: 2, why: "흉터(마니RF)" },
+        { key: "potenza", importance: 2, why: "흉터(RF)" },
+        { key: "juvelook", importance: 3, why: "흉터/재생 주사" },
+      ]);
+      break;
+    }
+    case "filler-forehead": {
+      addUnique(out, [{ key: "filler", importance: 1, why: "이마 볼륨" }]);
+      break;
+    }
+    case "filler-jawline": {
+      addUnique(out, [{ key: "filler", importance: 1, why: "턱선 볼륨" }]);
+      break;
+    }
+    case "filler-cheeks": {
+      addUnique(out, [{ key: "filler", importance: 1, why: "볼 볼륨" }]);
+      break;
+    }
+    case "filler-under-eyes": {
+      addUnique(out, [{ key: "filler", importance: 1, why: "눈밑 볼륨" }]);
+      break;
+    }
+    case "filler-body": {
+      addUnique(out, [{ key: "filler", importance: 1, why: "바디 볼륨" }]);
       break;
     }
     case "other":

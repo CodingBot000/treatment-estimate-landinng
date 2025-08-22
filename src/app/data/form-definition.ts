@@ -390,52 +390,190 @@ export const questions = {
       emoji: '🤖'
     }
   ],
-
+  
   skinConcerns: [
-    { id: "acne", label: "Acne & Breakouts", 
-      subOptions: [
-        { id: "inflammatory-acne", label: "Inflammatory Acne" }, // 염증성 여드름
-        { id: "whiteheads-small-bumps", label: "Whiteheads / Small Bumps" }, // 화이트헤드 / 좁쌀여드름
-      ] 
-    },  // 여드름
-    { id: "pores", label: "Enlarged Pores or Texture", 
-      subOptions: []}, // 모공
-    { id: "redness", label: "Redness & Sensitive Skin", subOptions: []}, //  홍조 및 민감성 피부
-    { id: "uneven_tone", label: "Uneven Skin Tone", subOptions: [] }, // 피부 톤 불균형
-    { id: "sagging", label: "Sagging", subOptions: [] }, // 피부 처짐 = 탄력고민
-    { id: "elasticity", label: "Elasticity", subOptions: [] },
-    { id: "doublie_chin", label: "Double Chin", subOptions: [] },
-    { id: "volumizing", label: "Volumizing", subOptions: [] },
-    { id: "wrinkles", label: "Wrinkles", subOptions: [] }, // 잔주름
-    { id: "dryness_glow", label: "Dryness & Glow", subOptions: [] }, // 건조함
-    { id: "pigmentation", label: "Pigmentation" ,
-      subOptions: [
-        { id: "freckles", label: "Freckles" }, // 주근깨
-        { id: "sun-damage", label: "Sun Damage" }, // 햇빛 반점
-        { id: "moles", label: "Moles" }, // 점
-        { id: "melasma", label: "Melasma" }, // 기미
-        { id: "lentigo", label: "Lentigo" }, 
-        { id: "not_sure", label: "Not Sure" }, 
-      ]
-    }, // 색소침착 및 기미
-    { id: "scars", label: "Scars", 
-      subOptions: [
-        { id: "red", label: "Red" }, 
-        { id: "brown", label: "Brown" }, 
-        { id: "rough", label: "Rough" }, 
-      ] 
-    }, // 흉터
-    { id: "filler", label: "Filler", 
-      subOptions: [
-        { id: "forehead", label: "Forehead" },
-        { id: "jawline", label: "Jawline" },
-        { id: "cheeks", label: "Cheeks" },
-        { id: "under_eyes", label: "Under eyes" },
-        { id: "body", label: "Body" }, 
-      ] 
-    }, 
-    { id: "other", label: "Other (Free Input)", subOptions: [] }, // 기타 (자유입력)
+    // Acne
+    {
+      id: "acne-inflammatory",
+      label: "Acne & Breakouts - Inflammatory Acne",
+      description: "Red, swollen, painful pimples with inflammation.",
+    },
+    {
+      id: "acne-whiteheads",
+      label: "Acne & Breakouts - Whiteheads / Small Bumps",
+      description: "Clogged pores that appear as white or flesh-colored bumps.",
+    },
+
+    // Pores
+    {
+      id: "pores",
+      label: "Enlarged Pores or Rough Texture",
+    },
+
+    // Redness
+    {
+      id: "redness",
+      label: "Redness & Sensitive Skin",
+    },
+
+    // Uneven Tone
+    {
+      id: "uneven_tone",
+      label: "Uneven Skin Tone",
+    },
+
+    // Sagging
+    {
+      id: "sagging",
+      label: "Sagging (Loss of Firmness)",
+    },
+
+    // Elasticity
+    {
+      id: "elasticity",
+      label: "Reduced Elasticity",
+    },
+
+    // Double Chin
+    {
+      id: "double_chin",
+      label: "Double Chin",
+    },
+
+    // Volumizing
+    {
+      id: "volumizing",
+      label: "Volume Loss",
+    },
+
+    // Wrinkles
+    {
+      id: "wrinkles",
+      label: "Wrinkles / Fine Lines",
+    },
+
+    // Dryness
+    {
+      id: "dryness_glow",
+      label: "Dryness & Lack of Glow",
+    },
+
+    // Pigmentation
+    {
+      id: "pigmentation-freckles",
+      label: "Pigmentation - Freckles",
+    },
+    {
+      id: "pigmentation-sun-damage",
+      label: "Pigmentation - Sun Damage",
+      description: "Dark spots caused by UV exposure.",
+    },
+    {
+      id: "pigmentation-moles",
+      label: "Pigmentation - Moles",
+    },
+    {
+      id: "pigmentation-melasma",
+      label: "Pigmentation - Melasma",
+      description: "Brown or gray patches often seen on cheeks and forehead.",
+    },
+    {
+      id: "pigmentation-lentigo",
+      label: "Pigmentation - Lentigo",
+    },
+    {
+      id: "pigmentation-not-sure",
+      label: "Pigmentation - Not Sure",
+    },
+
+    // Scars
+    {
+      id: "scar-red",
+      label: "Scars - Red",
+    },
+    {
+      id: "scar-brown",
+      label: "Scars - Brown",
+    },
+    {
+      id: "scar-rough",
+      label: "Scars - Rough / Uneven",
+    },
+
+    // Filler
+    {
+      id: "filler-forehead",
+      label: "Filler - Forehead",
+    },
+    {
+      id: "filler-jawline",
+      label: "Filler - Jawline",
+    },
+    {
+      id: "filler-cheeks",
+      label: "Filler - Cheeks",
+    },
+    {
+      id: "filler-under-eyes",
+      label: "Filler - Under Eyes",
+    },
+    {
+      id: "filler-body",
+      label: "Filler - Body",
+    },
+
+    // Other
+    {
+      id: "other",
+      label: "Other (Free Input)",
+      description: "Write your own concern if not listed above.",
+    },
   ],
+  // skinConcerns: [
+  //   { id: "acne", label: "Acne & Breakouts", 
+  //     subOptions: [
+  //       { id: "inflammatory-acne", label: "Inflammatory Acne" }, // 염증성 여드름
+  //       { id: "whiteheads-small-bumps", label: "Whiteheads / Small Bumps" }, // 화이트헤드 / 좁쌀여드름
+  //     ] 
+  //   },  // 여드름
+  //   { id: "pores", label: "Enlarged Pores or Texture", 
+  //     subOptions: []}, // 모공
+  //   { id: "redness", label: "Redness & Sensitive Skin", subOptions: []}, //  홍조 및 민감성 피부
+  //   { id: "uneven_tone", label: "Uneven Skin Tone", subOptions: [] }, // 피부 톤 불균형
+  //   { id: "sagging", label: "Sagging", subOptions: [] }, // 피부 처짐 = 탄력고민
+  //   { id: "elasticity", label: "Elasticity", subOptions: [] },
+  //   { id: "doublie_chin", label: "Double Chin", subOptions: [] },
+  //   { id: "volumizing", label: "Volumizing", subOptions: [] },
+  //   { id: "wrinkles", label: "Wrinkles", subOptions: [] }, // 잔주름
+  //   { id: "dryness_glow", label: "Dryness & Glow", subOptions: [] }, // 건조함
+  //   { id: "pigmentation", label: "Pigmentation" ,
+  //     subOptions: [
+  //       { id: "freckles", label: "Freckles" }, // 주근깨
+  //       { id: "sun-damage", label: "Sun Damage" }, // 햇빛 반점
+  //       { id: "moles", label: "Moles" }, // 점
+  //       { id: "melasma", label: "Melasma" }, // 기미
+  //       { id: "lentigo", label: "Lentigo" }, 
+  //       { id: "not_sure", label: "Not Sure" }, 
+  //     ]
+  //   }, // 색소침착 및 기미
+  //   { id: "scars", label: "Scars", 
+  //     subOptions: [
+  //       { id: "red", label: "Red" }, 
+  //       { id: "brown", label: "Brown" }, 
+  //       { id: "rough", label: "Rough" }, 
+  //     ] 
+  //   }, // 흉터
+  //   { id: "filler", label: "Filler", 
+  //     subOptions: [
+  //       { id: "forehead", label: "Forehead" },
+  //       { id: "jawline", label: "Jawline" },
+  //       { id: "cheeks", label: "Cheeks" },
+  //       { id: "under_eyes", label: "Under eyes" },
+  //       { id: "body", label: "Body" }, 
+  //     ] 
+  //   }, 
+  //   { id: "other", label: "Other (Free Input)", subOptions: [] }, // 기타 (자유입력)
+  // ],
 
 
   visitPaths: [
