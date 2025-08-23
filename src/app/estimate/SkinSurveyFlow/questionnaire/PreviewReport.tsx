@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card } from '@/components/ui/card';
-import { steps } from '../../../data/form-definition';
+import { steps, questions } from '../../../data/form-definition';
 import { Button } from '@/components/ui/button';
 import { USER_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
 import { supabase } from '@/lib/supabaseClient';
@@ -11,16 +11,18 @@ import { useRouter } from 'next/navigation';
 import { getBudgetRangeById } from '@/app/data/datamapper';
 import { fbqTrack } from '@/utils/metapixel';
 import { MessengerInput } from '@/components/input/InputMessengerFields';
+// import { recommendTreatments } from './questionScript/matching';
 
 interface PreviewReportProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   showSendFormButton: boolean;
   formData: Record<string, any>;
+  onSubmissionComplete?: (formData: Record<string, any>) => void;
 }
 
 const PreviewReport: React.FC<PreviewReportProps> = 
-({ open, onOpenChange, formData, showSendFormButton }) => 
+({ open, onOpenChange, formData, showSendFormButton, onSubmissionComplete }) => 
   {
 
   const router = useRouter();
@@ -105,13 +107,22 @@ const PreviewReport: React.FC<PreviewReportProps> =
   };
 
   const handleSubmissionComplete = () => {
+    console.log("MATCHING LOG: handleSubmissionComplete 호출됨");
     setIsSubmissionModalOpen(false);
     setIsCompleted(false);
     onOpenChange(false);
-    // 페이지 새로고침 또는 다른 페이지로 이동
-    // window.location.reload();
-    router.replace('/estimate/SkinSurveyFlow/questionnaire/complete')
+    
+    // 모든 스텝의 데이터를 합치기
+    const allStepData = Object.values(formData).reduce((acc, stepData) => {
+      return { ...acc, ...stepData };
+    }, {});
+    
+    // 부모 컴포넌트에 완료된 데이터 전달
+    if (onSubmissionComplete) {
+      onSubmissionComplete(allStepData);
+    }
   };
+
 
   const getStepSummary = (stepId: string, data: any) => {
     if (!data) return 'Not yet entered';
@@ -137,17 +148,21 @@ const PreviewReport: React.FC<PreviewReportProps> =
         );
       case SKIN_TYPE:
         const skinType = data.skinType;
+        const skinTypeLabel = questions.skinTypes.find(type => type.id === skinType)?.label || skinType;
         return (
           <div className="space-y-2">
-            <p><strong>Skin Type:</strong> {data.skinType}</p>
+            <p><strong>Skin Type:</strong> {skinTypeLabel}</p>
           </div>
         );
 
       case SKIN_CONCERNS:
         const skinConcerns = data.skinConcerns;
+        const skinConcernLabels = skinConcerns?.concerns?.map((concernId: string) => {
+          return questions.skinConcerns.find(concern => concern.id === concernId)?.label || concernId;
+        }).join(', ');
         return (
           <div className="space-y-2">
-            <p><strong>Skin Concerns:</strong> {skinConcerns?.concerns?.join(', ')}</p>
+            <p><strong>Skin Concerns:</strong> {skinConcernLabels}</p>
             {skinConcerns?.moreConcerns && (
               <div className="mt-2 p-3 rounded-md">
                 <p><strong>Other Concerns:</strong></p>
@@ -165,9 +180,12 @@ const PreviewReport: React.FC<PreviewReportProps> =
         );
         case PREFERENCES:
         const treatmentAreas = data.treatmentAreas;
+        const treatmentAreaLabels = treatmentAreas?.treatmentAreas?.map((areaId: string) => {
+          return questions.treatmentAreas.find(area => area.id === areaId)?.label || areaId;
+        }).join(', ');
         return (
           <div className="space-y-2">
-            <p><strong>Treatment Areas:</strong> {treatmentAreas?.treatmentAreas?.join(', ')}</p>
+            <p><strong>Treatment Areas:</strong> {treatmentAreaLabels}</p>
             {treatmentAreas?.otherAreas && (
               <div className="mt-2 p-3 rounded-md">
                 <p><strong>Other Treatment Areas:</strong></p>
@@ -178,23 +196,32 @@ const PreviewReport: React.FC<PreviewReportProps> =
           </div>
         );
         case PRIORITYFACTORS:
+        const priorityLabels = data.priorityOrder?.priorityOrder?.map((priorityId: string) => {
+          return questions.priorities.find(priority => priority.id === priorityId)?.label || priorityId;
+        }).join(' > ');
         return (
           <div className="space-y-2">
-            <p><strong>Priority Order:</strong> {data.priorityOrder?.priorityOrder?.join(' > ')}</p>
+            <p><strong>Priority Order:</strong> {priorityLabels}</p>
           </div>
         );
       case TREATMENT_GOALS:
+        const treatmentGoalLabels = data.goals?.map((goalId: string) => {
+          return questions.treatmentGoals.find(goal => goal.id === goalId)?.label || goalId;
+        }).join(', ');
         return (
           <div className="space-y-2">
-            <p><strong>Treatment Goals:</strong> {data.goals?.join(', ')}</p>
+            <p><strong>Treatment Goals:</strong> {treatmentGoalLabels}</p>
             
           </div>
         );
       case TREATMENT_EXPERIENCE_BEFORE:
         const pastTreatments = data.pastTreatments;
+        const pastTreatmentLabels = pastTreatments?.pastTreatments?.map((treatmentId: string) => {
+          return questions.pastTreatments.find(treatment => treatment.id === treatmentId)?.label || treatmentId;
+        }).join(', ');
         return (
           <div className="space-y-2">
-            <p><strong>Previous Treatments:</strong> {pastTreatments?.pastTreatments?.join(', ')}</p>
+            <p><strong>Previous Treatments:</strong> {pastTreatmentLabels}</p>
             {pastTreatments?.sideEffects && (
               <div className="mt-2 p-3 rounded-md">
                 <p><strong>Treatment Side Effects:</strong></p>
@@ -209,9 +236,12 @@ const PreviewReport: React.FC<PreviewReportProps> =
 
       case HEALTH_CONDITIONS:
         const healthConditions = data.healthConditions;
+        const healthConditionLabels = healthConditions?.healthConditions?.map((conditionId: string) => {
+          return questions.medicalConditions.find(condition => condition.id === conditionId)?.label || conditionId;
+        }).join(', ');
         return (
           <div className="space-y-2">
-            <p><strong>Health Conditions:</strong> {healthConditions?.healthConditions?.join(', ')}</p>
+            <p><strong>Health Conditions:</strong> {healthConditionLabels}</p>
             {healthConditions?.otherConditions && !healthConditions.healthConditions?.includes('none') && (
               <div className="mt-2 p-3 rounded-md">
                 <p><strong>Other Health Conditions:</strong></p>
@@ -223,9 +253,10 @@ const PreviewReport: React.FC<PreviewReportProps> =
 
       case VISIT_PATHS:
         const visitPath = data.visitPath;
+        const visitPathLabel = questions.visitPaths.find(path => path.id === visitPath?.visitPath)?.label || visitPath?.visitPath;
         return (
           <div className="space-y-2">
-            <p><strong>Referral Source:</strong> {visitPath?.visitPath}</p>
+            <p><strong>Referral Source:</strong> {visitPathLabel}</p>
             {visitPath?.otherPath && visitPath.visitPath === 'other' && (
               <div className="mt-2 p-3 rounded-md">
                 <p><strong>Other Referral Source:</strong></p>
@@ -264,6 +295,40 @@ const PreviewReport: React.FC<PreviewReportProps> =
         return 'No data available';
     }
   };
+
+  // useEffect(() => {
+  //   // Console log entire formData
+  //   console.log("=== PreviewReport formData ===");
+  //   console.log(formData);
+  //   console.log("==============================");
+
+  //   // Map formData to recommendation algorithm parameters
+  //   const skinConcerns = formData.skinConcerns?.concerns?.map((concern: string) => ({ id: concern })) || [];
+    
+  //   // Add subOptions for concerns that have them
+  //   if (formData.skinConcerns?.moreConcerns) {
+  //     skinConcerns.push({ id: "other", subOptions: [formData.skinConcerns.moreConcerns] });
+  //   }
+
+  //   const treatmentAreas = formData.treatmentAreas?.treatmentAreas || [];
+  //   if (formData.treatmentAreas?.otherAreas) {
+  //     treatmentAreas.push(formData.treatmentAreas.otherAreas);
+  //   }
+
+  //   const output = recommendTreatments({
+  //     skinTypeId: formData.skinType || "combination",
+  //     skinConcerns: skinConcerns,
+  //     treatmentGoals: formData.goals || [],
+  //     treatmentAreas: treatmentAreas,
+  //     budgetRangeId: formData.budget || "1000-5000", 
+  //     priorityId: formData.priorityOrder?.priorityOrder?.[0] || "effectiveness",
+  //     pastTreatments: formData.pastTreatments?.pastTreatments || ["none"],
+  //     medicalConditions: formData.healthConditions?.healthConditions || ["none"],
+  //   });
+  //   console.log("=== Recommendation Output ===");
+  //   console.log(output);
+  //   console.log("=============================");
+  // }, [formData]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

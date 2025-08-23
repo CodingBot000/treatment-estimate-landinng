@@ -79,13 +79,10 @@ const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange 
                 key={concern.id}
                 mode="multi"
                 title={concern.label}
+                subtitle={concern.description}
                 selected={isSelected}
                 onSelect={() => handleConcernToggle(concern.id)}
-                className={
-                  isSelected
-                    ? 'border-rose-400 bg-rose-50 shadow-md ring-0' // 선택 시 스타일
-                    : 'border-gray-200 hover:border-rose-300'       // 미선택 스타일
-                }
+             
               />
             );
           })}

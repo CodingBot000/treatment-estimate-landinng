@@ -45,11 +45,7 @@ const TreatmentGoalsStep: React.FC<TreatmentGoalsStepProps> = ({ data, onDataCha
                 subtitle={goal.description}
                 selected={isSelected}
                 onSelect={() => handleGoalToggle(goal.id)}
-                className={
-                  isSelected
-                    ? 'border-rose-400 bg-rose-50 shadow-md ring-0' // 선택 시 스타일
-                    : 'border-gray-200 hover:border-rose-300'       // 미선택 스타일
-                }
+         
               />
             );
           })}

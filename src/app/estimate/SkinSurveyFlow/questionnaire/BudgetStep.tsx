@@ -36,11 +36,7 @@ const BudgetStep: React.FC<BudgetStepProps> = ({ data, onDataChange }) => {
                 selected={isSelected}
                 onSelect={() => handleBudgetChange(type.id)}
                 showIndicator={false} // 싱글은 점 숨김 (디자인 가이드)
-                className={
-                  isSelected
-                    ? 'p-4 border-rose-400 bg-rose-50 shadow-md'
-                    : 'p-4 border-gray-200 hover:border-rose-300 hover:shadow-md'
-                }
+               
               />
             );
           })}
