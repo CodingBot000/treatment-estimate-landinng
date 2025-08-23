@@ -154,6 +154,11 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
       const userInfo = data.userInfo;
       if (!userInfo) return false;
       
+      // Check if there's at least one messenger with a non-empty value
+      const hasValidMessenger = userInfo.messengers && 
+        userInfo.messengers.length > 0 && 
+        userInfo.messengers.some((messenger: any) => messenger && messenger.value && messenger.value.trim() !== '');
+      
       return !!(
         userInfo.firstName && 
         userInfo.lastName &&
@@ -161,7 +166,7 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
         userInfo.gender &&
         userInfo.email &&
         isValidEmail(userInfo.email) && 
-        userInfo.messengers.length > 0
+        hasValidMessenger
       );
     case UPLOAD_PHOTO:
       // 파일이 업로드되었는지 확인
@@ -195,7 +200,7 @@ const getValidationMessage = (stepId: string): string => {
     case VISIT_PATHS:
       return 'Please select how you found us.';
     case USER_INFO:
-      return 'Please fill in your name, age, gender and email address.';
+      return 'Please fill in your name, age, gender, email address, and at least one messenger contact.';
     case UPLOAD_PHOTO:
       return 'Please post a picture to diagnose your skin.';
     default:

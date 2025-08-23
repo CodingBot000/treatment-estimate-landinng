@@ -181,6 +181,10 @@ const UserInfo: React.FC<UserInfoStepProps> = ({ data, onDataChange }) => {
 
       <div className="space-y-2">
         <Label htmlFor="koreanPhoneNumber" className="text-gray-700 font-medium">Korean Phone Number (Optional)</Label>
+        <Label htmlFor="koreanPhoneNumber_desc" className="text-gray-600 font-sm">
+          We recommend providing your Korean phone number for smoother communication and consultation.
+          </Label>
+        
         <InputPhoneNumber
           id="koreanPhoneNumber"
           value={userInfo.koreanPhoneNumber}

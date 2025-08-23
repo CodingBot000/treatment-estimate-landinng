@@ -4,6 +4,7 @@ import { useState } from 'react';
 import BeautyQuestionnaire from "./SkinSurveyFlow/BeautyQuestionnaire";
 import DiagnosisResult from "./SkinSurveyFlow/questionnaire/DiagnosisResult";
 import { log } from '@/utils/logger';
+import DiagnosisRecommend from './SkinSurveyFlow/questionnaire/DiagnosisRecommend';
 
 
 export default function EstimatePage() {
@@ -25,10 +26,14 @@ export default function EstimatePage() {
   if (showDiagnosisResult && submittedFormData) {
     return (
       <div className="min-h-screen">
-        <DiagnosisResult 
+        <DiagnosisRecommend 
           formData={submittedFormData}
           onComplete={handleDiagnosisComplete}
         />
+        {/* <DiagnosisResult 
+          formData={submittedFormData}
+          onComplete={handleDiagnosisComplete}
+        /> */}
       </div>
     );
   }

@@ -13,7 +13,10 @@
 // 상수/타입
 ///////////////////////////////
 
-export const KRW_TO_USD = 0.00072 as const;
+import { getCurrentExchangeRate } from '@/utils/exchangeRateManager';
+
+// Dynamic exchange rate function - use this instead of constant
+export const getKRWToUSD = (): number => getCurrentExchangeRate();
 
 // 시술 키 (의뢰인이 제공한 목록 그대로 반영)
 export type TreatmentKey =
@@ -354,7 +357,7 @@ const inAreas = (t: TreatmentKey, selected: AreaId[]) => {
   return META[t].areas.some((a) => selected.includes(a));
 };
 
-const krwToUsd = (krw: number) => Math.round(krw * KRW_TO_USD);
+const krwToUsd = (krw: number) => Math.round(krw * getKRWToUSD());
 const formatUSD = (usd: number) => `$${usd.toLocaleString("en-US")}`;
 const formatKRW = (krw: number) => `${krw.toLocaleString("ko-KR")}원`;
 
@@ -700,9 +703,9 @@ function substituteForPriority(
 
 function budgetUpperKRW(id: BudgetId): number {
   switch (id) {
-    case "under-1000": return Math.floor(1000 / KRW_TO_USD);
-    case "1000-5000": return Math.floor(5000 / KRW_TO_USD);
-    case "5000-10000": return Math.floor(10000 / KRW_TO_USD);
+    case "under-1000": return Math.floor(1000 / getKRWToUSD());
+    case "1000-5000": return Math.floor(5000 / getKRWToUSD());
+    case "5000-10000": return Math.floor(10000 / getKRWToUSD());
     case "10000-plus":
     case "no_limit":
     case "unsure":

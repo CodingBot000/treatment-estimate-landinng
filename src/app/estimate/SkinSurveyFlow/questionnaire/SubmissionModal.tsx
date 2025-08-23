@@ -19,12 +19,11 @@ const SubmissionModal: React.FC<SubmissionModalProps> = ({
   onComplete
 }) => {
   return (
-    <Dialog open={open} onOpenChange={false}>
+    <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent 
-        className="max-w-md"
+        className="max-w-md [&>button]:hidden"
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
-        hideCloseButton={true}
       >
         <div className="flex flex-col items-center justify-center p-6 space-y-4">
           {isSubmitting ? (
