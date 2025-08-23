@@ -207,7 +207,11 @@ interface StepComponentProps {
   onDataChange: (data: StepData) => void;
 }
 
-const BeautyQuestionnaire = () => {
+interface BeautyQuestionnaireProps {
+  onSubmissionComplete?: (formData: Record<string, any>) => void;
+}
+
+const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionComplete }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<Record<string, StepData>>({});
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -454,12 +458,19 @@ const BeautyQuestionnaire = () => {
         </div>
       </div>
       
+      
       {/* Preview Dialog */}
       <PreviewReport
         open={isPreviewOpen}
         showSendFormButton={isValideSendForm}
         onOpenChange={setIsPreviewOpen}
         formData={formData}
+        onSubmissionComplete={(formData) => {
+          setIsPreviewOpen(false);
+          if (onSubmissionComplete) {
+            onSubmissionComplete(formData);
+          }
+        }}
       />
 
       {/* Decorative Elements */}

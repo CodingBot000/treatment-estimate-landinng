@@ -11,17 +11,18 @@ import { useRouter } from 'next/navigation';
 import { getBudgetRangeById } from '@/app/data/datamapper';
 import { fbqTrack } from '@/utils/metapixel';
 import { MessengerInput } from '@/components/input/InputMessengerFields';
-import { recommendTreatments } from './questionScript/matching';
+// import { recommendTreatments } from './questionScript/matching';
 
 interface PreviewReportProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   showSendFormButton: boolean;
   formData: Record<string, any>;
+  onSubmissionComplete?: (formData: Record<string, any>) => void;
 }
 
 const PreviewReport: React.FC<PreviewReportProps> = 
-({ open, onOpenChange, formData, showSendFormButton }) => 
+({ open, onOpenChange, formData, showSendFormButton, onSubmissionComplete }) => 
   {
 
   const router = useRouter();
@@ -106,13 +107,22 @@ const PreviewReport: React.FC<PreviewReportProps> =
   };
 
   const handleSubmissionComplete = () => {
+    console.log("MATCHING LOG: handleSubmissionComplete 호출됨");
     setIsSubmissionModalOpen(false);
     setIsCompleted(false);
     onOpenChange(false);
-    // 페이지 새로고침 또는 다른 페이지로 이동
-    // window.location.reload();
-    router.replace('/estimate/SkinSurveyFlow/questionnaire/complete')
+    
+    // 모든 스텝의 데이터를 합치기
+    const allStepData = Object.values(formData).reduce((acc, stepData) => {
+      return { ...acc, ...stepData };
+    }, {});
+    
+    // 부모 컴포넌트에 완료된 데이터 전달
+    if (onSubmissionComplete) {
+      onSubmissionComplete(allStepData);
+    }
   };
+
 
   const getStepSummary = (stepId: string, data: any) => {
     if (!data) return 'Not yet entered';
@@ -286,39 +296,40 @@ const PreviewReport: React.FC<PreviewReportProps> =
     }
   };
 
-  useEffect(() => {
-    // Console log entire formData
-    console.log("=== PreviewReport formData ===");
-    console.log(formData);
-    console.log("==============================");
+  // useEffect(() => {
+  //   // Console log entire formData
+  //   console.log("=== PreviewReport formData ===");
+  //   console.log(formData);
+  //   console.log("==============================");
 
-    // Map formData to recommendation algorithm parameters
-    const skinConcerns = formData.skinConcerns?.concerns?.map((concern: string) => ({ id: concern })) || [];
+  //   // Map formData to recommendation algorithm parameters
+  //   const skinConcerns = formData.skinConcerns?.concerns?.map((concern: string) => ({ id: concern })) || [];
     
-    // Add subOptions for concerns that have them
-    if (formData.skinConcerns?.moreConcerns) {
-      skinConcerns.push({ id: "other", subOptions: [formData.skinConcerns.moreConcerns] });
-    }
+  //   // Add subOptions for concerns that have them
+  //   if (formData.skinConcerns?.moreConcerns) {
+  //     skinConcerns.push({ id: "other", subOptions: [formData.skinConcerns.moreConcerns] });
+  //   }
 
-    const treatmentAreas = formData.treatmentAreas?.treatmentAreas || [];
-    if (formData.treatmentAreas?.otherAreas) {
-      treatmentAreas.push(formData.treatmentAreas.otherAreas);
-    }
+  //   const treatmentAreas = formData.treatmentAreas?.treatmentAreas || [];
+  //   if (formData.treatmentAreas?.otherAreas) {
+  //     treatmentAreas.push(formData.treatmentAreas.otherAreas);
+  //   }
 
-    const output = recommendTreatments({
-      skinTypeId: formData.skinType || "combination",
-      skinConcerns: skinConcerns,
-      treatmentGoals: formData.goals || [],
-      treatmentAreas: treatmentAreas,
-      budgetRangeId: formData.budget || "1000-5000", 
-      priorityId: formData.priorityOrder?.priorityOrder?.[0] || "effectiveness",
-      pastTreatments: formData.pastTreatments?.pastTreatments || ["none"],
-      medicalConditions: formData.healthConditions?.healthConditions || ["none"],
-    });
-    console.log("=== Recommendation Output ===");
-    console.log(output);
-    console.log("=============================");
-  }, [formData]);
+  //   const output = recommendTreatments({
+  //     skinTypeId: formData.skinType || "combination",
+  //     skinConcerns: skinConcerns,
+  //     treatmentGoals: formData.goals || [],
+  //     treatmentAreas: treatmentAreas,
+  //     budgetRangeId: formData.budget || "1000-5000", 
+  //     priorityId: formData.priorityOrder?.priorityOrder?.[0] || "effectiveness",
+  //     pastTreatments: formData.pastTreatments?.pastTreatments || ["none"],
+  //     medicalConditions: formData.healthConditions?.healthConditions || ["none"],
+  //   });
+  //   console.log("=== Recommendation Output ===");
+  //   console.log(output);
+  //   console.log("=============================");
+  // }, [formData]);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">

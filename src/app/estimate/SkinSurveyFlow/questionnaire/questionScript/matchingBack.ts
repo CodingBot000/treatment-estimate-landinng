@@ -71,7 +71,7 @@ type AreaId =
   | "body"
   | "other";
 
-type PriorityId = "price" | "effectiveness" | "pain" | "recoveryTime";
+type PriorityId = "price" | "effectiveness" | "pain" | "recoveryTime" | "reviews" | "location";
 
 type BudgetId =
   | "under-1000"
@@ -1165,6 +1165,15 @@ function substituteForPriority(
         }
       }
     });
+  }
+
+  // MATCHING_TODO_CHECK: reviews와 location 우선순위에 대한 로직이 구현되지 않음. 알고리즘 요구사항 확인 필요
+  if (priority === "reviews") {
+    // MATCHING_TODO_CHECK: 리뷰 우선순위 처리 로직 필요
+  }
+
+  if (priority === "location") {
+    // MATCHING_TODO_CHECK: 병원 위치 우선순위 처리 로직 필요
   }
 
   // effectiveness는 별도 치환 필요 없음(나중 예산 내에서 유지 쪽)

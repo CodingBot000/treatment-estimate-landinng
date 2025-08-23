@@ -1,12 +1,11 @@
-import { supabase } from '@/lib/supabaseClient';
 import { NextRequest, NextResponse } from 'next/server';
-// import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 
-// const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-// const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-// // 서버에서는 service role key 사용
-// const supabase = createClient(supabaseUrl, supabaseServiceKey);
+// 서버에서는 service role key 사용
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 export async function POST(request: NextRequest) {
   try {
