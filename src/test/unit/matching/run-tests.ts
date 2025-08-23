@@ -5,6 +5,7 @@
  * It executes various test scenarios and outputs detailed results to console.
  */
 
+import { log } from '@/utils/logger.js';
 import { recommendTreatments, RecommendInputs, RecommendationOutput } from '../../../app/estimate/SkinSurveyFlow/questionnaire/questionScript/matchingDiagnosis.js';
 import { questionsData } from './test-data.js';
 
@@ -16,20 +17,20 @@ class TestRunner {
 
   test(name: string, testFn: () => void) {
     this.testCount++;
-    console.log(`\n🧪 Running: ${name}`);
+    log.debug(`\n🧪 Running: ${name}`);
     try {
       testFn();
       this.passedTests++;
-      console.log('✅ PASSED');
+      log.debug('✅ PASSED');
     } catch (error) {
       this.failedTests++;
-      console.log('❌ FAILED:', error);
+      log.debug('❌ FAILED:', error);
     }
   }
 
   describe(name: string, describeFn: () => void) {
-    console.log(`\n📁 Test Suite: ${name}`);
-    console.log('='.repeat(50));
+    log.debug(`\n📁 Test Suite: ${name}`);
+    log.debug('='.repeat(50));
     describeFn();
   }
 
@@ -59,13 +60,13 @@ class TestRunner {
   }
 
   summary() {
-    console.log('\n' + '='.repeat(60));
-    console.log('🏁 TEST SUMMARY');
-    console.log('='.repeat(60));
-    console.log(`Total Tests: ${this.testCount}`);
-    console.log(`✅ Passed: ${this.passedTests}`);
-    console.log(`❌ Failed: ${this.failedTests}`);
-    console.log(`Success Rate: ${((this.passedTests / this.testCount) * 100).toFixed(1)}%`);
+    log.debug('\n' + '='.repeat(60));
+    log.debug('🏁 TEST SUMMARY');
+    log.debug('='.repeat(60));
+    log.debug(`Total Tests: ${this.testCount}`);
+    log.debug(`✅ Passed: ${this.passedTests}`);
+    log.debug(`❌ Failed: ${this.failedTests}`);
+    log.debug(`Success Rate: ${((this.passedTests / this.testCount) * 100).toFixed(1)}%`);
   }
 }
 
@@ -100,50 +101,50 @@ function validateOutput(output: RecommendationOutput) {
 }
 
 function printTestResult(testName: string, input: RecommendInputs, output: RecommendationOutput) {
-  console.log(`\n📋 ${testName}`);
-  console.log('📥 INPUT:');
-  console.log('  - Skin Type:', input.skinTypeId);
-  console.log('  - Concerns:', input.skinConcerns.map(c => c.id).join(', '));
-  console.log('  - Goals:', input.treatmentGoals.join(', '));
-  console.log('  - Areas:', input.treatmentAreas.join(', '));
-  console.log('  - Budget:', input.budgetRangeId);
-  console.log('  - Priority:', input.priorityId);
+  log.debug(`\n📋 ${testName}`);
+  log.debug('📥 INPUT:');
+  log.debug('  - Skin Type:', input.skinTypeId);
+  log.debug('  - Concerns:', input.skinConcerns.map(c => c.id).join(', '));
+  log.debug('  - Goals:', input.treatmentGoals.join(', '));
+  log.debug('  - Areas:', input.treatmentAreas.join(', '));
+  log.debug('  - Budget:', input.budgetRangeId);
+  log.debug('  - Priority:', input.priorityId);
   
-  console.log('📤 OUTPUT:');
+  log.debug('📤 OUTPUT:');
   if (output.recommendations.length > 0) {
-    console.log('  💊 Recommendations:');
+    log.debug('  💊 Recommendations:');
     output.recommendations.forEach((r, i) => {
-      console.log(`    ${i + 1}. ${r.label} - $${r.priceUSD} (${r.rationale.join(', ')})`);
+      log.debug(`    ${i + 1}. ${r.label} - $${r.priceUSD} (${r.rationale.join(', ')})`);
     });
-    console.log(`  💰 Total Cost: $${output.totalPriceUSD} (₩${output.totalPriceKRW.toLocaleString()})`);
+    log.debug(`  💰 Total Cost: $${output.totalPriceUSD} (₩${output.totalPriceKRW.toLocaleString()})`);
   } else {
-    console.log('  💊 No recommendations found');
+    log.debug('  💊 No recommendations found');
   }
   
   if (output.excluded.length > 0) {
-    console.log('  ❌ Excluded:');
-    output.excluded.forEach(e => console.log(`    - ${e.label}: ${e.reason}`));
+    log.debug('  ❌ Excluded:');
+    output.excluded.forEach(e => log.debug(`    - ${e.label}: ${e.reason}`));
   }
   
   if (output.substitutions.length > 0) {
-    console.log('  🔄 Substitutions:');
-    output.substitutions.forEach(s => console.log(`    - ${s.from} → ${s.to} (${s.reason})`));
+    log.debug('  🔄 Substitutions:');
+    output.substitutions.forEach(s => log.debug(`    - ${s.from} → ${s.to} (${s.reason})`));
   }
   
   if (output.notes.length > 0) {
-    console.log('  📝 Notes:');
-    output.notes.forEach(note => console.log(`    - ${note}`));
+    log.debug('  📝 Notes:');
+    output.notes.forEach(note => log.debug(`    - ${note}`));
   }
   
   if (output.upgradeSuggestions.length > 0) {
-    console.log('  💡 Upgrade Suggestions:');
-    output.upgradeSuggestions.forEach(suggestion => console.log(`    - ${suggestion}`));
+    log.debug('  💡 Upgrade Suggestions:');
+    output.upgradeSuggestions.forEach(suggestion => log.debug(`    - ${suggestion}`));
   }
 }
 
 // Run all tests
-console.log('🚀 Starting Matching Algorithm Tests');
-console.log('Using data from form-definition.ts');
+log.debug('🚀 Starting Matching Algorithm Tests');
+log.debug('Using data from form-definition.ts');
 
 // Test 1: Basic functionality
 runner.describe('Basic Tests', () => {

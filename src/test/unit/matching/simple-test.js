@@ -10,26 +10,26 @@ const path = require('path');
 // Since we can't easily import TypeScript modules, let's create a simple test
 // that demonstrates how the algorithm should be tested
 
-console.log('🚀 Matching Algorithm Test Suite');
-console.log('================================');
+log.deubg('🚀 Matching Algorithm Test Suite');
+log.debug('================================');
 
-console.log('\n📋 Test Plan:');
-console.log('1. Basic functionality test');
-console.log('2. Skin type variations');
-console.log('3. Budget constraint tests');
-console.log('4. Priority-based filtering');
-console.log('5. Medical condition exclusions');
-console.log('6. Past treatment restrictions');
-console.log('7. Complex scenario combinations');
+log.debug('\n📋 Test Plan:');
+log.debug('1. Basic functionality test');
+log.debug('2. Skin type variations');
+log.debug('3. Budget constraint tests');
+log.debug('4. Priority-based filtering');
+log.debug('5. Medical condition exclusions');
+log.debug('6. Past treatment restrictions');
+log.debug('7. Complex scenario combinations');
 
-console.log('\n📝 Test Data Sources:');
-console.log('- Skin Types: dry, oily, combination, sensitive, normal, not_sure');
-console.log('- Budget Ranges: under-1000, 1000-5000, 5000-10000, 10000-plus, no_limit, unsure');
-console.log('- Treatment Goals: overall_refresh, lifting_firmness, texture_tone, anti_aging, acne_pore, recommendation');
-console.log('- Priorities: price, effectiveness, pain, recoveryTime, reviews, location');
-console.log('- Medical Conditions: blood_clotting, pregnant, skin_allergy, immunosuppressants, etc.');
+log.debug('\n📝 Test Data Sources:');
+log.debug('- Skin Types: dry, oily, combination, sensitive, normal, not_sure');
+log.debug('- Budget Ranges: under-1000, 1000-5000, 5000-10000, 10000-plus, no_limit, unsure');
+log.debug('- Treatment Goals: overall_refresh, lifting_firmness, texture_tone, anti_aging, acne_pore, recommendation');
+log.debug('- Priorities: price, effectiveness, pain, recoveryTime, reviews, location');
+log.debug('- Medical Conditions: blood_clotting, pregnant, skin_allergy, immunosuppressants, etc.');
 
-console.log('\n🧪 Sample Test Cases:');
+log.debug('\n🧪 Sample Test Cases:');
 
 const testCases = [
   {
@@ -105,35 +105,35 @@ const testCases = [
 ];
 
 testCases.forEach((testCase, index) => {
-  console.log(`\n${index + 1}. ${testCase.name}`);
-  console.log('   Input:', JSON.stringify(testCase.input, null, 6));
-  console.log('   Expected:', testCase.expectedBehavior);
+  log.debug(`\n${index + 1}. ${testCase.name}`);
+  log.debug('   Input:', JSON.stringify(testCase.input, null, 6));
+  log.debug('   Expected:', testCase.expectedBehavior);
 });
 
-console.log('\n📊 Expected Algorithm Behaviors:');
-console.log('- Budget constraints → treatment substitutions or exclusions');
-console.log('- Pain priority → avoid high-pain treatments (CO2, Praxel, Ulthera)');
-console.log('- Recovery priority → avoid high-downtime treatments');
-console.log('- Price priority → substitute expensive treatments with cheaper alternatives');
-console.log('- Sensitive skin → downgrade aggressive treatment importance');
-console.log('- Medical conditions → exclude contraindicated treatments + safety notes');
-console.log('- Past treatments → exclude recently performed procedures');
+log.debug('\n📊 Expected Algorithm Behaviors:');
+log.debug('- Budget constraints → treatment substitutions or exclusions');
+log.debug('- Pain priority → avoid high-pain treatments (CO2, Praxel, Ulthera)');
+log.debug('- Recovery priority → avoid high-downtime treatments');
+log.debug('- Price priority → substitute expensive treatments with cheaper alternatives');
+log.debug('- Sensitive skin → downgrade aggressive treatment importance');
+log.debug('- Medical conditions → exclude contraindicated treatments + safety notes');
+log.debug('- Past treatments → exclude recently performed procedures');
 
-console.log('\n🎯 Validation Points:');
-console.log('- Output structure: recommendations, excluded, substitutions, notes, prices');
-console.log('- Budget compliance: total cost ≤ budget limit');
-console.log('- Safety compliance: medical restrictions respected');
-console.log('- Timing compliance: past treatment intervals respected');
-console.log('- Logic consistency: priority preferences applied correctly');
+log.debug('\n🎯 Validation Points:');
+log.debug('- Output structure: recommendations, excluded, substitutions, notes, prices');
+log.debug('- Budget compliance: total cost ≤ budget limit');
+log.debug('- Safety compliance: medical restrictions respected');
+log.debug('- Timing compliance: past treatment intervals respected');
+log.debug('- Logic consistency: priority preferences applied correctly');
 
-console.log('\n📄 To run the actual algorithm test:');
-console.log('1. Set up proper TypeScript/ES module environment');
-console.log('2. Import the matching algorithm: recommendTreatments()');
-console.log('3. Run each test case through the algorithm');
-console.log('4. Validate outputs match expected behaviors');
-console.log('5. Check edge cases and error handling');
+log.debug('\n📄 To run the actual algorithm test:');
+log.debug('1. Set up proper TypeScript/ES module environment');
+log.debug('2. Import the matching algorithm: recommendTreatments()');
+log.debug('3. Run each test case through the algorithm');
+log.debug('4. Validate outputs match expected behaviors');
+log.debug('5. Check edge cases and error handling');
 
-console.log('\n✅ Test Framework Setup Complete');
-console.log('Ready for integration with actual matching algorithm!');
+log.debug('\n✅ Test Framework Setup Complete');
+log.debug('Ready for integration with actual matching algorithm!');
 
 module.exports = { testCases };

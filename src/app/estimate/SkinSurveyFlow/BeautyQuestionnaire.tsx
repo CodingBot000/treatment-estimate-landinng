@@ -23,6 +23,7 @@ import {
 import { isValidEmail } from '@/utils/validators';
 import { CountryCode, CountryInputDto } from '@/app/models/country-code.dto';
 import { MessengerInput } from '@/components/input/InputMessengerFields';
+import { log } from '@/utils/logger';
 
 interface UserInfo {
   firstName: string;
@@ -92,7 +93,7 @@ interface StepData {
 
 // 각 스텝별 필수 선택 항목 검증 함수
 const validateStepData = (stepId: string, data: StepData): boolean => {
-  console.log('validateStepData validateStepData stepId:', stepId);
+  log.debug('validateStepData validateStepData stepId:', stepId);
   switch (stepId) {
     case SKIN_TYPE:
       return !!(
@@ -130,14 +131,14 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
 
     case TREATMENT_GOALS:
       
-      // console.log(`treatment-goals  data.goals:${data.goals}  data.goals.length:${data.goals?.length} data.timeframe:${data.timeframe} pastTreatments:${pastTreatments?.pastTreatments}`);
+      // log.debug(`treatment-goals  data.goals:${data.goals}  data.goals.length:${data.goals?.length} data.timeframe:${data.timeframe} pastTreatments:${pastTreatments?.pastTreatments}`);
       return !!(
         data.goals && 
         data.goals.length > 0
       );
     case TREATMENT_EXPERIENCE_BEFORE:
       const pastTreatments = data.pastTreatments;
-      // console.log(`treatment-goals  data.goals:${data.goals}  data.goals.length:${data.goals?.length} data.timeframe:${data.timeframe} pastTreatments:${pastTreatments?.pastTreatments}`);
+      // log.debug(`treatment-goals  data.goals:${data.goals}  data.goals.length:${data.goals?.length} data.timeframe:${data.timeframe} pastTreatments:${pastTreatments?.pastTreatments}`);
       return !!(
         pastTreatments?.pastTreatments // 이전 치료 경험 선택 필수 (없는 경우도 빈 배열로 저장)
       );
@@ -221,9 +222,9 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
   const handleNext = () => {
     const currentStepData = formData[steps[currentStep].id] || {};
     
-    console.log('handleNext - currentStep:', currentStep);
-    console.log('handleNext - currentStepData:', currentStepData);
-    console.log('handleNext - validation result:', validateStepData(steps[currentStep].id, currentStepData));
+    log.debug('handleNext - currentStep:', currentStep);
+    log.debug('handleNext - currentStepData:', currentStepData);
+    log.debug('handleNext - validation result:', validateStepData(steps[currentStep].id, currentStepData));
     
     if (!validateStepData(steps[currentStep].id, currentStepData)) {
       setIsValideSendForm(false);
@@ -237,7 +238,7 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
     }
 
     if (currentStep < steps.length - 1) {
-      console.log('handleNext - moving to next step:', currentStep + 1);
+      log.debug('handleNext - moving to next step:', currentStep + 1);
       setCurrentStep(currentStep + 1);
       // 스크롤을 즉시 최상단으로 이동
       window.scrollTo(0, 0);
@@ -261,13 +262,13 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
 
   const handleSubmit = () => {
     const currentStepData = formData[steps[currentStep].id] || {};
-    console.log('currentStepData', currentStepData);
+    log.debug('currentStepData', currentStepData);
     if (!validateStepData(steps[currentStep].id, currentStepData)) {
       setIsValideSendForm(false);
-      // console.log('validateStepData currentStepData::', currentStepData);
-      // console.log('validateStepData currentStep::', currentStep);
-      // console.log('validateStepData steps[currentStep].id::', steps[currentStep].id);
-      // console.log('validateStepData launch toast message: ', getValidationMessage(steps[currentStep].id));
+      // log.debug('validateStepData currentStepData::', currentStepData);
+      // log.debug('validateStepData currentStep::', currentStep);
+      // log.debug('validateStepData steps[currentStep].id::', steps[currentStep].id);
+      // log.debug('validateStepData launch toast message: ', getValidationMessage(steps[currentStep].id));
       toast({
         variant: "destructive",
         title: "Please make a required selection",
@@ -279,7 +280,7 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
     setIsPreviewOpen(true);
     setIsValideSendForm(true);
   
-    // console.log('Questionnaire completed:', formData);
+    // log.debug('Questionnaire completed:', formData);
   };
 
   const CurrentStepComponent = steps[currentStep].component as React.ComponentType<StepComponentProps>;
@@ -374,7 +375,7 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
             {currentStep === 0 ? (
               <Button 
                 onClick={(e) => {
-                  console.log('Button clicked!', e);
+                  log.debug('Button clicked!', e);
                   handleNext();
                 }}
                 className="w-full h-12 px-4 rounded-lg text-white flex items-center justify-center"
@@ -417,7 +418,7 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
                 </Button>
                 <Button 
                   onClick={(e) => {
-                    console.log('Next Button clicked!', e);
+                    log.debug('Next Button clicked!', e);
                     handleNext();
                   }}
                   translate="no" 

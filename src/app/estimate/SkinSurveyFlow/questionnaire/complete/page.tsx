@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { recommendTreatments, RecommendationOutput } from '../questionScript/matchingDiagnosis';
+import { log } from '@/utils/logger';
 
 interface CompleteStepProps {
   onNext: () => void;
@@ -21,15 +22,15 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onNext }) => {
   };
 
   useEffect(() => {
-    console.log("MATCHING LOG: Complete 페이지 useEffect 시작");
+    log.debug("MATCHING LOG: Complete 페이지 useEffect 시작");
     // Get form data from localStorage
     const savedFormData = localStorage.getItem('skinSurveyFormData');
-    console.log("MATCHING LOG: localStorage에서 가져온 데이터:", savedFormData);
+    log.debug("MATCHING LOG: localStorage에서 가져온 데이터:", savedFormData);
     
     if (savedFormData) {
       try {
         const formData = JSON.parse(savedFormData);
-        console.log("MATCHING LOG: 파싱된 formData:", formData);
+        log.debug("MATCHING LOG: 파싱된 formData:", formData);
         
         // Map formData to recommendation algorithm parameters
         const skinConcerns = formData.skinConcerns?.concerns?.map((concern: string) => ({ id: concern })) || [];
@@ -67,14 +68,13 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onNext }) => {
           pastTreatments: formData.pastTreatments?.pastTreatments || ["none"],
           medicalConditions: formData.healthConditions?.healthConditions || ["none"],
         };
-
-        console.log("MATCHING LOG: 알고리즘에 전달할 입력:", algorithmInput);
-        console.log("MATCHING LOG: recommendTreatments 함수 호출 직전");
+        log.debug("MATCHING LOG: 알고리즘에 전달할 입력:", algorithmInput);
+        log.debug("MATCHING LOG: recommendTreatments 함수 호출 직전");
         
         const result = recommendTreatments(algorithmInput);
         
-        console.log("MATCHING LOG: recommendTreatments 함수 호출 완료");
-        console.log("MATCHING LOG: 알고리즘 결과:", result);
+        log.debug("MATCHING LOG: recommendTreatments 함수 호출 완료");
+        log.debug("MATCHING LOG: 알고리즘 결과:", result);
         
         setRecommendationResult(result);
       } catch (error) {
@@ -82,9 +82,9 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onNext }) => {
         console.error('MATCHING LOG: 에러 상세:', error);
       }
     } else {
-      console.log("MATCHING LOG: localStorage에 저장된 formData가 없음");
+      log.debug("MATCHING LOG: localStorage에 저장된 formData가 없음");
     }
-    console.log("MATCHING LOG: 로딩 완료 설정");
+    log.debug("MATCHING LOG: 로딩 완료 설정");
     setIsLoading(false);
   }, []);
 
