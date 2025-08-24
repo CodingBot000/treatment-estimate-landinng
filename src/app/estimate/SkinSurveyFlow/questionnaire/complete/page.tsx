@@ -93,7 +93,7 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onNext }) => {
       {/* Header */}
       <div className="text-center">
         <h1 className="text-2xl font-light text-pink-400 mb-8">
-          Beauty well
+          MimoTok
         </h1>
       </div>
 

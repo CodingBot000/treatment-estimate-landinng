@@ -17,7 +17,7 @@ const PageHeaderOld: React.FC<PageHeaderProps> = ({ currentStep, totalSteps }) =
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-gray-900">BeautyWell</h1>
+              <h1 className="text-xl font-semibold text-gray-900">MimoTok</h1>
               <p className="text-sm text-gray-600">Beauty Assessment</p>
             </div>
           </div>

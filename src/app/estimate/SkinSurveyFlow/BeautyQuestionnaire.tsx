@@ -1,4 +1,5 @@
 import React, { isValidElement, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight, Heart, Star, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -218,6 +219,7 @@ interface BeautyQuestionnaireProps {
 }
 
 const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionComplete }) => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<Record<string, StepData>>({});
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -255,6 +257,9 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
       setCurrentStep(currentStep - 1);
       // 스크롤을 즉시 최상단으로 이동
       window.scrollTo(0, 0);
+    } else {
+      // 루트로 이동 (뒤로가기 히스토리에서 제거)
+      router.replace('/');
     }
   };
 
