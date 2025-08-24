@@ -306,13 +306,13 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
                           <span>Exchange Rate:</span>
                           <span>1 KRW = {exchangeRateInfo.rate.toFixed(6)} USD</span>
                         </div>
-                        <div className="flex justify-between items-center mt-1">
+                        {/* <div className="flex justify-between items-center mt-1">
                           <span>Source:</span>
                           <span className={exchangeRateInfo.source === 'api' ? 'text-green-600' : 'text-yellow-600'}>
                             {exchangeRateInfo.source === 'api' ? '🟢 Live API' : '🟡 Fallback'}
                           </span>
-                        </div>
-                        <div className="flex justify-between items-center mt-1">
+                        </div> */}
+                        {/* <div className="flex justify-between items-center mt-1">
                           <span>Updated:</span>
                           <span>{exchangeRateInfo.lastUpdated.toLocaleString('en-US', {
                             month: 'short', 
@@ -321,7 +321,7 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
                             minute: '2-digit',
                             hour12: true
                           })}</span>
-                        </div>
+                        </div> */}
                       </div>
                     )}
                   </div>

@@ -88,7 +88,7 @@ const DiagnosisResult: React.FC<DiagnosisResultProps> = ({ formData, onComplete 
       {/* Header */}
       <div className="text-center">
         <h1 className="text-2xl font-light text-pink-400 mb-8">
-          Beauty well
+          MimoTok
         </h1>
       </div>
 

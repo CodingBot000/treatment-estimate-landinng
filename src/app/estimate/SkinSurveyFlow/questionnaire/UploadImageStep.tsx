@@ -183,7 +183,7 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange })
 
       {/* Privacy Notice */}
       <div className="text-xs text-gray-500 leading-relaxed">
-        All images are encrypted and securely stored, and will not be used for any purpose other than diagnosis.
+        All images are securely stored, and will not be used for any purpose other than diagnosis.
       </div>
     </div>
   );

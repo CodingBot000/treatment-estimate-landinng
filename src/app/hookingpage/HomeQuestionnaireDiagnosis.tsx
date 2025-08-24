@@ -20,7 +20,7 @@ export default function HomeQuestionnaireDiagnosis() {
       <div className="container mx-auto px-4 py-20 text-center">
 {/*       
         <h2 className="text-3xl font-bold text-center text-purple-800 mb-12">Our Services</h2> */}
-        <h1 className="text-5xl text-white font-bold mb-4">Beauty Well</h1>
+        <h1 className="text-5xl text-white font-bold mb-4">MimoTok</h1>
         <p className="text-xl text-white mb-2">Before the treatment, start with a strategy.</p>
         {/* <p className="text-xl text-white mb-8">Premium Anti-Aging Treatment & Cosmetic Surgery Quotation Service</p> */}
         <p className="text-xl text-white mb-8">Get Started with Our Smart Treatment Finder</p>
