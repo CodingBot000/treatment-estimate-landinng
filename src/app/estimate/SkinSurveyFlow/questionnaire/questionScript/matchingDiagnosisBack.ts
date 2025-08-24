@@ -8,6 +8,9 @@
  *  - 가격은 KRW 기준을 USD(환율 0.00072)로 변환합니다.
  *  - 임상적 안전성/정확도를 최대한 반영했으나, 실제 시술 결정은 반드시 전문의 상담을 거치세요.
  */
+
+import { log } from "@/utils/logger";
+
  
 // ========= 공통 상수/타입 =========
 
@@ -857,7 +860,7 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
   const { id } = c;
   const out: Candidate[] = [];
 
-  console.log("MATCHING LOG: 피부 고민 분석 -", id);
+  log.debug("MATCHING LOG: 피부 고민 분석 -", id);
 
   switch (id) {
     case "acne-inflammatory": {
@@ -1003,13 +1006,13 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
     }
   }
 
-  console.log("MATCHING LOG: 고민별 후보 -", id, "->", out.map(c => c.key));
+  log.debug("MATCHING LOG: 고민별 후보 -", id, "->", out.map(c => c.key));
   return out;
 }
 
 function baseCandidatesByGoal(goal: RecommendInputs["treatmentGoals"][number]): Candidate[] {
   const out: Candidate[] = [];
-  console.log("MATCHING LOG: 목표 분석 -", goal);
+  log.debug("MATCHING LOG: 목표 분석 -", goal);
   switch (goal) {
     case "overall_refresh":
       addUnique(out, [
@@ -1053,7 +1056,7 @@ function baseCandidatesByGoal(goal: RecommendInputs["treatmentGoals"][number]): 
       ]);
       break;
   }
-  console.log("MATCHING LOG: 목표별 후보 -", goal, "->", out.map(c => c.key));
+  log.debug("MATCHING LOG: 목표별 후보 -", goal, "->", out.map(c => c.key));
   return out;
 }
 
@@ -1407,8 +1410,8 @@ function krwToUsd(krw: number): number {
 // ========= 메인 진입 함수 =========
 
 export function recommendTreatments(input: RecommendInputs): RecommendationOutput {
-  console.log("MATCHING LOG: !!!! recommendTreatments 함수 호출됨 !!!!");
-  console.log("MATCHING LOG: 입력 받은 데이터:", JSON.stringify(input, null, 2));
+  log.debug("MATCHING LOG: !!!! recommendTreatments 함수 호출됨 !!!!");
+  log.debug("MATCHING LOG: 입력 받은 데이터:", JSON.stringify(input, null, 2));
   
   const {
     skinTypeId,
@@ -1424,18 +1427,18 @@ export function recommendTreatments(input: RecommendInputs): RecommendationOutpu
   } = input;
 
   // === MATCHING LOG: 시작 ===
-  console.log("MATCHING LOG: =======================================================");
-  console.log("MATCHING LOG: 입력 데이터 분석 시작");
-  console.log("MATCHING LOG: 피부 타입:", skinTypeId);
-  console.log("MATCHING LOG: 연령대:", ageGroup);  
-  console.log("MATCHING LOG: 성별:", gender);
-  console.log("MATCHING LOG: 피부 고민:", skinConcerns);
-  console.log("MATCHING LOG: 시술 목표:", treatmentGoals);
-  console.log("MATCHING LOG: 시술 부위:", treatmentAreas);
-  console.log("MATCHING LOG: 예산 범위:", budgetRangeId);
-  console.log("MATCHING LOG: 우선순위:", priorityId);
-  console.log("MATCHING LOG: 최근 시술:", pastTreatments);
-  console.log("MATCHING LOG: 의학적 상태:", medicalConditions);
+  log.debug("MATCHING LOG: =======================================================");
+  log.debug("MATCHING LOG: 입력 데이터 분석 시작");
+  log.debug("MATCHING LOG: 피부 타입:", skinTypeId);
+  log.debug("MATCHING LOG: 연령대:", ageGroup);  
+  log.debug("MATCHING LOG: 성별:", gender);
+  log.debug("MATCHING LOG: 피부 고민:", skinConcerns);
+  log.debug("MATCHING LOG: 시술 목표:", treatmentGoals);
+  log.debug("MATCHING LOG: 시술 부위:", treatmentAreas);
+  log.debug("MATCHING LOG: 예산 범위:", budgetRangeId);
+  log.debug("MATCHING LOG: 우선순위:", priorityId);
+  log.debug("MATCHING LOG: 최근 시술:", pastTreatments);
+  log.debug("MATCHING LOG: 의학적 상태:", medicalConditions);
 
   const excluded: ExcludedItem[] = [];
   const substitutions: Substitution[] = [];
@@ -1445,121 +1448,121 @@ export function recommendTreatments(input: RecommendInputs): RecommendationOutpu
   // (선택지에는 gensis가 없지만 안전장치, META/PRICE에 gensis 정의됨)
 
   // 1) 기본 후보 수집
-  console.log("MATCHING LOG: ======== 1단계: 기본 후보 수집 ========");
+  log.debug("MATCHING LOG: ======== 1단계: 기본 후보 수집 ========");
   let candidates: Candidate[] = [];
   skinConcerns.forEach((c) => {
-    console.log("MATCHING LOG: 고민 처리 중:", c);
+    log.debug("MATCHING LOG: 고민 처리 중:", c);
     addUnique(candidates, baseCandidatesByConcern(c));
   });
   treatmentGoals.forEach((g) => {
-    console.log("MATCHING LOG: 목표 처리 중:", g);
+    log.debug("MATCHING LOG: 목표 처리 중:", g);
     addUnique(candidates, baseCandidatesByGoal(g));
   });
-  console.log("MATCHING LOG: 1단계 후 총 후보 수:", candidates.length);
-  console.log("MATCHING LOG: 1단계 후보 목록:", candidates.map(c => `${c.key}(중요도:${c.importance})`));
+  log.debug("MATCHING LOG: 1단계 후 총 후보 수:", candidates.length);
+  log.debug("MATCHING LOG: 1단계 후보 목록:", candidates.map(c => `${c.key}(중요도:${c.importance})`));
 
   // 1.5) 피부타입 특이 케어: 민감성 피부의 경우 고통/상처 유발 시술 중요도 하향
-  console.log("MATCHING LOG: ======== 1.5단계: 피부타입 조정 ========");
+  log.debug("MATCHING LOG: ======== 1.5단계: 피부타입 조정 ========");
   if (skinTypeId === "sensitive") {
-    console.log("MATCHING LOG: 민감성 피부 감지 - 고통/상처 유발 시술 중요도 하향");
+    log.debug("MATCHING LOG: 민감성 피부 감지 - 고통/상처 유발 시술 중요도 하향");
     const beforeCount = candidates.length;
     candidates = candidates.map((c) => {
       if (META[c.key].createsWound || META[c.key].pain >= 6) {
-        console.log("MATCHING LOG: 민감피부 조정:", c.key, "중요도", c.importance, "→", Math.min(3, c.importance + 1));
+        log.debug("MATCHING LOG: 민감피부 조정:", c.key, "중요도", c.importance, "→", Math.min(3, c.importance + 1));
         return { ...c, importance: Math.min(3, c.importance + 1) as 1 | 2 | 3, why: `${c.why} (sensitive skin caution)` };
       }
       return c;
     });
     notes.push("Sensitive skin: Careful consideration recommended for pain-inducing/wound-creating treatments");
-    console.log("MATCHING LOG: 민감피부 조정 후 후보 수:", candidates.length, "(변경 없음: 중요도만 조정)");
+    log.debug("MATCHING LOG: 민감피부 조정 후 후보 수:", candidates.length, "(변경 없음: 중요도만 조정)");
   } else {
-    console.log("MATCHING LOG: 일반 피부타입 - 조정 없음");
+    log.debug("MATCHING LOG: 일반 피부타입 - 조정 없음");
   }
 
   // 1.6) 연령대 및 성별 기반 시술 가중치 조정 (효과 우선 적용)
-  console.log("MATCHING LOG: ======== 1.6단계: 연령대/성별 조정 ========");
+  log.debug("MATCHING LOG: ======== 1.6단계: 연령대/성별 조정 ========");
   if (ageGroup) {
-    console.log("MATCHING LOG: 연령대 조정 적용:", ageGroup);
+    log.debug("MATCHING LOG: 연령대 조정 적용:", ageGroup);
     const beforeAgeAdjust = candidates.length;
     candidates = adjustCandidatesByAgeGroup(candidates, ageGroup);
-    console.log("MATCHING LOG: 연령대 조정 후 후보 수:", candidates.length, "(변경된 후보들의 중요도 조정됨)");
+    log.debug("MATCHING LOG: 연령대 조정 후 후보 수:", candidates.length, "(변경된 후보들의 중요도 조정됨)");
   }
   if (gender) {
-    console.log("MATCHING LOG: 성별 조정 적용:", gender);
+    log.debug("MATCHING LOG: 성별 조정 적용:", gender);
     const beforeGenderAdjust = candidates.length;
     candidates = adjustCandidatesByGender(candidates, gender);
-    console.log("MATCHING LOG: 성별 조정 후 후보 수:", candidates.length, "(변경된 후보들의 중요도 조정됨)");
+    log.debug("MATCHING LOG: 성별 조정 후 후보 수:", candidates.length, "(변경된 후보들의 중요도 조정됨)");
   }
 
   // 2) 부위 필터링: 선택 부위에 맞지 않는 시술 제외
-  console.log("MATCHING LOG: ======== 2단계: 부위 필터링 ========");
-  console.log("MATCHING LOG: 선택된 시술 부위:", treatmentAreas);
+  log.debug("MATCHING LOG: ======== 2단계: 부위 필터링 ========");
+  log.debug("MATCHING LOG: 선택된 시술 부위:", treatmentAreas);
   const beforeAreaFilter = candidates.length;
   candidates = filterByArea(candidates, treatmentAreas, excluded);
-  console.log("MATCHING LOG: 부위 필터링 후 후보 수:", beforeAreaFilter, "→", candidates.length);
-  console.log("MATCHING LOG: 부위 불일치로 제외된 시술 수:", beforeAreaFilter - candidates.length);
+  log.debug("MATCHING LOG: 부위 필터링 후 후보 수:", beforeAreaFilter, "→", candidates.length);
+  log.debug("MATCHING LOG: 부위 불일치로 제외된 시술 수:", beforeAreaFilter - candidates.length);
   if (excluded.length > 0) {
-    console.log("MATCHING LOG: 제외된 시술들:", excluded.map(e => `${e.key}(${e.reason})`));
+    log.debug("MATCHING LOG: 제외된 시술들:", excluded.map(e => `${e.key}(${e.reason})`));
   }
 
   // 3) 우선순위 기반 치환/제거: (통증, 다운타임, 가격 등의 우선순위 고려)
-  console.log("MATCHING LOG: ======== 3단계: 우선순위 기반 치환 ========");
-  console.log("MATCHING LOG: 우선순위:", priorityId);
+  log.debug("MATCHING LOG: ======== 3단계: 우선순위 기반 치환 ========");
+  log.debug("MATCHING LOG: 우선순위:", priorityId);
   const beforePrioritySubst = candidates.length;
   const excludedBeforePriority = excluded.length;
   const substitutionsBefore = substitutions.length;
   candidates = substituteForPriority(candidates, priorityId, substitutions, excluded);
-  console.log("MATCHING LOG: 우선순위 적용 후 후보 수:", beforePrioritySubst, "→", candidates.length);
-  console.log("MATCHING LOG: 우선순위로 인한 치환 수:", substitutions.length - substitutionsBefore);
-  console.log("MATCHING LOG: 우선순위로 인한 추가 제외 수:", excluded.length - excludedBeforePriority);
+  log.debug("MATCHING LOG: 우선순위 적용 후 후보 수:", beforePrioritySubst, "→", candidates.length);
+  log.debug("MATCHING LOG: 우선순위로 인한 치환 수:", substitutions.length - substitutionsBefore);
+  log.debug("MATCHING LOG: 우선순위로 인한 추가 제외 수:", excluded.length - excludedBeforePriority);
   if (substitutions.length > substitutionsBefore) {
-    console.log("MATCHING LOG: 치환 내역:", substitutions.slice(substitutionsBefore).map(s => `${s.from}→${s.to}(${s.reason})`));
+    log.debug("MATCHING LOG: 치환 내역:", substitutions.slice(substitutionsBefore).map(s => `${s.from}→${s.to}(${s.reason})`));
   }
 
   // 4) 예산 적용: 예산 상한을 초과하는 시술 제거/치환
-  console.log("MATCHING LOG: ======== 4단계: 예산 적용 ========");
+  log.debug("MATCHING LOG: ======== 4단계: 예산 적용 ========");
   const budgetUpper = budgetUpperKRW(budgetRangeId);
-  console.log("MATCHING LOG: 예산 상한(KRW):", budgetUpper === Number.POSITIVE_INFINITY ? "무제한" : budgetUpper.toLocaleString());
+  log.debug("MATCHING LOG: 예산 상한(KRW):", budgetUpper === Number.POSITIVE_INFINITY ? "무제한" : budgetUpper.toLocaleString());
   const currentTotal = candidates.reduce((sum, c) => sum + PRICE_TABLE[c.key], 0);
-  console.log("MATCHING LOG: 현재 총 비용(KRW):", currentTotal.toLocaleString());
-  console.log("MATCHING LOG: 예산 초과 여부:", currentTotal > budgetUpper ? "초과" : "적정");
+  log.debug("MATCHING LOG: 현재 총 비용(KRW):", currentTotal.toLocaleString());
+  log.debug("MATCHING LOG: 예산 초과 여부:", currentTotal > budgetUpper ? "초과" : "적정");
   const beforeBudgetFilter = candidates.length;
   const excludedBeforeBudget = excluded.length;
   candidates = enforceBudget(candidates, budgetUpper, substitutions, excluded, priorityId);
-  console.log("MATCHING LOG: 예산 적용 후 후보 수:", beforeBudgetFilter, "→", candidates.length);
-  console.log("MATCHING LOG: 예산으로 인한 제외 수:", excluded.length - excludedBeforeBudget);
+  log.debug("MATCHING LOG: 예산 적용 후 후보 수:", beforeBudgetFilter, "→", candidates.length);
+  log.debug("MATCHING LOG: 예산으로 인한 제외 수:", excluded.length - excludedBeforeBudget);
   const newTotal = candidates.reduce((sum, c) => sum + PRICE_TABLE[c.key], 0);
-  console.log("MATCHING LOG: 예산 적용 후 총 비용(KRW):", newTotal.toLocaleString());
+  log.debug("MATCHING LOG: 예산 적용 후 총 비용(KRW):", newTotal.toLocaleString());
 
   // 5) 최근 시술 이력 필터: 너무 이른 반복 시술 제거
-  console.log("MATCHING LOG: ======== 5단계: 최근 시술 이력 필터 ========");
-  console.log("MATCHING LOG: 최근 시술 이력:", pastTreatments);
+  log.debug("MATCHING LOG: ======== 5단계: 최근 시술 이력 필터 ========");
+  log.debug("MATCHING LOG: 최근 시술 이력:", pastTreatments);
   const beforePastFilter = candidates.length;
   const excludedBeforePast = excluded.length;
   candidates = applyPastFilters(candidates, pastTreatments, excluded);
-  console.log("MATCHING LOG: 시술 이력 적용 후 후보 수:", beforePastFilter, "→", candidates.length);
-  console.log("MATCHING LOG: 시술 이력으로 인한 제외 수:", excluded.length - excludedBeforePast);
+  log.debug("MATCHING LOG: 시술 이력 적용 후 후보 수:", beforePastFilter, "→", candidates.length);
+  log.debug("MATCHING LOG: 시술 이력으로 인한 제외 수:", excluded.length - excludedBeforePast);
 
   // 6) 의학적 상태 필터: 금기 시술 제거 (현재는 노트만, 필요시 확장)
-  console.log("MATCHING LOG: ======== 6단계: 의학적 상태 필터 ========");
-  console.log("MATCHING LOG: 의학적 상태:", medicalConditions);
+  log.debug("MATCHING LOG: ======== 6단계: 의학적 상태 필터 ========");
+  log.debug("MATCHING LOG: 의학적 상태:", medicalConditions);
   const beforeMedicalFilter = candidates.length;
   const excludedBeforeMedical = excluded.length;
   candidates = applyMedicalFilters(candidates, medicalConditions, excluded);
-  console.log("MATCHING LOG: 의학적 상태 적용 후 후보 수:", beforeMedicalFilter, "→", candidates.length);
-  console.log("MATCHING LOG: 의학적 상태로 인한 제외 수:", excluded.length - excludedBeforeMedical);
+  log.debug("MATCHING LOG: 의학적 상태 적용 후 후보 수:", beforeMedicalFilter, "→", candidates.length);
+  log.debug("MATCHING LOG: 의학적 상태로 인한 제외 수:", excluded.length - excludedBeforeMedical);
 
   // 7) 최종 추천 아이템 변환 + 총액 계산
-  console.log("MATCHING LOG: ======== 7단계: 최종 결과 생성 ========");
-  console.log("MATCHING LOG: 최종 후보 수:", candidates.length);
-  console.log("MATCHING LOG: 최종 후보 목록:", candidates.map(c => `${c.key}(중요도:${c.importance}, 이유:${c.why})`));
+  log.debug("MATCHING LOG: ======== 7단계: 최종 결과 생성 ========");
+  log.debug("MATCHING LOG: 최종 후보 수:", candidates.length);
+  log.debug("MATCHING LOG: 최종 후보 목록:", candidates.map(c => `${c.key}(중요도:${c.importance}, 이유:${c.why})`));
   const recommendations = toRecommendedItems(candidates);
   const totalPriceKRW = recommendations.reduce((acc, r) => acc + r.priceKRW, 0);
   const totalPriceUSD = krwToUsd(totalPriceKRW);
-  console.log("MATCHING LOG: 최종 추천 시술 수:", recommendations.length);
-  console.log("MATCHING LOG: 최종 총 비용 - KRW:", totalPriceKRW.toLocaleString(), "USD:", totalPriceUSD);
-  console.log("MATCHING LOG: 총 제외된 시술 수:", excluded.length);
-  console.log("MATCHING LOG: 총 치환된 시술 수:", substitutions.length);
+  log.debug("MATCHING LOG: 최종 추천 시술 수:", recommendations.length);
+  log.debug("MATCHING LOG: 최종 총 비용 - KRW:", totalPriceKRW.toLocaleString(), "USD:", totalPriceUSD);
+  log.debug("MATCHING LOG: 총 제외된 시술 수:", excluded.length);
+  log.debug("MATCHING LOG: 총 치환된 시술 수:", substitutions.length);
 
   // 8) 업셀/대안 제안 생성
   const upgradeSuggestions = buildUpgradeSuggestions(excluded, substitutions, priorityId, budgetUpper);
@@ -1579,11 +1582,11 @@ export function recommendTreatments(input: RecommendInputs): RecommendationOutpu
   }
 
   // 10) 결과 반환
-  console.log("MATCHING LOG: ======== 최종 결과 ========");
-  console.log("MATCHING LOG: 추천 시술:", recommendations.map(r => r.label));
-  console.log("MATCHING LOG: 제외 시술:", excluded.map(e => e.label));
-  console.log("MATCHING LOG: 결과 반환 완료");
-  console.log("MATCHING LOG: =======================================================");
+  log.debug("MATCHING LOG: ======== 최종 결과 ========");
+  log.debug("MATCHING LOG: 추천 시술:", recommendations.map(r => r.label));
+  log.debug("MATCHING LOG: 제외 시술:", excluded.map(e => e.label));
+  log.debug("MATCHING LOG: 결과 반환 완료");
+  log.debug("MATCHING LOG: =======================================================");
   
   return {
     recommendations,

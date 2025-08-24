@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation';
 import { getBudgetRangeById } from '@/app/data/datamapper';
 import { fbqTrack } from '@/utils/metapixel';
 import { MessengerInput } from '@/components/input/InputMessengerFields';
+import { log } from '@/utils/logger';
 // import { recommendTreatments } from './questionScript/matching';
 
 interface PreviewReportProps {
@@ -94,7 +95,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
         throw new Error(result.error || 'Submission failed');
       }
 
-      console.log('Submission successful:', result);
+      log.debug('Submission successful:', result);
       setIsCompleted(true);
       fbqTrack("Submit_diagnosis_click", { finalSubmit: "success" });
     } catch (error) {
@@ -107,7 +108,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
   };
 
   const handleSubmissionComplete = () => {
-    console.log("MATCHING LOG: handleSubmissionComplete 호출됨");
+    log.debug("MATCHING LOG: handleSubmissionComplete 호출됨");
     setIsSubmissionModalOpen(false);
     setIsCompleted(false);
     onOpenChange(false);
@@ -298,9 +299,9 @@ const PreviewReport: React.FC<PreviewReportProps> =
 
   // useEffect(() => {
   //   // Console log entire formData
-  //   console.log("=== PreviewReport formData ===");
-  //   console.log(formData);
-  //   console.log("==============================");
+  //   log.debug("=== PreviewReport formData ===");
+  //   log.debug(formData);
+  //   log.debug("==============================");
 
   //   // Map formData to recommendation algorithm parameters
   //   const skinConcerns = formData.skinConcerns?.concerns?.map((concern: string) => ({ id: concern })) || [];
@@ -325,9 +326,9 @@ const PreviewReport: React.FC<PreviewReportProps> =
   //     pastTreatments: formData.pastTreatments?.pastTreatments || ["none"],
   //     medicalConditions: formData.healthConditions?.healthConditions || ["none"],
   //   });
-  //   console.log("=== Recommendation Output ===");
-  //   console.log(output);
-  //   console.log("=============================");
+  //   log.debug("=== Recommendation Output ===");
+  //   log.debug(output);
+  //   log.debug("=============================");
   // }, [formData]);
 
   return (

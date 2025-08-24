@@ -1,3 +1,5 @@
+import { log } from "@/utils/logger";
+
 interface SelectionOption {
   id: string;
   label: string;
@@ -25,7 +27,7 @@ export default function SelectionGroup({ options, selectedOption, selectedOption
         <button
           key={option.id}
           onClick={() => {
-              console.log(`Clicked: ${selectedOptions}, ${option.id}`);
+              log.debug(`Clicked: ${selectedOptions}, ${option.id}`);
               onSelect(option.id)
             }
           }

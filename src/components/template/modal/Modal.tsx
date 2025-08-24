@@ -58,7 +58,6 @@ export const ConfirmModal = ({
   onCancel,
   onConfirm,
 }: PropsWithChildren<ConfirmModalProps>) => {
-  console.log('ConfirmModal rendered');
   return (
     <ModalBase
       open={open}

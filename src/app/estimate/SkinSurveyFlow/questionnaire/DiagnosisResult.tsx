@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { recommendTreatments, RecommendationOutput } from './questionScript/matchingDiagnosis';
+import { log } from '@/utils/logger';
 
 interface DiagnosisResultProps {
   formData: Record<string, any>;
@@ -20,8 +21,8 @@ const DiagnosisResult: React.FC<DiagnosisResultProps> = ({ formData, onComplete 
   };
 
   useEffect(() => {
-    console.log("MATCHING LOG: DiagnosisResult 시작");
-    console.log("MATCHING LOG: 전달받은 formData:", formData);
+    log.debug("MATCHING LOG: DiagnosisResult 시작");
+    log.debug("MATCHING LOG: 전달받은 formData:", formData);
     
     if (formData) {
       try {
@@ -62,13 +63,13 @@ const DiagnosisResult: React.FC<DiagnosisResultProps> = ({ formData, onComplete 
           medicalConditions: formData.healthConditions?.healthConditions || ["none"],
         };
 
-        console.log("MATCHING LOG: 알고리즘에 전달할 입력:", algorithmInput);
-        console.log("MATCHING LOG: recommendTreatments 함수 호출 직전");
+        log.debug("MATCHING LOG: 알고리즘에 전달할 입력:", algorithmInput);
+        log.debug("MATCHING LOG: recommendTreatments 함수 호출 직전");
         
         const result = recommendTreatments(algorithmInput);
         
-        console.log("MATCHING LOG: recommendTreatments 함수 호출 완료");
-        console.log("MATCHING LOG: 알고리즘 결과:", result);
+        log.debug("MATCHING LOG: recommendTreatments 함수 호출 완료");
+        log.debug("MATCHING LOG: 알고리즘 결과:", result);
         
         setRecommendationResult(result);
       } catch (error) {
@@ -76,9 +77,9 @@ const DiagnosisResult: React.FC<DiagnosisResultProps> = ({ formData, onComplete 
         console.error('MATCHING LOG: 에러 상세:', error);
       }
     } else {
-      console.log("MATCHING LOG: formData가 없음");
+      log.debug("MATCHING LOG: formData가 없음");
     }
-    console.log("MATCHING LOG: 로딩 완료 설정");
+    log.debug("MATCHING LOG: 로딩 완료 설정");
     setIsLoading(false);
   }, [formData]);
 

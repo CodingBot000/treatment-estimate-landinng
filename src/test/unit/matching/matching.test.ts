@@ -7,6 +7,7 @@
 
 import { recommendTreatments, RecommendInputs, RecommendationOutput } from '../../../app/estimate/SkinSurveyFlow/questionnaire/questionScript/matchingDiagnosis';
 import { questions } from '../../../app/data/form-definition';
+import { log } from '@/utils/logger';
 
 // Test helper to create structured test inputs
 function createTestInput(overrides: Partial<RecommendInputs> = {}): RecommendInputs {
@@ -39,19 +40,19 @@ function validateOutput(output: RecommendationOutput) {
 
 // Test helper to print detailed output
 function printTestResult(testName: string, input: RecommendInputs, output: RecommendationOutput) {
-  console.log(`\n🧪 TEST: ${testName}`);
-  console.log('📥 INPUT:', JSON.stringify(input, null, 2));
-  console.log('📤 OUTPUT:');
-  console.log('  💊 Recommendations:', output.recommendations.map(r => ({
+  log.debug(`\n🧪 TEST: ${testName}`);
+  log.debug('📥 INPUT:', JSON.stringify(input, null, 2));
+  log.debug('📤 OUTPUT:');
+  log.debug('  💊 Recommendations:', output.recommendations.map(r => ({
     treatment: r.label,
     priceUSD: r.priceUSD,
     rationale: r.rationale
   })));
-  console.log('  💰 Total Cost: $' + output.totalPriceUSD);
-  console.log('  ❌ Excluded:', output.excluded.map(e => `${e.label} (${e.reason})`));
-  console.log('  🔄 Substitutions:', output.substitutions.map(s => `${s.from} → ${s.to} (${s.reason})`));
-  console.log('  📝 Notes:', output.notes);
-  console.log('  💡 Upgrade Suggestions:', output.upgradeSuggestions);
+  log.debug('  💰 Total Cost: $' + output.totalPriceUSD);
+  log.debug('  ❌ Excluded:', output.excluded.map(e => `${e.label} (${e.reason})`));
+  log.debug('  🔄 Substitutions:', output.substitutions.map(s => `${s.from} → ${s.to} (${s.reason})`));
+  log.debug('  📝 Notes:', output.notes);
+  log.debug('  💡 Upgrade Suggestions:', output.upgradeSuggestions);
 }
 
 describe('Matching Algorithm Tests', () => {

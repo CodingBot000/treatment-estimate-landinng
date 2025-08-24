@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { questions } from '../../../data/form-definition';
 import { FaInstagram, FaReddit, FaTiktok, FaYoutube, FaGoogle, FaComments } from 'react-icons/fa';
 import { ChoiceCard } from '@/components/card/ChoiceCard';
+import { log } from '@/utils/logger';
 // import { SiLemon8 } from 'react-icons/si';
 
 interface VisitPathStepProps {
@@ -24,7 +25,7 @@ const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => 
   const handleVisitPathChange = (selectedPath: string) => {
     const shouldRemoveOtherPath = visitPath.visitPath === 'other' && selectedPath !== 'other';
     
-    console.log('VisitPathStep - handleVisitPathChange - before update:', { selectedPath, data, tempOtherPath });
+    log.debug('VisitPathStep - handleVisitPathChange - before update:', { selectedPath, data, tempOtherPath });
     
     // other를 선택할 때 이전에 저장된 tempOtherPath를 복원
     if (selectedPath === 'other') {
@@ -50,7 +51,7 @@ const VisitPathStep: React.FC<VisitPathStepProps> = ({ data, onDataChange }) => 
     // 임시 상태 업데이트
     setTempOtherPath(text);
     
-    console.log('VisitPathStep - handleOtherPathChange - before update:', { text, hasOtherPath, data });
+    log.debug('VisitPathStep - handleOtherPathChange - before update:', { text, hasOtherPath, data });
     
     // other가 선택되어 있을 때 실제 데이터에 바로 반영
     if (hasOtherPath) {
