@@ -226,6 +226,12 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
   const [isValideSendForm, setIsValideSendForm] = useState(false);
   const { toast } = useToast();
 
+  // 현재 스텝의 유효성을 실시간으로 확인
+  const isCurrentStepValid = () => {
+    const currentStepData = formData[steps[currentStep].id] || {};
+    return validateStepData(steps[currentStep].id, currentStepData);
+  };
+
   const handleNext = () => {
     const currentStepData = formData[steps[currentStep].id] || {};
     
@@ -431,17 +437,18 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
                     log.debug('Next Button clicked!', e);
                     handleNext();
                   }}
+                  disabled={!isCurrentStepValid()}
                   translate="no" 
-                  className="
-                    flex-1 h-12 px-4 rounded-lg text-white
+                  className={`
+                    flex-1 h-12 px-4 rounded-lg
                     flex items-center justify-center
-                    bg-[#FB718F]
-                    hover:bg-[#F65E7D]
-                    active:bg-[#E95373]
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 focus-visible:ring-offset-1
                     transition-colors duration-150
-                    disabled:opacity-60 disabled:pointer-events-none
-                  "
+                    ${!isCurrentStepValid() 
+                      ? 'bg-[#E4E5E7] text-[#9E9E9E] cursor-not-allowed' 
+                      : 'bg-[#FB718F] text-white hover:bg-[#F65E7D] active:bg-[#E95373]'
+                    }
+                  `}
                 >
                   <span translate="no">Next</span>
                 </Button>
@@ -452,7 +459,7 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
       </div>
 
       {/* Preview Floating Button */}
-      <div className="fixed inset-x-0 top-[calc(64px+12px)] z-50 pointer-events-none">
+      {/* <div className="fixed inset-x-0 top-[calc(64px+12px)] z-50 pointer-events-none">
         <div className="relative mx-auto max-w-[768px] px-4">
           <Button
             onClick={() => setIsPreviewOpen(true)}
@@ -467,7 +474,7 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
             <FileText className="w-6 h-6" />
           </Button>
         </div>
-      </div>
+      </div> */}
       
       
       {/* Preview Dialog */}

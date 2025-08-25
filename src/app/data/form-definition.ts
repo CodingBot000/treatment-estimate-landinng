@@ -54,8 +54,8 @@ export const steps = [
   },
   {
     id: PRIORITYFACTORS,
-    title: "Order priority factors",
-    subtitle: "Let's find treatments that fit your priorities. (Adjust the priority by DRAG AND DROP)",
+    title: "Prioritize What Matters Most",
+    subtitle: "Assign a score to each factor based on its importance to you (1 = least important, 5 = most important). A score must be given for every factor before moving on to the next step.",
     component: PrioriotyFactorStep,
   },
   
