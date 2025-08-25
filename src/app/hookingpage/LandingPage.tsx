@@ -51,7 +51,7 @@ export default function LandingPage() {
               💎 Trusted by Experts
             </div>
             <p className="text-gray-700 text-base leading-relaxed px-2">
-              Every recommendation comes with personalized feedback from real Korean dermatologists — ensuring accuracy and peace of mind.
+              Every recommendation comes with personalized feedback from Korean dermatologists — ensuring accuracy and peace of mind.
             </p>
           </section>
 
