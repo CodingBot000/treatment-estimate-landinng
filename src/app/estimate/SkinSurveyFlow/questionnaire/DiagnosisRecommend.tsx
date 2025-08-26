@@ -14,13 +14,29 @@ interface DiagnosisRecommendProps {
 }
 
 const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onComplete }) => {
+  const ERROR_MSG = "We apologize for the inconvenience. Our team is working to resolve the issue quickly to ensure the best experience. Please try again shortly.";
+  const EMPTY_RESULT = "Based on your responses, we couldn't identify specific treatments at this time. This could be due to your current skin condition, recent treatment history, or other factors.";
+
+  // 예산 관련 사유를 필터링하는 함수
+  const filterBudgetReasons = (rationale: string[]): string[] => {
+    return rationale.filter(reason => 
+      !reason.includes('budget-friendly substitution') && 
+      !reason.includes('→ budget-friendly substitution')
+    ).map(reason => 
+      // 연속된 "→ budget-friendly substitution" 패턴 제거
+      reason.replace(/\s*→\s*budget-friendly substitution/g, '')
+    ).filter(reason => reason.trim() !== '');
+  };
+
   const router = useRouter();
   const [recommendationResult, setRecommendationResult] = useState<RecommendationOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [exchangeRateInfo, setExchangeRateInfo] = useState<ExchangeRateData | null>(null);
   
   const handleNext = () => {
-    router.replace('/estimate/SkinSurveyFlow/questionnaire/complete');
+    router.replace('https://mimotok.com/hospital-list');
+    // router.replace('/estimate/SkinSurveyFlow/questionnaire/complete');
   };
 
   const handleBack = () => {
@@ -31,11 +47,11 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
 
   useEffect(() => {
     const processRecommendations = async () => {
-      log.debug("MATCHING LOG: DiagnosisRecommend 시작");
-      log.debug("MATCHING LOG: 전달받은 formData:", formData);
+      // log.debug("MATCHING LOG: DiagnosisRecommend 시작");
+      // log.debug("MATCHING LOG: 전달받은 formData:", formData);
       
       const startTime = Date.now();
-      const MINIMUM_LOADING_TIME = 1000; // 1초 최소 로딩 시간
+      const MINIMUM_LOADING_TIME = 3000; // 3초 최소 로딩 시간
       
       // Update exchange rate at the beginning
       await updateExchangeRate();
@@ -82,19 +98,19 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
             medicalConditions: formData.healthConditions?.healthConditions || ["none"],
           };
 
-          log.debug("MATCHING LOG: 알고리즘에 전달할 입력:", algorithmInput);
-          log.debug("MATCHING LOG: recommendTreatments 함수 호출 직전");
+          // log.debug("MATCHING LOG: 알고리즘에 전달할 입력:", algorithmInput);
+          // log.debug("MATCHING LOG: recommendTreatments 함수 호출 직전");
           
           const result = recommendTreatments(algorithmInput);
           
-          log.debug("MATCHING LOG: recommendTreatments 함수 호출 완료");
-          log.debug("MATCHING LOG: 알고리즘 결과:", result);
+          // log.debug("MATCHING LOG: recommendTreatments 함수 호출 완료");
+          // log.debug("MATCHING LOG: 알고리즘 결과:", result);
           
           // 결과 처리 완료 시간 계산
           const elapsedTime = Date.now() - startTime;
           const remainingTime = Math.max(0, MINIMUM_LOADING_TIME - elapsedTime);
           
-          log.debug(`MATCHING LOG: 알고리즘 처리 시간: ${elapsedTime}ms, 추가 대기 시간: ${remainingTime}ms`);
+          // log.debug(`MATCHING LOG: 알고리즘 처리 시간: ${elapsedTime}ms, 추가 대기 시간: ${remainingTime}ms`);
           
           // 최소 1초가 지나지 않았다면 나머지 시간만큼 더 기다림
           if (remainingTime > 0) {
@@ -103,8 +119,9 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
           
           setRecommendationResult(result);
         } catch (error) {
-          console.error('MATCHING LOG: 알고리즘 실행 중 에러:', error);
-          console.error('MATCHING LOG: 에러 상세:', error);
+          console.error('MATCHING LOG: algorithm error:', error);
+          // console.error('MATCHING LOG: 에러 상세:', error);
+          setError(ERROR_MSG);
           
           // 에러가 발생해도 최소 로딩 시간을 보장
           const elapsedTime = Date.now() - startTime;
@@ -115,7 +132,7 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
           }
         }
       } else {
-        log.debug("MATCHING LOG: formData가 없음");
+        log.debug("MATCHING LOG: formData empty");
         
         // formData가 없어도 최소 로딩 시간을 보장
         const elapsedTime = Date.now() - startTime;
@@ -126,7 +143,7 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
         }
       }
       
-      log.debug("MATCHING LOG: 로딩 완료 설정");
+      // log.debug("MATCHING LOG: 로딩 완료 설정");
       setIsLoading(false);
     };
 
@@ -180,6 +197,13 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
           <div className="text-center py-8">
             <p className="text-gray-500">Analyzing your responses...</p>
           </div>
+        ) : error ? (
+          <Card className="p-6 bg-red-50 border-red-200 mb-8">
+            <div className="text-center">
+              <h4 className="text-lg font-medium text-red-700 mb-4">⚠️ Analysis Error</h4>
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
+          </Card>
         ) : recommendationResult ? (
           <>
             {/* Treatment Cards */}
@@ -201,7 +225,7 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
                       </div>
                       <div className="flex-1">
                         <h3 className="font-semibold text-gray-900 text-lg capitalize">{treatment.label}</h3>
-                        <p className="text-gray-600 text-sm">{treatment.rationale.join(', ')}</p>
+                        <p className="text-gray-600 text-sm">{filterBudgetReasons(treatment.rationale).join(', ')}</p>
                       </div>
                     </div>
                   );
@@ -210,7 +234,7 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
                 <div className="bg-yellow-100 rounded-xl p-4 text-center">
                   <p className="text-yellow-700 font-medium">⚠️ No Specific Treatments Recommended</p>
                   <p className="text-yellow-600 text-sm mt-2">
-                    Based on your responses, we couldn't identify specific treatments at this time.
+                    {EMPTY_RESULT}
                   </p>
                 </div>
               )}
@@ -330,9 +354,15 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
             </div>
           </>
         ) : (
-          <div className="text-center py-8">
-            <p className="text-gray-500">No form data available for recommendations.</p>
-          </div>
+          <Card className="p-6 bg-blue-50 border-blue-200 mb-8">
+            <div className="text-center">
+              <h4 className="text-lg font-medium text-blue-700 mb-4">🔍 No Match Found</h4>
+              <p className="text-sm text-blue-600">
+                We couldn't find the perfect treatment match with the current criteria. 
+                Share a bit more detail, and we'll provide a more refined, personalized recommendation.
+              </p>
+            </div>
+          </Card>
         )}
 
         {/* Book Button */}

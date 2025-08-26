@@ -46,8 +46,9 @@ const PreviewReport: React.FC<PreviewReportProps> =
 
       // 이미지 업로드 처리
       let imagePaths: string[] = [];
+      const submissionId = crypto.randomUUID(); // UUID를 미리 생성
+      
       if (allStepData.uploadImage?.imageFile) {
-        const submissionId = crypto.randomUUID();
         const originalFileName = allStepData.uploadImage.imageFileName || 'image.jpg';
         
         // 파일명을 안전하게 변환 (한글/특수문자 제거)
@@ -81,7 +82,8 @@ const PreviewReport: React.FC<PreviewReportProps> =
         },
         body: JSON.stringify({
           ...allStepData,
-          imagePaths
+          imagePaths,
+          submissionId // UUID를 API로 전달
         })
       });
 

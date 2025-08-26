@@ -79,7 +79,7 @@ const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataC
 
   return (
     <div className="space-y-6">
-      {sortedSelections.length > 0 && (
+      {/* {sortedSelections.length > 0 && (
         <div className="sticky top-16 z-10 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-600 font-medium">Most Prioritized Items</span>
@@ -99,7 +99,39 @@ const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataC
             ))}
           </div>
         </div>
-      )}
+      )} */}
+
+      {/* Guide */}
+      <div className="flex justify-center mb-6">
+        <div className="bg-[#F9FAFB] p-4 rounded-lg max-w-[328px] w-full">
+          <div className="flex justify-between text-sm text-gray-500 font-medium mb-3">
+            <span>low priority</span>
+            <span>high priority</span>
+          </div>
+          
+          <div className="flex justify-center gap-2 mb-3">
+            {[1, 2, 3, 4, 5, 6].map((score) => (
+              <div key={score} className="flex flex-col items-center gap-1">
+                <span className="text-sm text-gray-500 font-medium">{score}</span>
+                <div
+                  className="w-5 h-5 rounded-full border bg-white border-[#D6D6D6] relative"
+                  style={{ borderRadius: '120px' }}
+                >
+                  {score === 4 && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-3 h-3 rounded-full" style={{ background: '#FB718F' }}></div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center">
+            <p className="text-sm text-gray-500">The higher the number, the higher the priority</p>
+          </div>
+        </div>
+      </div>
 
       <div className="space-y-4">
         {priorityItems.map((item) => (
@@ -109,28 +141,29 @@ const PrioriotyFactorStep: React.FC<PrioriotyFactorStepProps> = ({ data, onDataC
                 <h3 className="font-medium text-gray-900 mb-1">{item.label}</h3>
                 <p className="text-sm text-gray-600 break-words">{item.description}</p>
               </div>
-              
+         
               <div className="flex-[2] flex items-center justify-center flex-shrink-0">
                 <div className="flex gap-2">
                   {numbers.map((score) => (
                     <div key={score} className="flex flex-col items-center gap-1">
-                      <span className="text-xs text-gray-500 font-medium">{score}</span>
+                      <span className="text-sm text-gray-500 font-medium">{score}</span>
                       <button
                         onClick={() => handleCircleClick(item.id, score)}
                         disabled={isCircleDisabled(item.id, score)}
                         className={`
-                          w-8 h-8 rounded-full border-2 transition-all duration-200
+                          w-5 h-5 rounded-full border transition-all duration-200 relative
                           ${isCircleSelected(item.id, score)
-                            ? 'bg-rose-500 border-rose-500 text-white'
+                            ? 'bg-white border-[#D6D6D6]'
                             : isCircleDisabled(item.id, score)
                             ? 'border-gray-200 bg-gray-100 cursor-not-allowed opacity-50'
-                            : 'border-gray-300 bg-white hover:border-rose-400 hover:bg-rose-50 cursor-pointer'
+                            : 'border-[#D6D6D6] bg-white hover:border-rose-400 cursor-pointer'
                           }
                         `}
+                        style={{ borderRadius: '120px' }}
                       >
                         {isCircleSelected(item.id, score) && (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <div className="w-3 h-3 bg-white rounded-full"></div>
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-3 h-3 rounded-full" style={{ background: '#FB718F' }}></div>
                           </div>
                         )}
                       </button>

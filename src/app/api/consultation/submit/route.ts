@@ -13,6 +13,8 @@ export async function POST(request: NextRequest) {
     
     // 데이터 매핑
     const submissionData = {
+      // 이미지 업로드에서 생성한 UUID를 id_uuid로 사용
+      id_uuid: data.submissionId,
       form_version: 1,
       
       // Private Info

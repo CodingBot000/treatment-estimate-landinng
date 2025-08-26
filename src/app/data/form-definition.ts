@@ -55,7 +55,7 @@ export const steps = [
   {
     id: PRIORITYFACTORS,
     title: "Prioritize What Matters Most",
-    subtitle: "Assign a score to each factor based on its importance to you (1 = least important, 5 = most important). A score must be given for every factor before moving on to the next step.",
+    subtitle: "Assign a score to each factor based on its importance to you. A score must be given for every factor before moving on to the next step.",
     component: PrioriotyFactorStep,
   },
   
@@ -578,6 +578,7 @@ export const questions = {
 
   visitPaths: [
     { id: 'instagram', label: 'Instagram', description: 'Instagram', icon: FaInstagram }, // 인스타그램
+    { id: 'facebook', label: 'Facebook / Meta', description: 'FaceBook/Meta', icon: FaInstagram },
     { id: 'lemon8', label: 'Lemon8', description: 'Lemon8', icon: FaComments }, // 레몬8
     { id: 'reddit', label: 'Reddit', description: 'Reddit', icon: FaReddit }, // 레딧
     { id: 'tiktok', label: 'TikTok', description: 'TikTok', icon: FaTiktok }, // 틱톡
