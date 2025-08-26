@@ -12,12 +12,22 @@ export default function LandingPage() {
   
   return (
     <div className="min-h-dvh bg-gradient-to-b from-pink-50 to-white">
+    {/*  <div className='min-h-dvg bg-[#FB718F]'> */}
       <div className="mx-auto max-w-md px-4">
         {/* Header */}
         <header className="text-center py-6">
-          <div className="text-pink-500 font-bold text-2xl">
+            <Image
+              src="/logo/logo_mimotok.svg"
+              alt="logo"
+              width={0}  // dummy
+              height={0} // dummy
+              style={{ width: "200px", height: "auto" }} // 기본값
+              className="w-[200px] h-auto md:w-[300px] lg:w-[386px]"
+            />
+       
+          {/* <div className="text-pink-500 font-bold text-2xl">
             MimoTok
-          </div>
+          </div> */}
         </header>
 
         {/* Hero Section */}

@@ -52,7 +52,10 @@ const SubmissionModal: React.FC<SubmissionModalProps> = ({
                   Consultation Submitted Successfully!
                 </h3>
                 <p className="text-sm text-gray-600">
-                  Thank you for your submission. We will review your information and contact you soon.
+                  Thank you for your submission.
+                </p>
+                <p className="text-sm text-gray-600">
+                  Experience the pinnacle of Korean dermatology—personalized elegance, guided by our advanced algorithm.
                 </p>
               </div>
               <Button

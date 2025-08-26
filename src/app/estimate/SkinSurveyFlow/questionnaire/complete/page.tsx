@@ -18,7 +18,8 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onNext }) => {
   const [isLoading, setIsLoading] = useState(true);
   
   const handleNext = () => {
-      router.replace('/'); // 항상 루트("/")로 이동
+      // router.replace('/'); // 항상 루트("/")로 이동
+      router.replace('https://mimotok.com/hospital-list');
   };
 
   useEffect(() => {
@@ -90,11 +91,23 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onNext }) => {
 
   return (
     <div className="max-w-md mx-auto p-6 space-y-8">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-2xl font-light text-pink-400 mb-8">
-          MimoTok
-        </h1>
+      
+      <div className="mx-auto max-w-md px-4">
+        {/* Header */}
+        <header className="flex justify-center py-6">
+            <Image
+              src="/logo/logo_mimotok.svg"
+              alt="logo"
+              width={0}  // dummy
+              height={0} // dummy
+              style={{ width: "200px", height: "auto" }} // 기본값
+             className="w-[200px] h-auto md:w-[300px] lg:w-[386px]"
+            />
+       
+          {/* <div className="text-pink-500 font-bold text-2xl">
+            MimoTok
+          </div> */}
+        </header>
       </div>
 
       {/* Main Content */}
@@ -131,11 +144,11 @@ const CompleteStep: React.FC<CompleteStepProps> = ({ onNext }) => {
           </p>
 
             {/* Highlighted Notice */}
-          <div className="mt-6 bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 shadow-sm">
+          {/* <div className="mt-6 bg-rose-50 border border-rose-200 rounded-lg px-4 py-3 shadow-sm">
             <p className="text-rose-700 font-semibold text-sm md:text-base">
               Also, our professional skin consultation and recommendation web service will be launching soon within this month, so stay tuned!
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
 

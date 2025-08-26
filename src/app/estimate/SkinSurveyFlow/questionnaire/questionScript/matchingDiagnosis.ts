@@ -750,7 +750,9 @@ function enforceBudget(
           const alt = order[j];
           if (!arr.find(c => c.key === alt)) {
             const before = arr[idx];
-            arr[idx] = { ...before, key: alt, why: `${before.why} → budget-friendly substitution` };
+            // 예산 관련 사유는 내부적으로만 추적하고 사용자에게는 표시하지 않음
+            // Original reason: ${before.why} → budget-friendly substitution
+            arr[idx] = { ...before, key: alt };
             substitutions.push({ from: k, to: alt, reason: "price" });
             changed = true;
             total = sumKRW(arr);
@@ -956,7 +958,11 @@ function buildUpgradeSuggestions(
     msgs.push(`By slightly increasing your budget, you can include excluded treatments (e.g., ${budgetDrops.slice(0,3).map(e => META[e.key].label).join(", ")}) to maximize outcomes.`);
   }
 
-  return msgs;
+  // 중복 메시지 제거: 동일한 내용의 메시지를 필터링
+  // Set을 사용하여 중복된 문자열을 자동으로 제거
+  const uniqueMsgs = Array.from(new Set(msgs));
+  
+  return uniqueMsgs;
 }
 
 ///////////////////////////////
