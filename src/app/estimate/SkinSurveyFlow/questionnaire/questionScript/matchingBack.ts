@@ -36,7 +36,7 @@ export type TreatmentKey =
   | "oligio_900"
   | "onda"
   | "potenza"
-  | "praxel"
+  | "fraxel"
   | "repot_or_toning_and_genesis"
   | "scultra"
   | "secret"
@@ -219,7 +219,7 @@ const PRICE_TABLE: Record<TreatmentKey, number> = {
   oligio_900: 1200000,
   onda: 600000,
   potenza: 400000,
-  praxel: 350000,
+  fraxel: 350000,
   repot_or_toning_and_genesis: 150000,
   scultra: 550000,
   secret: 400000,
@@ -507,9 +507,9 @@ const META: Record<TreatmentKey, TreatmentMeta> = {
     createsWound: true,
     equivalenceGroup: "texture",
   },
-  praxel: {
-    key: "praxel",
-    label: "praxel",
+  fraxel: {
+    key: "fraxel",
+    label: "fraxel",
     category: "laser",
     pain: 6,
     effectiveness: 8,
@@ -790,7 +790,7 @@ const LIFTING_ORDER: TreatmentKey[] = [
   "inmode",
 ];
 
-const TEXTURE_STRONG: TreatmentKey[] = ["co2", "praxel", "potenza", "secret"];
+const TEXTURE_STRONG: TreatmentKey[] = ["co2", "fraxel", "potenza", "secret"];
 const TEXTURE_GENTLE: TreatmentKey[] = [
   "genesis",
   "neobeam",
@@ -808,7 +808,7 @@ const HYDRATION_ORDER: TreatmentKey[] = [
 ];
 const VOLUME_ORDER: TreatmentKey[] = ["filler", "scultra"];
 const ACNE_ORDER: TreatmentKey[] = ["capri", "genesis", "v_beam"];
-const SCAR_ORDER: TreatmentKey[] = ["praxel", "secret", "potenza", "juvelook"];
+const SCAR_ORDER: TreatmentKey[] = ["fraxel", "secret", "potenza", "juvelook"];
 
 function isLaser(t: TreatmentKey) {
   return META[t].category === "laser" || !!META[t].isLaser;
@@ -871,7 +871,7 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
         { key: "genesis", importance: 2, why: "피지/홍조 보조" },
         { key: "secret", importance: 2, why: "여드름 흉터/결(마니RF)" },
         { key: "potenza", importance: 2, why: "여드름 흉터/결(RF)" },
-        { key: "praxel", importance: 3, why: "흉터 레이저(다운타임)" },
+        { key: "fraxel", importance: 3, why: "흉터 레이저(다운타임)" },
       ]);
       break;
     }
@@ -881,7 +881,7 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
         { key: "capri", importance: 2, why: "여드름 보조" },
         { key: "secret", importance: 2, why: "여드름 흉터/결(마니RF)" },
         { key: "potenza", importance: 2, why: "여드름 흉터/결(RF)" },
-        { key: "praxel", importance: 3, why: "흉터 레이저(다운타임)" },
+        { key: "fraxel", importance: 3, why: "흉터 레이저(다운타임)" },
       ]);
       break;
     }
@@ -942,7 +942,7 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
     case "wrinkles": {
       addUnique(out, [
         { key: "botox", importance: 1, why: "표정주름" },
-        { key: "praxel", importance: 2, why: "잔주름/결" },
+        { key: "fraxel", importance: 2, why: "잔주름/결" },
         { key: "skinbooster_ha", importance: 2, why: "미세주름/수분" },
       ]);
       break;
@@ -1000,7 +1000,7 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
     case "scar-red": {
       addUnique(out, [
         { key: "v_beam", importance: 1, why: "붉은 흉터" },
-        { key: "praxel", importance: 2, why: "결/흉터 보조" },
+        { key: "fraxel", importance: 2, why: "결/흉터 보조" },
         { key: "juvelook", importance: 3, why: "흉터/재생 주사" },
       ]);
       break;
@@ -1008,14 +1008,14 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
     case "scar-brown": {
       addUnique(out, [
         { key: "toning", importance: 1, why: "갈색 흉터" },
-        { key: "praxel", importance: 2, why: "결/흉터 보조" },
+        { key: "fraxel", importance: 2, why: "결/흉터 보조" },
         { key: "juvelook", importance: 3, why: "흉터/재생 주사" },
       ]);
       break;
     }
     case "scar-rough": {
       addUnique(out, [
-        { key: "praxel", importance: 1, why: "결/흉터" },
+        { key: "fraxel", importance: 1, why: "결/흉터" },
         { key: "secret", importance: 2, why: "흉터(마니RF)" },
         { key: "potenza", importance: 2, why: "흉터(RF)" },
         { key: "juvelook", importance: 3, why: "흉터/재생 주사" },
@@ -1071,7 +1071,7 @@ function baseCandidatesByGoal(goal: RecommendInputs["treatmentGoals"][number]): 
       addUnique(out, [
         { key: "genesis", importance: 1, why: "결/톤" },
         { key: "toning", importance: 1, why: "톤/색소" },
-        { key: "praxel", importance: 2, why: "결/잔주름" },
+        { key: "fraxel", importance: 2, why: "결/잔주름" },
       ]);
       break;
     case "anti_aging":
@@ -1132,7 +1132,7 @@ function substituteForPriority(
     if (has("thermage_900")) replace("thermage_900", "sof_wave_300", "price");
     if (has("thermage_600")) replace("thermage_600", "sof_wave_200", "price");
     // 텍스처: 다운타임/비용 큰 것 → 가벼운 것으로
-    ["co2", "praxel"].forEach((t) => {
+    ["co2", "fraxel"].forEach((t) => {
       if (has(t as TreatmentKey)) replace(t as TreatmentKey, "genesis", "price");
     });
   }
@@ -1143,14 +1143,14 @@ function substituteForPriority(
       if (has(t as TreatmentKey)) replace(t as TreatmentKey, "sof_wave_300", "pain");
     });
     // 통증 큰 CO2/마니RF → 제너시스/토닝 등으로
-    ["co2", "praxel", "secret", "potenza"].forEach((t) => {
+    ["co2", "fraxel", "secret", "potenza"].forEach((t) => {
       if (has(t as TreatmentKey)) replace(t as TreatmentKey, "genesis", "pain");
     });
   }
 
   if (priority === "recoveryTime") {
     // 다운타임 큰 시술 제거/치환
-    ["co2", "praxel"].forEach((t) => {
+    ["co2", "fraxel"].forEach((t) => {
       const idx = arr.findIndex((c) => c.key === (t as TreatmentKey));
       if (idx >= 0) {
         excluded.push({

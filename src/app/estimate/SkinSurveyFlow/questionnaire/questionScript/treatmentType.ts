@@ -30,7 +30,7 @@ export type TreatmentType = {
     oligio_900: { key: "oligio_900", label: "oligio", unit: "shot", value: 900 },
     onda: { key: "onda", label: "onda" },
     potenza: { key: "potenza", label: "potenza" },
-    praxel: { key: "praxel", label: "praxel" },
+    fraxel: { key: "fraxel", label: "fraxel" },
     repot_or_toning_and_genesis: {
       key: "repot_or_toning_and_genesis",
       label: "repot or toning&genesis",

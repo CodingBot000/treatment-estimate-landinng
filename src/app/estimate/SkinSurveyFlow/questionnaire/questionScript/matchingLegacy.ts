@@ -16,7 +16,7 @@ export function matching(stepId: string, age: number, budget: number, data: any)
                     //a
                     recommend.push(TreatmentType.potenza);
                     recommend.push(TreatmentType.secret);
-                    recommend.push(TreatmentType.praxel);
+                    recommend.push(TreatmentType.fraxel);
 
                     // or  b
                     recommend.push(TreatmentType.skinbooster_juvelook);
@@ -131,7 +131,7 @@ export function matching(stepId: string, age: number, budget: number, data: any)
                     } else if (concern.subOptions.id === "rough") {
                         recommend.push(TreatmentType.potenza);
                         recommend.push(TreatmentType.secret);
-                        recommend.push(TreatmentType.praxel);
+                        recommend.push(TreatmentType.fraxel);
                         recommend.push(TreatmentType.juvegen);
                         recommend.push(TreatmentType.skinbooster_juvelook);
                         recommend.push(TreatmentType.skinbooster_rejuran);
