@@ -28,6 +28,59 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
     ).filter(reason => reason.trim() !== '');
   };
 
+  // 추천 시술 카드 배경색 배열 (폰트 가독성을 위해 밝은 색상 사용)
+  const bgColors = [
+    'bg-yellow-100',     // 노란색 계열
+    'bg-blue-100',       // 파란색 계열
+    'bg-pink-100',       // 분홍색 계열
+    'bg-green-100',      // 초록색 계열
+    'bg-purple-100',     // 보라색 계열
+    'bg-indigo-100',     // 남색 계열
+    'bg-red-100',        // 빨간색 계열
+    'bg-orange-100',     // 주황색 계열
+    'bg-teal-100',       // 청록색 계열
+    'bg-cyan-100',       // 하늘색 계열
+    'bg-lime-100',       // 라임색 계열
+    'bg-emerald-100',    // 에메랄드 계열
+    'bg-sky-100',        // 하늘색 계열
+    'bg-violet-100',     // 바이올렛 계열
+    'bg-fuchsia-100',    // 자홍색 계열
+    'bg-rose-100',       // 장미색 계열
+    'bg-amber-100',      // 앰버색 계열
+    'bg-slate-100',      // 슬레이트 계열
+    'bg-gray-100',       // 회색 계열
+    'bg-zinc-100',       // 아연색 계열
+    'bg-neutral-100',    // 중성색 계열
+    'bg-stone-100',      // 돌색 계열
+    'bg-yellow-50',      // 더 밝은 노란색
+    'bg-blue-50',        // 더 밝은 파란색
+    'bg-pink-50',        // 더 밝은 분홍색
+    'bg-green-50',       // 더 밝은 초록색
+    'bg-purple-50',      // 더 밝은 보라색
+    'bg-indigo-50',      // 더 밝은 남색
+    'bg-red-50',         // 더 밝은 빨간색
+    'bg-orange-50',      // 더 밝은 주황색
+    'bg-teal-50',        // 더 밝은 청록색
+    'bg-cyan-50',        // 더 밝은 하늘색
+    'bg-lime-50',        // 더 밝은 라임색
+    'bg-emerald-50',     // 더 밝은 에메랄드
+    'bg-sky-50',         // 더 밝은 하늘색
+    'bg-violet-50',      // 더 밝은 바이올렛
+    'bg-fuchsia-50',     // 더 밝은 자홍색
+    'bg-rose-50',        // 더 밝은 장미색
+    'bg-amber-50',       // 더 밝은 앰버색
+    'bg-yellow-200',     // 조금 더 진한 노란색
+    'bg-blue-200',       // 조금 더 진한 파란색
+    'bg-pink-200',       // 조금 더 진한 분홍색
+    'bg-green-200',      // 조금 더 진한 초록색
+    'bg-purple-200',     // 조금 더 진한 보라색
+    'bg-indigo-200',     // 조금 더 진한 남색
+    'bg-red-200',        // 조금 더 진한 빨간색
+    'bg-orange-200',     // 조금 더 진한 주황색
+    'bg-teal-200',       // 조금 더 진한 청록색
+    'bg-cyan-200',       // 조금 더 진한 하늘색
+  ];
+
   const router = useRouter();
   const [recommendationResult, setRecommendationResult] = useState<RecommendationOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -210,12 +263,6 @@ const DiagnosisRecommend: React.FC<DiagnosisRecommendProps> = ({ formData, onCom
             <div className="space-y-4 mb-8">
               {recommendationResult.recommendations.length > 0 ? (
                 recommendationResult.recommendations.map((treatment, index) => {
-                  // Assign background colors cyclically
-                  const bgColors = [
-                    'bg-yellow-100',
-                    'bg-blue-100', 
-                    'bg-pink-100'
-                  ];
                   const bgColor = bgColors[index % bgColors.length];
                   
                   return (
