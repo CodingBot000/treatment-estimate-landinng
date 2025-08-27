@@ -112,7 +112,7 @@ testCases.forEach((testCase, index) => {
 
 log.debug('\n📊 Expected Algorithm Behaviors:');
 log.debug('- Budget constraints → treatment substitutions or exclusions');
-log.debug('- Pain priority → avoid high-pain treatments (CO2, Praxel, Ulthera)');
+log.debug('- Pain priority → avoid high-pain treatments (CO2, fraxel, Ulthera)');
 log.debug('- Recovery priority → avoid high-downtime treatments');
 log.debug('- Price priority → substitute expensive treatments with cheaper alternatives');
 log.debug('- Sensitive skin → downgrade aggressive treatment importance');

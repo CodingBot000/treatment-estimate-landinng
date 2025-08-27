@@ -39,7 +39,7 @@ export type TreatmentKey =
   | "oligio_900"
   | "onda"
   | "potenza"
-  | "praxel"
+  | "fraxel"
   | "repot_or_toning_and_genesis"
   | "scultra"
   | "secret"
@@ -230,7 +230,7 @@ const PRICE_TABLE: Record<TreatmentKey, number> = {
   oligio_900: 1200000,
   onda: 600000,
   potenza: 400000,
-  praxel: 350000,
+  fraxel: 350000,
   repot_or_toning_and_genesis: 150000,
   scultra: 550000,
   secret: 400000,
@@ -518,9 +518,9 @@ const META: Record<TreatmentKey, TreatmentMeta> = {
     createsWound: true,
     equivalenceGroup: "texture",
   },
-  praxel: {
-    key: "praxel",
-    label: "praxel",
+  fraxel: {
+    key: "fraxel",
+    label: "fraxel",
     category: "laser",
     pain: 6,
     effectiveness: 8,
@@ -799,7 +799,7 @@ const LIFTING_ORDER: TreatmentKey[] = [
   "inmode",
 ];
 
-const TEXTURE_STRONG: TreatmentKey[] = ["co2", "praxel", "potenza", "secret"];
+const TEXTURE_STRONG: TreatmentKey[] = ["co2", "fraxel", "potenza", "secret"];
 const TEXTURE_GENTLE: TreatmentKey[] = [
   "genesis",
   "neobeam",
@@ -817,7 +817,7 @@ const HYDRATION_ORDER: TreatmentKey[] = [
 ];
 const VOLUME_ORDER: TreatmentKey[] = ["filler", "scultra"];
 const ACNE_ORDER: TreatmentKey[] = ["capri", "genesis", "v_beam"];
-const SCAR_ORDER: TreatmentKey[] = ["praxel", "secret", "potenza", "juvelook"];
+const SCAR_ORDER: TreatmentKey[] = ["fraxel", "secret", "potenza", "juvelook"];
 
 function isLaser(t: TreatmentKey) {
   return META[t].category === "laser" || !!META[t].isLaser;
@@ -869,7 +869,7 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
         { key: "genesis", importance: 2, why: "Sebum/redness support" },
         { key: "secret", importance: 2, why: "Acne scars/texture (micro-RF)" },
         { key: "potenza", importance: 2, why: "Acne scars/texture (RF)" },
-        { key: "praxel", importance: 3, why: "Scar laser (with downtime)" },
+        { key: "fraxel", importance: 3, why: "Scar laser (with downtime)" },
       ]);
       break;
     }
@@ -879,7 +879,7 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
         { key: "capri", importance: 2, why: "Acne support" },
         { key: "secret", importance: 2, why: "Acne scars/texture (micro-RF)" },
         { key: "potenza", importance: 2, why: "Acne scars/texture (RF)" },
-        { key: "praxel", importance: 3, why: "Scar laser (with downtime)" },
+        { key: "fraxel", importance: 3, why: "Scar laser (with downtime)" },
       ]);
       break;
     }
@@ -944,7 +944,7 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
       addUnique(out, [
         { key: "botox", importance: 1, why: "Expression lines" },
         { key: "filler", importance: 1, why: "Wrinkle filling" },
-        { key: "praxel", importance: 2, why: "Fine lines improvement" },
+        { key: "fraxel", importance: 2, why: "Fine lines improvement" },
         { key: "ulthera_400", importance: 2, why: "Wrinkle improvement via lifting" },
       ]);
       break;
@@ -976,7 +976,7 @@ function baseCandidatesByConcern(c: SelectedConcern): Candidate[] {
     case "scar-brown":
     case "scar-rough": {
       addUnique(out, [
-        { key: "praxel", importance: 1, why: "Scar improvement" },
+        { key: "fraxel", importance: 1, why: "Scar improvement" },
         { key: "secret", importance: 1, why: "Scars (micro-RF)" },
         { key: "potenza", importance: 2, why: "Scars (RF)" },
         { key: "juvelook", importance: 2, why: "Scars/regeneration" },
@@ -1032,7 +1032,7 @@ function baseCandidatesByGoal(goal: RecommendInputs["treatmentGoals"][number]): 
       addUnique(out, [
         { key: "genesis", importance: 1, why: "Texture/tone" },
         { key: "toning", importance: 1, why: "Tone/pigmentation" },
-        { key: "praxel", importance: 2, why: "Texture/fine lines" },
+        { key: "fraxel", importance: 2, why: "Texture/fine lines" },
       ]);
       break;
     case "anti_aging":
@@ -1167,7 +1167,7 @@ function substituteForPriority(
     if (has("thermage_900")) replace("thermage_900", "sof_wave_300", "price");
     if (has("thermage_600")) replace("thermage_600", "sof_wave_200", "price");
     // 텍스처 개선: 다운타임/고비용 레이저 → 저비용 레이저로
-    ["co2", "praxel"].forEach((t) => {
+    ["co2", "fraxel"].forEach((t) => {
       if (has(t as TreatmentKey)) replace(t as TreatmentKey, "genesis", "price");
     });
   }
@@ -1178,14 +1178,14 @@ function substituteForPriority(
       if (has(t as TreatmentKey)) replace(t as TreatmentKey, "sof_wave_300", "pain");
     });
     // 통증 큰 레이저/마이크로니들 RF → 저통증 레이저로
-    ["co2", "praxel", "secret", "potenza"].forEach((t) => {
+    ["co2", "fraxel", "secret", "potenza"].forEach((t) => {
       if (has(t as TreatmentKey)) replace(t as TreatmentKey, "genesis", "pain");
     });
   }
 
   if (priority === "recoveryTime") {
     // 다운타임 큰 시술 직접 제외 또는 치환
-    ["co2", "praxel"].forEach((t) => {
+    ["co2", "fraxel"].forEach((t) => {
       const idx = arr.findIndex((c) => c.key === (t as TreatmentKey));
       if (idx >= 0) {
         excluded.push({
