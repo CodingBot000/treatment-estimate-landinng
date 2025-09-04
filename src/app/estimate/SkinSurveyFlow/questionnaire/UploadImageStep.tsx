@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
 import { Upload, X } from 'lucide-react';
 
 interface UploadImageStepProps {
   data: any;
   onDataChange: (data: any) => void;
+  onSkip?: () => void; // Skip 기능을 위한 optional prop
 }
 
-const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange }) => {
+const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange, onSkip }) => {
   const uploadImage = data.uploadImage || {};
   const [isDragging, setIsDragging] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<string | null>(uploadImage.uploadedImage || null);
@@ -180,6 +182,19 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({ data, onDataChange })
           </div>
         )}
       </div>
+
+      {/* Skip Button - Only shown when onSkip prop is provided */}
+      {onSkip && (
+        <div className="flex justify-center mt-6 mb-4">
+          <Button
+            onClick={onSkip}
+            variant="ghost"
+            className="text-red-500 font-bold hover:text-gray-700 text-sm underline"
+          >
+            Skip this step
+          </Button>
+        </div>
+      )}
 
       {/* Privacy Notice */}
       <div className="text-xs text-gray-500 leading-relaxed">
