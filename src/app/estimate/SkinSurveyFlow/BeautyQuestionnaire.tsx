@@ -212,6 +212,7 @@ const getValidationMessage = (stepId: string): string => {
 interface StepComponentProps {
   data: StepData;
   onDataChange: (data: StepData) => void;
+  onSkip?: () => void; // Skip 기능을 위한 optional prop
 }
 
 interface BeautyQuestionnaireProps {
@@ -258,6 +259,15 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
     }
   };
 
+  const handleSkip = () => {
+    // 0단계(이미지 업로드)에서만 Skip 버튼이 표시되므로
+    // 이미지 없이 다음 단계로 이동
+    if (currentStep === 0) {
+      setCurrentStep(currentStep + 1);
+      window.scrollTo(0, 0);
+    }
+  };
+  
   const handlePrevious = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
@@ -379,6 +389,7 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
             <CurrentStepComponent
               data={formData[steps[currentStep].id] || {}}
               onDataChange={(data: StepData) => handleStepData(steps[currentStep].id, data)}
+              onSkip={currentStep === 0 ? handleSkip : undefined}
             />
           </div>
         {/* </Card> */}
@@ -389,17 +400,29 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
         <div className="max-w-[768px] mx-auto px-4 sm:px-6 md:px-8 py-4">
           <div className="flex items-center gap-3">
             {currentStep === 0 ? (
+              <>
+            
               <Button 
-                onClick={(e) => {
-                  log.debug('Button clicked!', e);
-                  handleNext();
-                }}
-                className="w-full h-12 px-4 rounded-lg text-white flex items-center justify-center"
-                style={{ backgroundColor: '#FB718F' }}
-                translate="no"
-              >
-                <span translate="no">Next</span>
-              </Button>
+                  onClick={(e) => {
+                    log.debug('Next Button clicked!', e);
+                    handleNext();
+                  }}
+                  disabled={!isCurrentStepValid()}
+                  translate="no" 
+                  className={`
+                    flex-1 h-12 px-4 rounded-lg
+                    flex items-center justify-center
+                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200 focus-visible:ring-offset-1
+                    transition-colors duration-150
+                    ${!isCurrentStepValid() 
+                      ? 'bg-[#E4E5E7] text-[#9E9E9E] cursor-not-allowed' 
+                      : 'bg-[#FB718F] text-white hover:bg-[#F65E7D] active:bg-[#E95373]'
+                    }
+                  `}
+                >
+                  <span translate="no">Next</span>
+                </Button>
+              </>
             ) : currentStep === steps.length - 1 ? (
               <Button onClick={handleSubmit} 
                 className="w-full h-12 px-4 rounded-lg text-white flex items-center justify-center"

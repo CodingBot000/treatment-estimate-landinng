@@ -102,7 +102,7 @@ const PreviewReport: React.FC<PreviewReportProps> =
       fbqTrack("Submit_diagnosis_click", { finalSubmit: "success" });
     } catch (error) {
       console.error('Submission error:', error);
-      alert('Failed to submit consultation. Please try again.');
+      alert(`Failed to submit consultation. Please try again. error:${error}`);
       setIsSubmissionModalOpen(false);
     } finally {
       setIsSubmitting(false);
