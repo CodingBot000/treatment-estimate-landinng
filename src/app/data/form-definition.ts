@@ -22,12 +22,12 @@ import TreatmentExpBeforeStep from "../estimate/SkinSurveyFlow/questionnaire/Tre
 
 export const steps = [
 
-   {
-    id: UPLOAD_PHOTO,
-    title: "Please post a picture to diagnose your skin",
-    subtitle: "Only png and jpg, jpeg files can be uploaded.",
-    component: UploadImageStep,
-  },
+  //  {
+  //   id: UPLOAD_PHOTO,
+  //   title: "Please post a picture to diagnose your skin",
+  //   subtitle: "Only png and jpg, jpeg files can be uploaded.",
+  //   component: UploadImageStep,
+  // },
     {
     id: SKIN_TYPE,
     title: "What's your skin type?",

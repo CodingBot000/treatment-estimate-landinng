@@ -169,11 +169,11 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
         isValidEmail(userInfo.email) && 
         hasValidMessenger
       );
-    case UPLOAD_PHOTO:
-      // 파일이 업로드되었는지 확인
-      return !!(
-        data.uploadImage?.uploadedImage || data.uploadImage?.imageFile
-      );
+    // case UPLOAD_PHOTO:
+    //   // 파일이 업로드되었는지 확인
+    //   return !!(
+    //     data.uploadImage?.uploadedImage || data.uploadImage?.imageFile
+    //   );
     default:
       return true;
   }
@@ -202,8 +202,8 @@ const getValidationMessage = (stepId: string): string => {
       return 'Please select how you found us.';
     case USER_INFO:
       return 'Please fill in your name, age, gender, email address, and at least one messenger contact.';
-    case UPLOAD_PHOTO:
-      return 'Please post a picture to diagnose your skin.';
+    // case UPLOAD_PHOTO:
+    //   return 'Please post a picture to diagnose your skin.';
     default:
       return 'Please complete all required fields.';
   }
