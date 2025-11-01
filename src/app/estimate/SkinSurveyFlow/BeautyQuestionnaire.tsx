@@ -6,7 +6,9 @@ import { Card } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import PageHeader from '../PageHeader';
 import PreviewReport from './questionnaire/PreviewReport';
-import { steps } from '../../data/form-definition';
+import { steps, questions } from '../../data/form-definition';
+import { recommendTreatments, RecommendationOutput } from './questionnaire/questionScript/matching';
+import RecommendationResult from '@/components/recommendation/RecommendationResult';
 
 import { 
   USER_INFO,
@@ -225,16 +227,13 @@ interface StepComponentProps {
   onSkip?: () => void; // Skip 기능을 위한 optional prop
 }
 
-interface BeautyQuestionnaireProps {
-  onSubmissionComplete?: (formData: Record<string, any>) => void;
-}
-
-const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionComplete }) => {
+const BeautyQuestionnaire: React.FC = () => {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<Record<string, StepData>>({});
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isValideSendForm, setIsValideSendForm] = useState(false);
+  const [recommendationOutput, setRecommendationOutput] = useState<RecommendationOutput | null>(null);
   const { toast } = useToast();
 
   // 현재 스텝의 유효성을 실시간으로 확인
@@ -516,13 +515,97 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
         showSendFormButton={isValideSendForm}
         onOpenChange={setIsPreviewOpen}
         formData={formData}
-        onSubmissionComplete={(formData) => {
+        onSubmissionComplete={(allStepData) => {
           setIsPreviewOpen(false);
-          if (onSubmissionComplete) {
-            onSubmissionComplete(formData);
+
+          // Generate recommendations
+          try {
+            log.debug("=== Form Data for Recommendations ===");
+            log.debug(allStepData);
+
+            // Extract nested data structures
+            const skinConcernsData = allStepData.skinConcerns?.concerns || [];
+            const treatmentAreasData = allStepData.treatmentAreas?.treatmentAreas || [];
+            const priorityOrderData = allStepData.priorityOrder?.priorityOrder || [];
+            const pastTreatmentsData = allStepData.pastTreatments?.pastTreatments || ["none"];
+            const healthConditionsData = allStepData.healthConditions?.healthConditions || ["none"];
+            const userInfoData = allStepData.userInfo || {};
+
+            log.debug("=== Extracted Data ===");
+            log.debug("skinConcernsData:", skinConcernsData);
+            log.debug("treatmentAreasData:", treatmentAreasData);
+            log.debug("priorityOrderData:", priorityOrderData);
+            log.debug("budget:", allStepData.budget);
+            log.debug("goals:", allStepData.goals);
+            log.debug("pastTreatmentsData:", pastTreatmentsData);
+            log.debug("healthConditionsData:", healthConditionsData);
+
+            // Map skinConcerns to include tier information
+            const skinConcerns = skinConcernsData.map((concernId: string) => {
+              const concernDef = questions.skinConcerns.find(c => c.id === concernId);
+              return {
+                id: concernId as any,
+                tier: concernDef?.tier as 1 | 2 | 3 | 4 | undefined,
+              };
+            });
+
+            const algorithmInput = {
+              skinTypeId: allStepData.skinType || "combination",
+              ageGroup: userInfoData.ageRange,
+              gender: userInfoData.gender,
+              skinConcerns: skinConcerns,
+              treatmentGoals: allStepData.goals || [],
+              treatmentAreas: treatmentAreasData,
+              budgetRangeId: allStepData.budget || "1000-5000",
+              priorityId: priorityOrderData[0] || "effectiveness",
+              pastTreatments: pastTreatmentsData,
+              medicalConditions: healthConditionsData,
+            };
+
+            log.debug("=== Algorithm Input ===");
+            log.debug(algorithmInput);
+
+            const output = recommendTreatments(algorithmInput);
+
+            log.debug("=== Recommendation Output ===");
+            log.debug("Recommendations count:", output.recommendations.length);
+            log.debug("Total KRW:", output.totalPriceKRW);
+            log.debug("Total USD:", output.totalPriceUSD);
+            log.debug("Recommendations:", output.recommendations);
+            log.debug("Excluded:", output.excluded);
+            log.debug("Full output:", output);
+
+            setRecommendationOutput(output);
+          } catch (error) {
+            log.error("Failed to generate recommendations:", error);
+            toast({
+              variant: "destructive",
+              title: "Error generating recommendations",
+              description: "Please try again",
+            });
           }
         }}
       />
+
+      {/* Recommendation Result Screen */}
+      {recommendationOutput && (
+        <div className="fixed inset-0 bg-white z-50 overflow-y-auto">
+          <RecommendationResult
+            output={recommendationOutput}
+            formData={formData}
+            onFindClinics={() => {
+              // Navigate to clinics page or show clinics
+              // router.push('/clinics');
+              // window.location.href = 'https://www.mimotok.cloud/hospital';
+              window.open('https://www.mimotok.cloud/hospital', '_blank', 'noopener,noreferrer');
+            }}
+            onConsult={() => {
+              // Open external consultation page in a new tab
+              window.open('https://www.mimotok.cloud/hospital', '_blank', 'noopener,noreferrer');
+            }}
+          />
+        </div>
+      )}
 
       {/* Decorative Elements */}
       {/* <div className="fixed top-20 right-10 opacity-20 pointer-events-none">

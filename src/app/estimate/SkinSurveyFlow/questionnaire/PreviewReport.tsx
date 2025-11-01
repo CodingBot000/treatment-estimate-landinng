@@ -12,7 +12,7 @@ import { getBudgetRangeById } from '@/app/data/datamapper';
 import { fbqTrack } from '@/utils/metapixel';
 import { MessengerInput } from '@/components/input/InputMessengerFields';
 import { log } from '@/utils/logger';
-// import { recommendTreatments } from './questionScript/matching';
+import { recommendTreatments, RecommendationOutput } from './questionScript/matching';
 
 interface PreviewReportProps {
   open: boolean;
@@ -31,13 +31,24 @@ const PreviewReport: React.FC<PreviewReportProps> =
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
 
+  const tempPass = true;
   const handleSubmit = async () => {
     fbqTrack("Submit_diagnosis_click", { finalSubmit: "start" });
-    
+
     setIsSubmissionModalOpen(true);
     setIsSubmitting(true);
     setIsCompleted(false);
-    
+
+    console.log("tempPass", tempPass);
+    if (tempPass) {
+      // API 없이 바로 완료 처리 (임시)
+      setIsCompleted(true);
+      setIsSubmitting(false);
+      fbqTrack("Submit_diagnosis_click", { finalSubmit: "success" });
+      // SubmissionModal에서 onComplete 호출 시 handleSubmissionComplete가 실행됨
+      return;
+    }
+
     try {
       // 모든 스텝의 데이터를 합치기
       const allStepData = Object.values(formData).reduce((acc, stepData) => {
@@ -96,7 +107,6 @@ const PreviewReport: React.FC<PreviewReportProps> =
       if (!result.success) {
         throw new Error(result.error || 'Submission failed');
       }
-
       log.debug('Submission successful:', result);
       setIsCompleted(true);
       fbqTrack("Submit_diagnosis_click", { finalSubmit: "success" });

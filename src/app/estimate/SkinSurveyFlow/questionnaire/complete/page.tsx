@@ -5,7 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { recommendTreatments, RecommendationOutput } from '../questionScript/matchingDiagnosis';
+// import { recommendTreatments, RecommendationOutput } from '../questionScript/matchingDiagnosis';
+import { recommendTreatments, RecommendationOutput } from '../questionScript/matching/index';
 import { log } from '@/utils/logger';
 
 interface CompleteStepProps {
