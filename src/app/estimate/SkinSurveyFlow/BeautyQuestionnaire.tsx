@@ -19,7 +19,8 @@ import {
       TREATMENT_EXPERIENCE_BEFORE,
       TREATMENT_GOALS,
        UPLOAD_PHOTO,
-        VISIT_PATHS 
+        VISIT_PATHS, 
+        AGE_RANGE
       } from '@/constants/steps';
 import { isValidEmail } from '@/utils/validators';
 import { CountryCode, CountryInputDto } from '@/app/models/country-code.dto';
@@ -36,6 +37,8 @@ interface UserInfo {
   country: string;
   messengers: MessengerInput[];
 }
+
+
 
 interface SkinConcerns {
   concerns: string[];
@@ -75,6 +78,7 @@ interface HealthConditions {
 }
 
 interface StepData {
+  ageRange?: string;
   skinType?: string;
   skinConcerns?: SkinConcerns; 
   userInfo?: UserInfo;
@@ -96,6 +100,10 @@ interface StepData {
 const validateStepData = (stepId: string, data: StepData): boolean => {
   log.debug('validateStepData validateStepData stepId:', stepId);
   switch (stepId) {
+    case AGE_RANGE:
+      return !!(
+        data.ageRange
+      );
     case SKIN_TYPE:
       return !!(
         data.skinType
@@ -182,10 +190,12 @@ const validateStepData = (stepId: string, data: StepData): boolean => {
 // 각 스텝별 필수 선택 항목 메시지
 const getValidationMessage = (stepId: string): string => {
   switch (stepId) {
+    case AGE_RANGE:
+      return 'Please select your age range.';
     case SKIN_TYPE:
       return 'Please select your skin type.';
     case SKIN_CONCERNS:
-      return 'Please select skin concerns.';
+      return 'Please select concerns.';
     case BUDGET:
       return 'Please choose your budget range.';
     case PREFERENCES:
@@ -326,7 +336,7 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-8 pb-32 ">
         <div className="mb-8">
-          {currentStep + 1 < steps.length ? (
+          {/* {currentStep + 1 < steps.length ? (
           <h2 
             className="mb-3"
             style={{
@@ -354,7 +364,7 @@ const BeautyQuestionnaire: React.FC<BeautyQuestionnaireProps> = ({ onSubmissionC
           >
             Completion
           </h2>
-         )}
+         )} */}
           
           <h2 
             className="mb-3"

@@ -11,6 +11,14 @@ interface SkinConcernsStepProps {
   onDataChange: (data: any) => void;
 }
 
+// Tier 타이틀 매핑
+const TIER_TITLES: { [key: number]: string } = {
+  1: 'Dermatology',
+  2: 'Anti-Aging',
+  3: 'Facial Contouring',
+  4: 'Other'
+};
+
 const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange }) => {
   const skinConcerns = data.skinConcerns || { concerns: [] };
   const [hasOtherConcern, setHasOtherConcern] = useState(
@@ -18,6 +26,16 @@ const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange 
   );
   // 임시로 other 텍스트를 저장하는 상태
   const [tempMoreConcerns, setTempMoreConcerns] = useState(skinConcerns.moreConcerns || '');
+
+  // skinConcerns를 tier별로 그룹화
+  const groupedConcerns = questions.skinConcerns.reduce((acc, concern) => {
+    const tier = concern.tier || 4;
+    if (!acc[tier]) {
+      acc[tier] = [];
+    }
+    acc[tier].push(concern);
+    return acc;
+  }, {} as { [key: number]: typeof questions.skinConcerns });
 
   useEffect(() => {
     setHasOtherConcern(Array.isArray(skinConcerns.concerns) && skinConcerns.concerns.includes('other'));
@@ -65,29 +83,38 @@ const SkinConcernsStep: React.FC<SkinConcernsStepProps> = ({ data, onDataChange 
 
   return (
     <div className="space-y-8">
-    
-      <div>
-        {/* <Label className="text-lg font-medium text-gray-800 mb-4 block">
-          What are your main skin concerns? (Select all that apply)
-        </Label> */}
+      {/* Tier별로 그룹화된 Skin Concerns */}
+      {[1, 2, 3, 4].map((tier) => {
+        const concerns = groupedConcerns[tier];
+        if (!concerns || concerns.length === 0) return null;
 
-        <div role="group" aria-label="Skin concerns" className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {questions.skinConcerns.map((concern) => {
-            const isSelected = (skinConcerns.concerns ?? []).includes(concern.id);
-            return (
-              <ChoiceCard
-                key={concern.id}
-                mode="multi"
-                title={concern.label}
-                subtitle={concern.description}
-                selected={isSelected}
-                onSelect={() => handleConcernToggle(concern.id)}
-             
-              />
-            );
-          })}
-        </div>
-      </div>
+        return (
+          <div key={tier}>
+            {/* Tier 타이틀 */}
+            <Label className="text-lg font-medium text-gray-800 mb-4 block">
+              {TIER_TITLES[tier]}
+            </Label>
+
+            {/* 그리드로 표시 */}
+            <div role="group" aria-label={`Tier ${tier} concerns`} className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {concerns.map((concern) => {
+                const isSelected = (skinConcerns.concerns ?? []).includes(concern.id);
+                return (
+                  <ChoiceCard
+                    key={concern.id}
+                    mode="multi"
+                    title={concern.label}
+                    subtitle={concern.description}
+                    selected={isSelected}
+                    onSelect={() => handleConcernToggle(concern.id)}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+
       {/* Skin Concerns Others */}
       {hasOtherConcern && (
         <div className="animate-fadeIn">

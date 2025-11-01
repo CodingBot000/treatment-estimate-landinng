@@ -12,7 +12,7 @@ interface PreferencesStepProps {
 
 const PreferencesStep: React.FC<PreferencesStepProps> = ({ data, onDataChange }) => {
   const treatmentAreas = data.treatmentAreas || { treatmentAreas: [] };
-  
+
   const [hasOtherArea, setHasOtherArea] = useState(
     Array.isArray(treatmentAreas.treatmentAreas) && treatmentAreas.treatmentAreas.includes('other')
   );

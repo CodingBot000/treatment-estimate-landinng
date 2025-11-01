@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import BeautyQuestionnaire from "./SkinSurveyFlow/BeautyQuestionnaire";
-import DiagnosisResult from "./SkinSurveyFlow/questionnaire/DiagnosisResult";
+// import DiagnosisResult from "./SkinSurveyFlow/questionnaire/DiagnosisResult";
 import { log } from '@/utils/logger';
 import DiagnosisRecommend from './SkinSurveyFlow/questionnaire/DiagnosisRecommend';
 

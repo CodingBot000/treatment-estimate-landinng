@@ -9,6 +9,6 @@ export const HEALTH_CONDITIONS = "health-condition";
 export const VISIT_PATHS = "visitPaths";
 export const USER_INFO= "user-info";
 export const UPLOAD_PHOTO = "upload-photo";
-
+export const AGE_RANGE = "age-range";
   
 
