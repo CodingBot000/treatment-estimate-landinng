@@ -6,7 +6,7 @@
  */
 
 import { log } from '@/utils/logger.js';
-import { recommendTreatments, RecommendInputs, RecommendationOutput } from '../../../app/estimate/SkinSurveyFlow/questionnaire/questionScript/matchingDiagnosis.js';
+import { recommendTreatments, RecommendInputs, RecommendationOutput } from '../../../app/recommend_estimate/SkinSurveyFlow/questionnaire/questionScript/matchingDiagnosis.js';
 import { questionsData } from './test-data.js';
 
 // Simple test framework replacement

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { RecommendationOutput } from '@/app/estimate/SkinSurveyFlow/questionnaire/questionScript/matching';
+import { RecommendationOutput } from '@/app/recommend_estimate/SkinSurveyFlow/questionnaire/questionScript/matching';
 import { Copy, Check, Mail, MessageSquare, Download } from 'lucide-react';
 
 export interface ShareModalProps {

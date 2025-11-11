@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import PageHeader from '../PageHeader';
 import PreviewReport from './questionnaire/PreviewReport';
-import { steps, questions } from '../../data/form-definition';
+import { steps, questions } from '../../content/estimate/form-definition';
 import { recommendTreatments, RecommendationOutput } from './questionnaire/questionScript/matching';
 import RecommendationResult from '@/components/recommendation/RecommendationResult';
 
@@ -23,7 +23,7 @@ import {
        UPLOAD_PHOTO,
         VISIT_PATHS, 
         AGE_RANGE
-      } from '@/constants/steps';
+      } from '@/constants/estimate_steps';
 import { isValidEmail } from '@/utils/validators';
 import { CountryCode, CountryInputDto } from '@/app/models/country-code.dto';
 import { MessengerInput } from '@/components/input/InputMessengerFields';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { RecommendationOutput } from '@/app/estimate/SkinSurveyFlow/questionnaire/questionScript/matching';
+import { RecommendationOutput } from '@/app/recommend_estimate/SkinSurveyFlow/questionnaire/questionScript/matching';
 import RecommendationHeader from './RecommendationHeader';
 import ViewToggle from './common/ViewToggle';
 import CardView from './card/CardView';

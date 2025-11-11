@@ -5,8 +5,8 @@
  * Each test case represents different user scenarios and validates the algorithm output
  */
 
-import { recommendTreatments, RecommendInputs, RecommendationOutput } from '../../../app/estimate/SkinSurveyFlow/questionnaire/questionScript/matchingDiagnosis';
-import { questions } from '../../../app/data/form-definition';
+import { recommendTreatments, RecommendInputs, RecommendationOutput } from '../../../app/recommend_estimate/SkinSurveyFlow/questionnaire/questionScript/matchingDiagnosis';
+import { questions } from '../../../app/content/form-definition';
 import { log } from '@/utils/logger';
 
 // Test helper to create structured test inputs

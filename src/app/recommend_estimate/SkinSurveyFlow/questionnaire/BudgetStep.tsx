@@ -1,5 +1,5 @@
 import { Label } from '@/components/ui/label';
-import { questions } from '../../../data/form-definition';
+import { questions } from '../../../content/estimate/form-definition';
 import { ChoiceCard } from '@/components/card/ChoiceCard';
 
 interface BudgetStepProps {

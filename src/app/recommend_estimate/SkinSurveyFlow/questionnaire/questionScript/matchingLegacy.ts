@@ -1,5 +1,5 @@
 import { TreatmentType } from "./treatmentType";
-import { USER_INFO, BUDGET, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/steps';
+import { USER_INFO, BUDGET, HEALTH_CONDITIONS, SKIN_CONCERNS, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS } from '@/constants/estimate_steps';
 
 const recommend: typeof TreatmentType[keyof typeof TreatmentType][] = [];
 

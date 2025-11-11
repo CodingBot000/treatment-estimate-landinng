@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { questions } from '../../../data/form-definition';
+import { questions } from '../../../content/form-definition';
 import { ChoiceCard } from '@/components/card/ChoiceCard';
 
 interface HealthConditionStepProps {

@@ -1,9 +1,9 @@
-import UserInfoStep from "../estimate/SkinSurveyFlow/questionnaire/UserInfoStep";
-import BudgetStep from "../estimate/SkinSurveyFlow/questionnaire/BudgetStep";
-import TreatmentGoalsStep from "../estimate/SkinSurveyFlow/questionnaire/TreatmentGoalsStep";
-import VisitPathStep from "../estimate/SkinSurveyFlow/questionnaire/VisitPathStep";
-import SkinConcernsStep from "../estimate/SkinSurveyFlow/questionnaire/SkinConcernsStep";
-import HealthConditionStep from "../estimate/SkinSurveyFlow/questionnaire/HealthConditionStep";
+import UserInfoStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/UserInfoStep";
+import BudgetStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/BudgetStep";
+import TreatmentGoalsStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/TreatmentGoalsStep";
+import VisitPathStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/VisitPathStep";
+import SkinConcernsStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/SkinConcernsStep";
+import HealthConditionStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/HealthConditionStep";
 import {
   FaInstagram,
   FaReddit,
@@ -13,13 +13,13 @@ import {
   FaComments
 } from 'react-icons/fa';
 // import { SiLemon8 } from 'react-icons/si';
-import { USER_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS, AGE_RANGE } from '@/constants/steps';
-import UploadImageStep from "../estimate/SkinSurveyFlow/questionnaire/UploadImageStep";
-import SkinTypeStep from "../estimate/SkinSurveyFlow/questionnaire/SkinTypeStep";
-import PreferencesStep from "../estimate/SkinSurveyFlow/questionnaire/PreferencesStep";
-import PrioriotyFactorStep from "../estimate/SkinSurveyFlow/questionnaire/PrioriotyFactorStep";
-import TreatmentExpBeforeStep from "../estimate/SkinSurveyFlow/questionnaire/TreatmentExpBefore";
-import AgeRangeStep from "../estimate/SkinSurveyFlow/questionnaire/AgeRangeStep";
+import { USER_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS, AGE_RANGE } from '@/constants/estimate_steps';
+import UploadImageStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/UploadImageStep";
+import SkinTypeStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/SkinTypeStep";
+import PreferencesStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/PreferencesStep";
+import PrioriotyFactorStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/PrioriotyFactorStep";
+import TreatmentExpBeforeStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/TreatmentExpBefore";
+import AgeRangeStep from "../../recommend_estimate/SkinSurveyFlow/questionnaire/AgeRangeStep";
 
 // ═══════════════════════════════════════════════════════════
 // STEPS 정의 - 기재된 순서로 나옴

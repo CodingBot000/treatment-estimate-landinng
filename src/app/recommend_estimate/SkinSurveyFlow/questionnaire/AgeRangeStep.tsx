@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { questions } from '../../../data/form-definition';
+import { questions } from '../../../content/estimate/form-definition';
 import { Textarea } from '@/components/ui/textarea';
 import CardBasic from '@/components/card/CardBasic';
 import { ChoiceCard } from '@/components/card/ChoiceCard';

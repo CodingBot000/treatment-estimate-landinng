@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
-import { questions } from '../../../data/form-definition';
+import { questions } from '../../../content/form-definition';
 
 interface PrioriotyFactorStepProps {
   data: any;

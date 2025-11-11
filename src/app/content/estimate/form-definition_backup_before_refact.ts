@@ -13,7 +13,7 @@ import {
   FaComments
 } from 'react-icons/fa';
 // import { SiLemon8 } from 'react-icons/si';
-import { USER_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS, AGE_RANGE } from '@/constants/steps';
+import { USER_INFO, BUDGET, HEALTH_CONDITIONS, PREFERENCES, PRIORITYFACTORS, SKIN_CONCERNS, SKIN_TYPE, TREATMENT_EXPERIENCE_BEFORE, TREATMENT_GOALS, UPLOAD_PHOTO, VISIT_PATHS, AGE_RANGE } from '@/constants/estimate_steps';
 import UploadImageStep from "../estimate/SkinSurveyFlow/questionnaire/UploadImageStep";
 import SkinTypeStep from "../estimate/SkinSurveyFlow/questionnaire/SkinTypeStep";
 import PreferencesStep from "../estimate/SkinSurveyFlow/questionnaire/PreferencesStep";

@@ -1,5 +1,5 @@
 import React from 'react';
-import { RecommendedItem } from '@/app/estimate/SkinSurveyFlow/questionnaire/questionScript/matching';
+import { RecommendedItem } from '@/app/recommend_estimate/SkinSurveyFlow/questionnaire/questionScript/matching';
 import TierSection from './TierSection';
 import PriceBreakdown from './PriceBreakdown';
 

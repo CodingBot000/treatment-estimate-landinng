@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ExcludedItem } from '@/app/estimate/SkinSurveyFlow/questionnaire/questionScript/matching';
+import { ExcludedItem } from '@/app/recommend_estimate/SkinSurveyFlow/questionnaire/questionScript/matching';
 import { ChevronDown, ChevronUp, AlertCircle, Lightbulb } from 'lucide-react';
 
 export interface ExcludedSectionProps {

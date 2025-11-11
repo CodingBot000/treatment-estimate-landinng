@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { RecommendedItem } from '@/app/estimate/SkinSurveyFlow/questionnaire/questionScript/matching';
+import { RecommendedItem } from '@/app/recommend_estimate/SkinSurveyFlow/questionnaire/questionScript/matching';
 import { Zap, Clock, Heart, Sparkles } from 'lucide-react';
 
 export interface TreatmentCardProps {
